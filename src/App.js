@@ -1,22 +1,30 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPage from './components/LoginPage';
 import NavBar from './components/NavBar';
+import HomePage from "./components/Homepage"
 
 function App() {
   return (
     <BrowserRouter>
 
-    <NavBar />
+    <div className='mainContainer'>
+
     
       <Routes>
 
-         <Route path='/login' element={<LoginPage />}/>
+
+        <Route path="/homepage" element={<HomePage />} />
+
+        <Route path='/login' element={<LoginPage/>}/>
+  
 
       </Routes>
 
+    </div>
     
     </BrowserRouter>
+
   );
 }
 
