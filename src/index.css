@@ -1,11 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
 body {
   height: 100%;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: Inter, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
 
 code {
@@ -14,15 +17,46 @@ code {
 }
 
 .mainContainer {
-  background-color:white;
-  height: 100vh;
+  background: rgb(198, 49, 49);
+  background: linear-gradient(0deg, rgba(198, 49, 49, 0.49951855742296913) 0%, rgba(34, 165, 195, 0.46870623249299714) 100%);
+  min-height: 100vh;
 }
 
 #navbar {
-  background-color: rgb(181, 101, 86);
+  background: rgb(255, 255, 255);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 1) 19%, rgb(0, 149, 255) 100%);
 }
 
-#login-form {
- 
-  
+#login-form {}
+
+.btn-register {
+  color: blue;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.btn-register:hover {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.link-navbar {
+  color: rgb(62, 118, 206) !important;
+  transition: 0.3s !important;
+}
+
+.link-navbar:hover {
+  font-size: 24px !important;
+  color: rgb(167, 196, 80) !important;
+  text-shadow: 10px 15px 10px grey;
+}
+
+.info-homepage {
+  background-color: rgb(182, 214, 177);
+  border-radius: 50px;
+}
+
+.carousel-img {
+  height: 400px;
+  width: 600px;
 }

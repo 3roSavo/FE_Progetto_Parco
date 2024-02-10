@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import LoginPage from './components/LoginPage';
 import NavBar from './components/NavBar';
 import HomePage from "./components/Homepage"
@@ -8,21 +9,21 @@ function App() {
   return (
     <BrowserRouter>
 
-    <div className='mainContainer'>
-
-    
-      <Routes>
+      <div className='mainContainer'>
 
 
-        <Route path="/homepage" element={<HomePage />} />
+        <Routes>
 
-        <Route path='/login' element={<LoginPage/>}/>
-  
 
-      </Routes>
+          <Route path="/homepage" element={<HomePage />} />
 
-    </div>
-    
+          <Route path='/login' element={<LoginPage />} />
+
+
+        </Routes>
+
+      </div>
+
     </BrowserRouter>
 
   );
