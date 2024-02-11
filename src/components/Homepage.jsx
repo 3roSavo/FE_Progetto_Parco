@@ -2,7 +2,9 @@ import { Carousel } from "react-bootstrap"
 import foto5 from "../assets/Escursioni-800.jpg"
 import foto6 from "../assets/calto-contea_26.jpg"
 import foto7 from "../assets/calto-contea_31.jpg"
+import logo from "../assets/IMG_2670.PNG"
 import NavBar from "./NavBar"
+import MapComponent from "./MapComponent"
 import { useEffect, useState } from "react"
 
 const Homepage = () => {
@@ -99,8 +101,8 @@ const Homepage = () => {
                 <div className="row">
                     {hikeList && hikeList.content.map((hike) => {
                         return (
-                            <div class="card col-12 col-sm-6 col-md-4 col-lg-3">
-                                <img src={foto6} class="card-img-top" alt="..." />
+                            <div class="card col-12 col-sm-6 col-md-4 col-lg-3 p-0">
+                                <img src={foto6} class="card-img-top" alt="foto-escursione" style={{}} />
                                 <div class="card-body">
                                     <h5 class="card-title">Card title</h5>
                                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
@@ -115,6 +117,25 @@ const Homepage = () => {
                 </div>
 
             </div>
+
+            <div class="container pb-3">
+                <footer class="py-3 mt-5">
+                    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Home</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Features</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">Pricing</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link px-2 text-body-secondary">About</a></li>
+                    </ul>
+                    <p class="text-center text-body-secondary"><img
+                        src={logo}
+                        style={{ width: "100px", height: "65px", borderRadius: "15px", marginRight: "20px" }}
+                        alt="logo"
+                    /> 2024 Parco regionale dei colli euganei</p>
+                </footer>
+            </div>
+
+            <MapComponent />
 
         </>
     )

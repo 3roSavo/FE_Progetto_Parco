@@ -53,7 +53,7 @@ const NavBar = () => {
 
     <nav
       className="navbar navbar-expand-lg p-0 fixed-top"
-      id={isScrolled > 150 ? "navbarColored" : "navbarTransparent"}
+      id={isScrolled > 100 ? "navbarColored" : "navbarTransparent"}
       data-bs-theme="dark"
     >
       <div className="container-fluid">

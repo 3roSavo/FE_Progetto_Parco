@@ -18,7 +18,7 @@ code {
 
 .mainContainer {
   background: rgb(198, 49, 49);
-  background: linear-gradient(0deg, rgba(198, 49, 49, 0.49951855742296913) 0%, rgba(34, 165, 195, 0.46870623249299714) 100%);
+  background: linear-gradient(0deg, rgba(198, 49, 49, 0.5) 0%, rgba(34, 165, 195, 0.46870623249299714) 100%);
   min-height: 100vh;
 }
 
