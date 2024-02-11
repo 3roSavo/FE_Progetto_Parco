@@ -1,4 +1,4 @@
-import logo from "../assets/parco-colli-euganei-logo.jpg"
+import logo from "../assets/IMG_2670.PNG"
 import foto1 from "../assets/colli-euganei-hd.jpg"
 import foto2 from "../assets/vini-dei-colli-euganei.jpg"
 import foto3 from "../assets/download.jpeg"
@@ -86,7 +86,10 @@ const LoginPage = () => {
       .then((data) => {
         console.log(data)
         alert("Registrazione avvenuta con successo")
-        navigate("/homepage")
+        setLoginCredentials({
+          email: register.email,
+          password: register.password
+        })
 
       })
 

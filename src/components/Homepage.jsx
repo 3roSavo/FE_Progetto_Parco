@@ -3,15 +3,46 @@ import foto5 from "../assets/Escursioni-800.jpg"
 import foto6 from "../assets/calto-contea_26.jpg"
 import foto7 from "../assets/calto-contea_31.jpg"
 import NavBar from "./NavBar"
+import { useEffect, useState } from "react"
 
 const Homepage = () => {
+
+    const [hikeList, setHikeList] = useState(null)
+
+    const getRandomHikes = () => {
+
+        fetch("http://localhost:3001/hikes", {
+            method: "GET",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    throw new Error("Errore nel recupero dei dati")
+                }
+            })
+            .then((data) => {
+                console.log(data)
+                setHikeList(data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    useEffect(() => {
+        getRandomHikes()
+    }, []);
 
 
     return (
         <>
             <NavBar />
 
-            <div className="mx-5 mt-5">
+            <div className="mx-5 pt-5 ">
 
                 <div className="mt-4 row justify-content-center info-homepage shadow3 p-4">
 
@@ -64,6 +95,24 @@ const Homepage = () => {
                 </div>
 
                 <h2 className=" my-5 text-center ">Ti potrebbero interesssare...</h2>
+
+                <div className="row">
+                    {hikeList && hikeList.content.map((hike) => {
+                        return (
+                            <div class="card col-12 col-sm-6 col-md-4 col-lg-3">
+                                <img src={foto6} class="card-img-top" alt="..." />
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                                </div>
+                            </div>
+                        )
+                    })}
+
+
+
+                </div>
 
             </div>
 

@@ -22,9 +22,17 @@ code {
   min-height: 100vh;
 }
 
-#navbar {
-  background: rgb(255, 255, 255);
+#navbarTransparent {
+  transition: 1s;
+  background: rgb(255, 255, 255, 0);
+}
+
+#navbarColored {
+  transition: 1s;
+  box-shadow: 5px 5px 35px rgb(67, 67, 67);
+  background: rgb(255, 255, 255, 1);
   background: linear-gradient(90deg, rgba(255, 255, 255, 1) 19%, rgb(0, 149, 255) 100%);
+
 }
 
 #login-form {}
@@ -46,8 +54,8 @@ code {
 }
 
 .link-navbar:hover {
-  font-size: 24px !important;
-  color: rgb(167, 196, 80) !important;
+  font-size: 22px !important;
+  color: rgb(136, 159, 66) !important;
   text-shadow: 10px 15px 10px grey;
 }
 
@@ -59,4 +67,25 @@ code {
 .carousel-img {
   height: 400px;
   width: 600px;
+}
+
+.navbar-dropdown-container {
+  top: 55px !important;
+  left: -120px !important;
+  background: rgba(112, 189, 252, 0.4) !important;
+  -webkit-backdrop-filter: blur(9px) !important;
+  backdrop-filter: blur(9px) !important;
+
+}
+
+.navbar-dropdown-li-link {
+  padding-left: 20px;
+  text-decoration: none;
+  margin: 7px 0px 7px 0px;
+  color: black;
+}
+
+#nav-dropdown-li:hover {
+  transition: 0.5s;
+  background-color: rgba(147, 173, 68, 0.5);
 }
