@@ -82,7 +82,7 @@ const NavBar = () => {
                 to={"/homepage"}
                 className="nav-link fw-bold link-navbar"
               >
-                Homepage <i class="bi bi-house-fill"></i>
+                Homepage <i className="bi bi-house-fill"></i>
               </Link>
             </li>
             <li className="nav-item">
@@ -90,7 +90,7 @@ const NavBar = () => {
                 to={"/homepage"}
                 className="nav-link fw-bold link-navbar"
               >
-                Profilo <i class="bi bi-person-fill"></i>
+                Profilo <i className="bi bi-person-fill"></i>
               </Link>
             </li>
             <li className="nav-item">
@@ -98,7 +98,7 @@ const NavBar = () => {
                 to={"/homepage"}
                 className="nav-link fw-bold link-navbar"
               >
-                Cerca <i class="bi bi-search-heart-fill"></i>
+                Cerca <i className="bi bi-search-heart-fill"></i>
               </Link>
             </li>
             {isAdmin &&
@@ -107,7 +107,7 @@ const NavBar = () => {
                   to={"/homepage"}
                   className="nav-link fw-bold link-navbar"
                 >
-                  Back-Office <i class="bi bi-gear-fill"></i>
+                  Back-Office <i className="bi bi-gear-fill"></i>
                 </Link>
               </li>
             }
@@ -124,7 +124,7 @@ const NavBar = () => {
               <ul className="dropdown-menu navbar-dropdown-container shadow">
                 <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" to={"/"}>Action</Link></li>
                 <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" to={"/"}>Another action </Link></li>
-                <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" to={"/"}>Logout <i class="bi bi-door-open-fill"></i></Link></li>
+                <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" to={"/"}>Logout <i className="bi bi-door-open-fill"></i></Link></li>
               </ul>
             </div>
 
