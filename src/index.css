@@ -134,27 +134,116 @@ code {
   box-shadow: 10px 10px 10px grey;
 }
 
-/*@media (min-width: 576px) {
+.footer-search {
+  position: sticky;
+  top: 100vh;
+}
+
+
+
+@media (max-width: 530px) {
   .img-carousel-homepage {
-    height: 400px;
+    height: 300px !important;
   }
 }
 
 @media (min-width: 768px) {
   .img-carousel-homepage {
-    height: 450px;
+    height: 450px !important;
   }
 
 }
 
 @media (min-width: 992px) {
   .img-carousel-homepage {
-    height: 500px;
+    height: 500px !important;
   }
 }
 
 @media (min-width: 993px) {
   .img-carousel-homepage {
-    height: 700px;
+    height: 600px !important;
   }
-}*/
+}
+
+
+
+.search-box {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+}
+
+.input-search {
+  height: 50px;
+  width: 50px;
+  border-style: none;
+  padding: 10px;
+  font-size: 26px;
+  letter-spacing: 2px;
+  outline: none;
+  border-radius: 25px;
+  transition: all .5s ease-in-out;
+  background-color: #22a6b3;
+  padding-right: 40px;
+  color: #fff;
+  background-color: rgba(62, 117, 206, 0.662);
+}
+
+.input-search::placeholder {
+  color: rgba(255, 255, 255, .5);
+  font-size: 26px;
+  letter-spacing: 2px;
+  font-weight: 400;
+}
+
+.btn-search {
+  width: 50px;
+  height: 50px;
+  border-style: none;
+  font-size: 20px;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+  border-radius: 50%;
+  position: absolute;
+  right: 0px;
+  color: #ffffff;
+  background-color: transparent;
+  pointer-events: painted;
+}
+
+.btn-search:focus~.input-search {
+  width: 300px;
+  border-radius: 0px;
+  background-color: transparent;
+  border-bottom: 2px solid rgba(255, 255, 255, .5);
+  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+}
+
+.input-search:focus {
+  width: 300px;
+  border-radius: 0px;
+  background-color: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, .5);
+  transition: all 500ms cubic-bezier(0, 0.110, 0.35, 2);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+    color: rgb(244, 171, 171);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.btn-pulse {
+  animation: pulse 1.5s infinite;
+}

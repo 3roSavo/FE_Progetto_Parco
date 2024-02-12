@@ -2,7 +2,7 @@ import { Carousel } from "react-bootstrap"
 import foto5 from "../assets/Escursioni-800.jpg"
 import foto6 from "../assets/calto-contea_26.jpg"
 import foto7 from "../assets/calto-contea_31.jpg"
-import logo from "../assets/IMG_2670.PNG"
+import Footer from "./Footer"
 import NavBar from "./NavBar"
 import MapComponent from "./MapComponent"
 import { useEffect, useState } from "react"
@@ -49,24 +49,27 @@ const Homepage = () => {
 
                 <div className="mt-5 row justify-content-center info-homepage shadow3 p-3 mx-md-0">
 
-                    <div className="col-12 col-md-5 col-lg-4">
+                    <div className="col-12 col-md-6 col-lg-4">
                         <div className="fs-4">Ti presentiamo i</div>
                         <h1 style={{ fontSize: "75px", fontWeight: 700 }}>Colli Euganei</h1>
                     </div>
 
-                    <div className="col-12 col-md-7">Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque aspernatur cum pe
+                    <div className="col-12 col-md-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque aspernatur cum pe
                         rferendis sit veritatis totam porro perspiciatis modi ad ipsa unde voluptatem, at
                         que odit commodi laborum, aliquam optio voluptates fuga? Lorem ipsum, dolor sit
                         amet consectetur adipisicing elit. Dignissimos vero consequuntur placeat, amet autem qua
                         s rerum exercitationem excepturi a, itaque velit quod dolores assumenda eve
-                        iet iusto deserunt vitae laudantium. Maiores.</div>
+                        iet iusto deserunt vitae laudantium. Maiores.rum, aliquam optio voluptates fuga? Lorem ipsum, dolor sit
+                        amet consectetur adipisicing elit. Dignissimos vero consequuntur placeat, amet autem qua
+                        adipisicing elit. Dignissimos vero consequuntur placeat, ame
+                    </div>
 
                 </div>
 
                 <h1 className="text-end homepage-titles">Paesaggi mozzafiato!</h1>
 
 
-                <div className="row mt-5">
+                <div className="row m-0">
                     <Carousel fade className="col-12 col-lg-8  mx-0 p-0">
                         <Carousel.Item className="">
                             <img src={foto5} className="rounded-5 w-100 img-carousel-homepage" alt="..." />
@@ -128,7 +131,7 @@ const Homepage = () => {
                                             <li className="list-group-item bg-transparent">Dislivello: <strong>{hike.elevationGain}mt</strong></li>
                                             <li className="list-group-item bg-transparent">Lunghezza: <strong>{hike.length}km</strong></li>
                                         </ul>
-                                        <div className="text-end"><Link to="" className="btn btn-secondary p-1 mt-3 btn-card">Maggiori dettagli</Link></div>
+                                        <div className="text-start"><Link to="" className="btn btn-secondary p-1 mt-3 btn-card">Maggiori dettagli</Link></div>
                                     </div>
                                 </div>
                             </div>
@@ -139,23 +142,7 @@ const Homepage = () => {
 
             </div>
 
-
-            <div className="container pb-3 pt-3">
-                <footer className="py-3 mt-5">
-                    <ul className="nav justify-content-center border-bottom pb-3 mb-3">
-                        <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">Home</a></li>
-                        <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">Features</a></li>
-                        <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">Pricing</a></li>
-                        <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">FAQs</a></li>
-                        <li className="nav-item"><a href="#" className="nav-link px-2 text-body-secondary">About</a></li>
-                    </ul>
-                    <p className="text-center text-body-secondary"><img
-                        src={logo}
-                        style={{ width: "100px", height: "65px", borderRadius: "15px", marginRight: "20px" }}
-                        alt="logo"
-                    /> 2024 - Parco regionale dei colli euganei</p>
-                </footer>
-            </div>
+            <Footer />
 
         </div>
     )

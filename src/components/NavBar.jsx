@@ -95,7 +95,7 @@ const NavBar = () => {
             </li>
             <li className="nav-item">
               <Link
-                to={"/homepage"}
+                to={"/search"}
                 className="nav-link fw-bold link-navbar"
               >
                 Cerca <i className="bi bi-search-heart-fill"></i>

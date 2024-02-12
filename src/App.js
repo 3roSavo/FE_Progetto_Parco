@@ -4,6 +4,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import LoginPage from './components/LoginPage';
 import NavBar from './components/NavBar';
 import HomePage from "./components/Homepage"
+import Search from './components/Search';
 
 function App() {
   return (
@@ -14,10 +15,12 @@ function App() {
 
         <Routes>
 
+          <Route path='/login' element={<LoginPage />} />
 
           <Route path="/homepage" element={<HomePage />} />
 
-          <Route path='/login' element={<LoginPage />} />
+          <Route path='/search' element={<Search />} />
+
 
 
         </Routes>
