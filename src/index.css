@@ -23,22 +23,22 @@ code {
 }
 
 #navbarTransparent {
-  transition: 0.5s;
-  background: rgb(255, 255, 255, 0);
+  background-image: url("./assets/opacity-0.0.png");
+  background-size: cover;
+  transition: all 0.5s;
 }
 
 #navbarColored {
-  transition: 0.5s;
+  transition: all 0.5s;
   box-shadow: 5px 5px 35px rgb(67, 67, 67);
-  background: rgb(255, 255, 255, 1);
-  background: linear-gradient(90deg, rgba(255, 255, 255, 1) 19%, rgb(0, 149, 255) 100%);
-
+  background-image: url("./assets/sfondo-navbar.png");
+  background-size: cover;
 }
 
 @media (max-width : 992px) {
   #navbarTransparent {
-    background: rgb(255, 255, 255, 1);
-    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 19%, rgb(0, 149, 255) 100%);
+    background-image: url("./assets/sfondo-navbar.png");
+    background-size: cover;
   }
 }
 
