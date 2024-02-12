@@ -117,11 +117,11 @@ const Homepage = () => {
 
                 <h2 className=" my-5 text-center fw-bold">Ecco alcune delle nostre escursioni</h2>
 
-                <div className="row g-2 justify-content-center ">
+                <div className="row g-3 g-lg-4 justify-content-center ">
                     {hikeList && hikeList.content.slice(0, 4).map((hike) => {
                         return (
-                            <div className="col-12 col-sm-6 col-md-5 col-lg-3" key={hike.id}>
-                                <div className="card bg-transparent shadow-sm">
+                            <div className="col-10 col-sm-6 col-md-5 col-lg-4 col-xl-3" key={hike.id}>
+                                <div className="card bg-transparent shadow-sm" id="cards">
                                     <img src={foto6} className="card-img-top" alt="foto-escursione" style={{}} />
                                     <div className="card-body">
                                         <h5 className="card-title text-center">{hike.title}</h5>

@@ -39,6 +39,7 @@ code {
   #navbarTransparent {
     background-image: url("./assets/sfondo-navbar.png");
     background-size: cover;
+    box-shadow: 5px 5px 35px rgb(67, 67, 67);
   }
 }
 
@@ -166,6 +167,24 @@ code {
   }
 }
 
+#cards {
+  height: 620px !important;
+  font-size: 18px;
+}
+
+@media (min-width: 500px) {
+  #cards {
+    height: 7000px !important;
+  }
+}
+
+@media (min-width: 400px) {
+  #cards {
+    height: 580px !important;
+    object-fit: fill;
+  }
+}
+
 
 
 .search-box {
@@ -246,4 +265,16 @@ code {
 
 .btn-pulse {
   animation: pulse 1.5s infinite;
+}
+
+
+.filter-dropdown-container {
+  background: rgba(112, 189, 252, 0.4) !important;
+  -webkit-backdrop-filter: blur(9px) !important;
+  backdrop-filter: blur(9px) !important;
+}
+
+
+.li-filter:hover {
+  background-color: rgba(147, 173, 68, 0.5) !important;
 }
