@@ -35,6 +35,13 @@ code {
 
 }
 
+@media (max-width : 992px) {
+  #navbarTransparent {
+    background: rgb(255, 255, 255, 1);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 1) 19%, rgb(0, 149, 255) 100%);
+  }
+}
+
 #login-form {}
 
 .btn-register {
