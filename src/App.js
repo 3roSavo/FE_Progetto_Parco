@@ -5,6 +5,7 @@ import LoginPage from './components/LoginPage';
 import NavBar from './components/NavBar';
 import HomePage from "./components/Homepage"
 import Search from './components/Search';
+import DettagliHike from './components/DettagliHike';
 
 function App() {
   return (

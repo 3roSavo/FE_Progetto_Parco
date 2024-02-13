@@ -129,6 +129,12 @@ code {
   height: 500px;
 }
 
+.img-carousel-detail {
+  object-position: center;
+  height: 500px;
+  width: 100%;
+}
+
 .btn-card:hover {
   background-color: rgba(147, 173, 68) !important;
   border: 1px solid rgba(147, 173, 68) !important;
@@ -291,6 +297,25 @@ code {
 
 .heart-icon {
   font-size: 28px;
-  color: rgb(203, 1, 1);
+  color: rgb(255, 0, 0);
   cursor: pointer;
+}
+
+.heart-fill {
+  animation: pulse2 2s infinite;
+}
+
+@keyframes pulse2 {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+    color: rgb(210, 8, 8);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }

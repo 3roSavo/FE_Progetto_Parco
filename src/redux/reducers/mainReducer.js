@@ -1,5 +1,7 @@
 const initialState = {
-    currentUser: {}
+    currentUser: {},
+    currentHike: {},
+    searchOrDetailVisible: true
 }
 
 
@@ -11,6 +13,16 @@ const mainReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentUser: action.payload
+            };
+        case "CURRENT_HIKE":
+            return {
+                ...state,
+                currentHike: action.payload
+            };
+        case "SEARCH_OR_DEATAIL_VISIBLE":
+            return {
+                ...state,
+                searchOrDetailVisible: action.payload
             }
 
         default: return state

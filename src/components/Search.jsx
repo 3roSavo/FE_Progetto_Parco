@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react"
 import Footer from "./Footer"
+import DettagliHike from "./DettagliHike"
 import NavBar from "./NavBar"
 import foto6 from "../assets/calto-contea_26.jpg"
 import { Link } from "react-router-dom"
 import { Spinner } from "react-bootstrap"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 const Search = () => {
 
     const getUser = useSelector(state => state.currentUser)
+    const searchOrDetailsVisible = useSelector(state => state.searchOrDetailVisible)
+    const dispach = useDispatch()
 
     const [inputValue, setInputValue] = useState("");
     const [hikeList, setHikeList] = useState(null);
+
+    //const [searchOrDetailsVisible, setSearchOrDetailsVisible] = useState(true)
+    //const [detailVisible, setDetailVisible] = useState(false)
 
     const [hikesPage, setHikesPage] = useState(0)
     const [hikesSize, setHikesSize] = useState(10)
@@ -200,100 +206,117 @@ const Search = () => {
 
                 <NavBar />
 
-                <h1 className="text-center mt-5">Ricerca la tua escursione!</h1>
+                {searchOrDetailsVisible && <div>
 
-                <form className="mt-5" onSubmit={(e) => getTitleHikes(e)}>
-                    <div className="search-box mt-4 mb-5  m-auto">
-                        <button type="button" className="btn-search btn-pulse"><i className="bi bi-search-heart fs-4"></i></button>
-                        <input
-                            type="text"
-                            className="input-search"
-                            placeholder="Cerca per titolo..."
-                            value={inputValue}
-                            onChange={(e) => {
-                                setInputValue(e.target.value)
-                            }}
-                        />
+                    <h1 className="text-center mt-5">Ricerca la tua escursione!</h1>
+
+                    <form className="mt-5" onSubmit={(e) => getTitleHikes(e)}>
+                        <div className="search-box mt-4 mb-5  m-auto">
+                            <button type="button" className="btn-search btn-pulse"><i className="bi bi-search-heart fs-4"></i></button>
+                            <input
+                                type="text"
+                                className="input-search"
+                                placeholder="Cerca per titolo..."
+                                value={inputValue}
+                                onChange={(e) => {
+                                    setInputValue(e.target.value)
+                                }}
+                            />
+                        </div>
+                    </form>
+
+                    <div className="mt-4 mb-4 d-block d-sm-flex  justify-content-end text-center">
+
+                        <div className="my-2 ">
+                            <button onClick={() => getRandomHikes()} className="btn btn-secondary" id="shuffle-button" type="button">
+                                Shuffle <i className="bi bi-shuffle"></i>
+                            </button>
+                        </div>
+
+                        <div className="dropdown my-2 mx-sm-2">
+                            <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Ordina per:
+                            </button>
+                            <ul className="dropdown-menu filter-dropdown-container">
+                                <li onClick={() => setHikesSort("title")} className={hikesSort === "title" ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>titolo</li>
+                                <li onClick={() => setHikesSort("duration")} className={hikesSort === "duration" ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>durata</li>
+                                <li onClick={() => setHikesSort("elevationGain")} className={hikesSort === "elevationGain" ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>dislivello</li>
+                                <li onClick={() => setHikesSort("length")} className={hikesSort === "length" ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>lunghezza</li>
+                                <li onClick={() => setHikesSort("trailNumber")} className={hikesSort === "trailNumber" ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>numero sentiero</li>
+                                <li onClick={() => setHikesSort("difficulty")} className={hikesSort === "difficulty" ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>difficoltà</li>
+                            </ul>
+                        </div>
+
+                        <div className="dropdown my-2">
+                            <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                N° risultati:
+                            </button>
+                            <ul className="dropdown-menu filter-dropdown-container">
+                                <li onClick={() => setHikesSize(5)} className={hikesSize === 5 ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>5</li>
+                                <li onClick={() => setHikesSize(10)} className={hikesSize === 10 ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>10</li>
+                                <li onClick={() => setHikesSize(20)} className={hikesSize === 20 ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>20</li>
+                                <li onClick={() => setHikesSize(40)} className={hikesSize === 40 ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>40</li>
+                            </ul>
+                        </div>
+
                     </div>
-                </form>
 
-                <div className="mt-4 mb-4 d-block d-sm-flex  justify-content-end text-center">
+                    {loading && <div className="text-center"><Spinner animation="border" variant="primary" /></div>}
 
-                    <div className="my-2 ">
-                        <button onClick={() => getRandomHikes()} className="btn btn-secondary" id="shuffle-button" type="button">
-                            Shuffle <i className="bi bi-shuffle"></i>
-                        </button>
-                    </div>
+                    <div className="row g-3 g-lg-4 justify-content-center">
+                        {hikeList && hikeList.map((hike) => {
+                            return (
+                                <div className="col-10 col-sm-6 col-md-5 col-lg-4 col-xl-3" key={hike.id}>
+                                    <div className="card bg-transparent shadow-sm" id="cards">
+                                        <img src={foto6} className="card-img-top" alt="foto-escursione" style={{ maxHeight: "250px", objectFit: "cover" }} />
+                                        <div className="card-body row my-3 mx-2 p-0">
+                                            <h5 className="card-title text-center">{hike.title}</h5>
+                                            <ul className="list-group list-group-flush">
+                                                <li className="list-group-item bg-transparent">Difficoltà: <strong>{hike.difficulty}</strong></li>
+                                                <li className="list-group-item bg-transparent">Durata: <strong>{hike.duration}</strong></li>
+                                                <li className="list-group-item bg-transparent">Dislivello: <strong>{hike.elevationGain}mt</strong></li>
+                                                <li className="list-group-item bg-transparent">Lunghezza: <strong>{hike.length}km</strong></li>
+                                            </ul>
 
-                    <div className="dropdown my-2 mx-sm-2">
-                        <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Ordina per:
-                        </button>
-                        <ul className="dropdown-menu filter-dropdown-container">
-                            <li onClick={() => setHikesSort("title")} className={hikesSort === "title" ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>titolo</li>
-                            <li onClick={() => setHikesSort("duration")} className={hikesSort === "duration" ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>durata</li>
-                            <li onClick={() => setHikesSort("elevationGain")} className={hikesSort === "elevationGain" ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>dislivello</li>
-                            <li onClick={() => setHikesSort("length")} className={hikesSort === "length" ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>lunghezza</li>
-                            <li onClick={() => setHikesSort("trailNumber")} className={hikesSort === "trailNumber" ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>numero sentiero</li>
-                            <li onClick={() => setHikesSort("difficulty")} className={hikesSort === "difficulty" ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>difficoltà</li>
-                        </ul>
-                    </div>
+                                            <div className="d-flex align-items-center justify-content-between align-self-end mt-3">
 
-                    <div className="dropdown my-2">
-                        <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            N° risultati:
-                        </button>
-                        <ul className="dropdown-menu filter-dropdown-container">
-                            <li onClick={() => setHikesSize(5)} className={hikesSize === 5 ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>5</li>
-                            <li onClick={() => setHikesSize(10)} className={hikesSize === 10 ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>10</li>
-                            <li onClick={() => setHikesSize(20)} className={hikesSize === 20 ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>20</li>
-                            <li onClick={() => setHikesSize(40)} className={hikesSize === 40 ? "bg-secondary dropdown-item li-filter" : "dropdown-item li-filter"}>40</li>
-                        </ul>
-                    </div>
+                                                <div className="">
+                                                    <Link onClick={() => {
+                                                        dispach({
+                                                            type: "CURRENT_HIKE",
+                                                            payload: hike
+                                                        })
+                                                        dispach({
+                                                            type: "SEARCH_OR_DEATAIL_VISIBLE",
+                                                            payload: false
+                                                        })
+                                                    }}
+                                                        className="btn btn-secondary p-1 btn-card" style={{ fontSize: "16px" }}>Dettagli <i className="bi bi-arrow-right-short"></i>
+                                                    </Link>
+                                                </div>
+                                                <div onClick={() => {
+                                                    if (hike.usersIdList.includes(getUser.id)) {
+                                                        deleteFavourite(hike.id)
+                                                    } else {
+                                                        saveFavourite(hike.id)
+                                                    }
+                                                }}>
+                                                    <i className={hike.usersIdList.includes(getUser.id) ? "bi bi-suit-heart-fill heart-icon heart-fill" : "bi bi-suit-heart heart-icon"}></i>
+                                                </div>
 
-                </div>
-
-                {loading && <div className="text-center"><Spinner animation="border" variant="primary" /></div>}
-
-                <div className="row g-3 g-lg-4 justify-content-center">
-                    {hikeList && hikeList.map((hike) => {
-                        return (
-                            <div className="col-10 col-sm-6 col-md-5 col-lg-4 col-xl-3" key={hike.id}>
-                                <div className="card bg-transparent shadow-sm" id="cards">
-                                    <img src={foto6} className="card-img-top" alt="foto-escursione" style={{ maxHeight: "250px", objectFit: "cover" }} />
-                                    <div className="card-body row my-3 mx-2 p-0">
-                                        <h5 className="card-title text-center">{hike.title}</h5>
-                                        <ul className="list-group list-group-flush">
-                                            <li className="list-group-item bg-transparent">Difficoltà: <strong>{hike.difficulty}</strong></li>
-                                            <li className="list-group-item bg-transparent">Durata: <strong>{hike.duration}</strong></li>
-                                            <li className="list-group-item bg-transparent">Dislivello: <strong>{hike.elevationGain}mt</strong></li>
-                                            <li className="list-group-item bg-transparent">Lunghezza: <strong>{hike.length}km</strong></li>
-                                        </ul>
-
-                                        <div className="d-flex align-items-center justify-content-between align-self-end mt-3">
-
-                                            <div className=""><Link to="" className="btn btn-secondary p-1 btn-card" style={{ fontSize: "16px" }}>Dettagli <i className="bi bi-arrow-right-short"></i></Link></div>
-                                            <div onClick={() => {
-                                                if (hike.usersIdList.includes(getUser.id)) {
-                                                    deleteFavourite(hike.id)
-                                                } else {
-                                                    saveFavourite(hike.id)
-                                                }
-                                            }}>
-                                                <i className={hike.usersIdList.includes(getUser.id) ? "bi bi-suit-heart-fill heart-icon" : "bi bi-suit-heart heart-icon"}></i>
                                             </div>
 
                                         </div>
-
                                     </div>
                                 </div>
-                            </div>
-                        )
-                    })}
+                            )
+                        })}
 
-                </div>
+                    </div>
 
+                </div>}
 
+                {!searchOrDetailsVisible && <DettagliHike />}
 
                 <div className="footer-search">< Footer /></div>
             </div>
