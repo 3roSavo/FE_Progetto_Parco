@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom"
 import logo from "../assets/IMG_2670.PNG"
 import { useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux"
 
 const NavBar = () => {
 
-  const [userInfo, setUserInfo] = useState({})
+  const dispach = useDispatch();
+  const getUser = useSelector(state => state.currentUser)
+
+
+  //const [userInfo, setUserInfo] = useState({})  // succesivamente rimpiazzato dal global state
   const [isAdmin, setIsAdmin] = useState(false)
   const [isScrolled, setIsScrolled] = useState(0);
 
@@ -25,8 +30,16 @@ const NavBar = () => {
         }
       })
       .then((data) => {
+
         console.log(data)
-        setUserInfo(data)
+
+        //setUserInfo(data) // successivamente rimpiazzato dal global state
+
+        dispach({
+          type: "CURRENT_USER",
+          payload: data
+        })
+
         if (data.role === "ADMIN") {
           setIsAdmin(true)
         } else {
@@ -114,12 +127,12 @@ const NavBar = () => {
           </ul>
           <div className="d-lg-flex d-none  align-items-center">
             <div id="" className="fw-bold text-center">
-              {userInfo.username}
+              {getUser.username}
             </div>
 
             <div className="dropdown" data-bs-popper="bottom-start">
               <button className="btn bg-transparent border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src={userInfo.userIcon} style={{ width: "45px", borderRadius: "50px" }} alt="user icon" />
+                <img src={getUser.userIcon} style={{ width: "45px", borderRadius: "50px" }} alt="user icon" />
               </button>
               <ul className="dropdown-menu navbar-dropdown-container shadow">
                 <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" to={"/"}>Action</Link></li>
@@ -128,10 +141,6 @@ const NavBar = () => {
               </ul>
             </div>
 
-
-
-            {/*<Link><img src={userInfo.userIcon} style={{ width: "40px", borderRadius: "50px" }} alt="user icon" />
-            </Link>}*/}
           </div>
         </div>
       </div>

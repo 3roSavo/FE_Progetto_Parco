@@ -278,3 +278,19 @@ code {
 .li-filter:hover {
   background-color: rgba(147, 173, 68, 0.5) !important;
 }
+
+#shuffle-button {
+  background-color: rgba(147, 173, 68) !important;
+  border: 1px solid rgba(147, 173, 68) !important;
+}
+
+#shuffle-button:hover {
+  background-color: rgb(133, 155, 67) !important;
+  border: 1px solid rgb(133, 155, 67) !important;
+}
+
+.heart-icon {
+  font-size: 28px;
+  color: rgb(203, 1, 1);
+  cursor: pointer;
+}
