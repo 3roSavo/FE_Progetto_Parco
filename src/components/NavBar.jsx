@@ -85,7 +85,7 @@ const NavBar = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link
+              <Link onClick={() => window.scrollTo(0, 0)}
                 to={"/homepage"}
                 className="nav-link fw-bold link-navbar"
               >
@@ -101,7 +101,7 @@ const NavBar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link
+              <Link onClick={() => window.scrollTo(0, 0)}
                 to={"/search"}
                 className="nav-link fw-bold link-navbar"
               >

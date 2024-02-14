@@ -11,10 +11,11 @@ const Search = () => {
 
     const getUser = useSelector(state => state.currentUser)
     const searchOrDetailsVisible = useSelector(state => state.searchOrDetailVisible)
+    const hikeList = useSelector(state => state.hikeList)
     const dispach = useDispatch()
 
     const [inputValue, setInputValue] = useState("");
-    const [hikeList, setHikeList] = useState(null);
+    //const [hikeList, setHikeList] = useState(null);  // questo andrebbe a livello globale
 
     //const [searchOrDetailsVisible, setSearchOrDetailsVisible] = useState(true)
     //const [detailVisible, setDetailVisible] = useState(false)
@@ -27,9 +28,17 @@ const Search = () => {
 
 
     const getTitleHikes = (e) => {
-        setHikeList(null)
-        setLoading(true)
+
         e.preventDefault()
+
+        setLoading(true)
+
+        //setHikeList(null)
+        dispach({
+            type: "HIKE_LIST",
+            payload: null
+        })
+
 
         fetch("http://localhost:3001/hikes/title/" + inputValue + "?page=" + hikesPage + "&size=" + hikesSize + "&sort=" + hikesSort, {
             method: "GET",
@@ -48,7 +57,13 @@ const Search = () => {
                 setTimeout(() => {
                     setLoading(false)
                     console.log(data)
-                    setHikeList(data.content)
+
+                    //setHikeList(data.content)
+                    dispach({
+                        type: "HIKE_LIST",
+                        payload: data.content
+                    })
+
                 }, 1000)
             })
             .catch((err) => {
@@ -60,8 +75,14 @@ const Search = () => {
 
     const getRandomHikes = () => {
 
-        setHikeList(null)
         setLoading(true)
+
+        //setHikeList(null)
+        dispach({
+            type: "HIKE_LIST",
+            payload: null
+        })
+
 
         fetch("http://localhost:3001/hikes?page=" + hikesPage + "&size=" + hikesSize + "&sort=" + hikesSort, {
             method: "GET",
@@ -84,7 +105,12 @@ const Search = () => {
 
                     data.content.sort(() => Math.random() - 0.5);
 
-                    setHikeList(data.content)
+                    //setHikeList(data.content)
+                    dispach({
+                        type: "HIKE_LIST",
+                        payload: data.content
+                    })
+
 
                 }, 1000)
             })
@@ -95,6 +121,7 @@ const Search = () => {
 
     }
 
+    // salvataggio/rimozione preferiti
 
     const saveFavourite = (hikeId) => {
 
@@ -130,7 +157,9 @@ const Search = () => {
                         }
                     })
                 })*/
-                setHikeList(hikeList.map(hike => {
+
+
+                /*setHikeList(hikeList.map(hike => {
                     if (hike.id === hikeId) {
                         return {
                             ...hike,
@@ -142,9 +171,24 @@ const Search = () => {
                     } else {
                         return hike
                     }
-                }))
+                }))*/
 
-                // prove prove prove
+                dispach({
+                    type: "HIKE_LIST",
+                    payload: hikeList.map(hike => {
+                        if (hike.id === hikeId) {
+                            return {
+                                ...hike,
+                                usersIdList: [
+                                    ...hike.usersIdList,
+                                    getUser.id
+                                ]
+                            }
+                        } else {
+                            return hike
+                        }
+                    })
+                })
 
             })
             .catch((err) => {
@@ -170,7 +214,7 @@ const Search = () => {
             })
             .then(() => {
 
-                setHikeList(hikeList.map(hike => {
+                /*setHikeList(hikeList.map(hike => {
                     if (hike.id === hikeId) {
                         return {
                             ...hike,
@@ -179,7 +223,21 @@ const Search = () => {
                     } else {
                         return hike
                     }
-                }))
+                }))*/
+
+                dispach({
+                    type: "HIKE_LIST",
+                    payload: hikeList.map(hike => {
+                        if (hike.id === hikeId) {
+                            return {
+                                ...hike,
+                                usersIdList: hike.usersIdList.filter(userId => userId !== getUser.id)
+                            }
+                        } else {
+                            return hike
+                        }
+                    })
+                })
 
             })
             .catch((err) => {
@@ -201,7 +259,7 @@ const Search = () => {
 
                 <NavBar />
 
-                {!searchOrDetailsVisible && <DettagliHike />}
+                {!searchOrDetailsVisible && <DettagliHike saveFavourite={saveFavourite} deleteFavourite={deleteFavourite} />}
 
                 {searchOrDetailsVisible && <div>
 
@@ -295,6 +353,7 @@ const Search = () => {
                                                 <div onClick={() => {
                                                     if (hike.usersIdList.includes(getUser.id)) {
                                                         deleteFavourite(hike.id)
+
                                                     } else {
                                                         saveFavourite(hike.id)
                                                     }

@@ -106,7 +106,9 @@ const Homepage = () => {
                 <h1 className="homepage-titles">Vieni a trovarci!</h1>
 
                 <div className="my-4 row">
+
                     <div className="col-12 col-md-7 col-lg-6 px-sm-0"><MapComponent /></div>
+
                     <p className="mt-4 mt-md-0  ps-md-4  col-12 col-md-5 col-lg-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi alias quas hic vero nesciunt cum quam corporis?
                         Quasi temporibus reprehenderit aut doloribus! Asperiores veritatis quasi, placeat vel cumque delectus architecto?
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat eos a et iure veniam nemo est temporibus, inventore, quibusdam

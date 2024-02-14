@@ -5,9 +5,11 @@ import foto1 from "../assets/colli-euganei-hd.jpg"
 import foto2 from "../assets/calto-contea_26.jpg"
 import foto3 from "../assets/Parco-dei-Colli-Euganei-Monte-Venda.jpg"
 
-const DettagliHike = () => {
+const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
     const getHike = useSelector(state => state.currentHike)
+    const hikeList = useSelector(state => state.hikeList)
+    const getUser = useSelector(state => state.currentUser)
     const dispach = useDispatch()
 
 
@@ -19,7 +21,7 @@ const DettagliHike = () => {
                     payload: true
                 })
             }}
-                className="btn btn-secondary p-1"><i class="bi bi-arrow-left-square"></i> indietro
+                className="btn btn-secondary p-1"><i className="bi bi-arrow-left-square"></i> indietro
             </div>
 
             <div className="row align-items-lg-center ">
@@ -64,7 +66,37 @@ const DettagliHike = () => {
 
                 <div className=" mt-lg-4">
                     <div className="mb-2">
-                        <h4 className=" fw-bold d-inline">Descrizione <i className="ms-4 bi bi-suit-heart heart-icon"></i></h4>
+                        <h4 className=" fw-bold d-inline">Descrizione
+                            <i onClick={() => {
+                                if (getHike.usersIdList.includes(getUser.id)) {
+
+                                    deleteFavourite(getHike.id)
+                                    dispach({
+                                        type: "CURRENT_HIKE",
+                                        payload: {
+                                            ...getHike,
+                                            usersIdList: getHike.usersIdList.filter(userId => userId !== getUser.id)
+                                        }
+                                    })
+
+
+                                } else {
+                                    saveFavourite(getHike.id)
+                                    dispach({
+                                        type: "CURRENT_HIKE",
+                                        payload: {
+                                            ...getHike,
+                                            usersIdList: [
+                                                ...getHike.usersIdList,
+                                                getUser.id
+                                            ]
+                                        }
+                                    })
+                                }
+                            }}
+                                className={getHike.usersIdList.includes(getUser.id) ? "ms-4 bi bi-suit-heart-fill heart-icon heart-fill" : "ms-4 bi bi-suit-heart heart-icon"}>
+                            </i>
+                        </h4>
                     </div>
                     {getHike.description}
                 </div>
