@@ -121,7 +121,7 @@ const Search = () => {
 
     }
 
-    // salvataggio/rimozione preferiti
+    // salvataggio/rimozione preferiti ----------------------------------------------------
 
     const saveFavourite = (hikeId) => {
 

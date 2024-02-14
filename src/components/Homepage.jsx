@@ -7,14 +7,31 @@ import NavBar from "./NavBar"
 import MapComponent from "./MapComponent"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+
 
 const Homepage = () => {
 
-    const [hikeList, setHikeList] = useState(null)
+    const [hike, setHike] = useState(null)
+    const [hikesPage, setHikesPage] = useState(0)
+
+    const getUser = useSelector(state => state.currentUser)
+
+    const dispach = useDispatch()
+
+
+
+    const [hikesSize, setHikesSize] = useState(500)
+
+    const today = new Date()
+    const options = { day: 'numeric', month: 'long' };
+    const formattedDate = today.toLocaleDateString('it-IT', options);
+
+
 
     const getRandomHikes = () => {
 
-        fetch("http://localhost:3001/hikes", {
+        fetch("http://localhost:3001/hikes?page=" + hikesPage + "&size=" + hikesSize, {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token")
@@ -28,13 +45,86 @@ const Homepage = () => {
                 }
             })
             .then((data) => {
+
                 console.log(data)
-                setHikeList(data)
+
+                const hikeRandom = Math.floor(Math.random() * data.content.length)
+
+                console.log(hikeRandom)
+
+                setHike(data.content[hikeRandom])
             })
             .catch((err) => {
                 console.log(err)
             })
     }
+
+
+    // salvataggio/rimozione preferiti ----------------------------------------------------
+
+    const saveFavourite = (hikeId) => {
+
+        fetch("http://localhost:3001/hikes/me/addFavourite/" + hikeId, {
+            method: "PUT",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    throw new Error("Errore nel recupero dei dati")
+                }
+            })
+            .then((data) => {
+
+                console.log(data)
+
+                setHike({
+                    ...hike,
+                    usersIdList: [
+                        ...hike.usersIdList,
+                        getUser.id
+                    ]
+                })
+
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+    }
+
+    const deleteFavourite = (hikeId) => {
+
+        fetch("http://localhost:3001/hikes/me/removeFavourite/" + hikeId, {
+            method: "PUT",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return console.log("eliminazione risucita!")
+                } else {
+                    throw new Error("Errore nel recupero dei dati")
+                }
+            })
+            .then(() => {
+
+                setHike({
+                    ...hike,
+                    usersIdList: hike.usersIdList.filter(userId => userId !== getUser.id)
+                })
+
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+    }
+
 
     useEffect(() => {
         getRandomHikes()
@@ -117,30 +207,67 @@ const Homepage = () => {
                 </div>
 
 
-                <h2 className=" my-5 text-center fw-bold">Ecco alcune delle nostre escursioni</h2>
+                <h2 className=" my-5 text-center fw-bold">Escursione di oggi {formattedDate}</h2>
 
-                <div className="row g-3 g-lg-4 justify-content-center ">
-                    {hikeList && hikeList.content.slice(0, 4).map((hike) => {
-                        return (
-                            <div className="col-10 col-sm-6 col-md-5 col-lg-4 col-xl-3" key={hike.id}>
-                                <div className="card bg-transparent shadow-sm" id="cards">
-                                    <img src={foto6} className="card-img-top" alt="foto-escursione" style={{}} />
-                                    <div className="card-body">
-                                        <h5 className="card-title text-center">{hike.title}</h5>
-                                        <ul className="list-group list-group-flush">
-                                            <li className="list-group-item bg-transparent">Difficoltà: <strong>{hike.difficulty}</strong></li>
-                                            <li className="list-group-item bg-transparent">Durata: <strong>{hike.duration}</strong></li>
-                                            <li className="list-group-item bg-transparent">Dislivello: <strong>{hike.elevationGain}mt</strong></li>
-                                            <li className="list-group-item bg-transparent">Lunghezza: <strong>{hike.length}km</strong></li>
-                                        </ul>
-                                        <div className="text-start"><Link to="" className="btn btn-secondary p-1 mt-3 btn-card">Maggiori dettagli</Link></div>
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    })}
 
-                </div>
+                {hike && <div className="row align-items-lg-center ">
+
+                    <h1 className="my-3" style={{ fontSize: "50px" }}>{hike.title}</h1>
+
+                    <Carousel fade className="col-12 col-lg-9 col-xxl-8">
+                        <Carousel.Item>
+                            <img src={foto5} alt="paesaggio" className="img-carousel-detail rounded-4 img-carousel-search" />
+                            <Carousel.Caption>
+                                <h3>First slide label</h3>
+                                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img src={foto6} alt="paesaggio" className="img-carousel-detail rounded-4 img-carousel-search" />
+                            <Carousel.Caption>
+                                <h3>Second slide label</h3>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <img src={foto7} alt="paesaggio" className="img-carousel-detail rounded-4 img-carousel-search" />
+                            <Carousel.Caption>
+                                <h3>Third slide label</h3>
+                                <p>
+                                    Praesent commodo cursus magna, vel scelerisque nisl consectetur.
+                                </p>
+                            </Carousel.Caption>
+                        </Carousel.Item>
+                    </Carousel>
+
+                    <div className="col-12 col-lg-3 col-xxl-4 mt-3 mt-lg-0 ">
+                        <ul className="ps-3">
+                            <li className="py-lg-2 py-1">Difficoltà: <strong>{hike.difficulty}</strong></li>
+                            <li className="py-lg-2 py-1">Durata: <strong>{hike.duration}</strong></li>
+                            <li className="py-lg-2 py-1">Dislivello: <strong>{hike.elevationGain}mt</strong></li>
+                            <li className="py-lg-2 py-1">Lunghezza: <strong>{hike.length}km</strong></li>
+                            <li className="py-lg-2 py-1">N° sentiero: <strong>{hike.trailNumber}</strong></li>
+                        </ul>
+                    </div>
+
+                    <div className=" mt-lg-4">
+                        <div className="mb-2">
+                            <h4 className=" fw-bold d-inline">Descrizione
+                                <i onClick={() => {
+                                    if (hike.usersIdList.includes(getUser.id)) {
+                                        deleteFavourite(hike.id)
+                                    } else {
+                                        saveFavourite(hike.id)
+                                    }
+                                }}
+                                    className={hike.usersIdList.includes(getUser.id) ? "ms-4 bi bi-suit-heart-fill heart-icon heart-fill" : "ms-4 bi bi-suit-heart heart-icon"}>
+                                </i>
+                            </h4>
+                        </div>
+                        {hike.description}
+                    </div>
+                </div>}
+
 
             </div>
 
