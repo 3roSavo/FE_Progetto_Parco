@@ -206,6 +206,8 @@ const Search = () => {
 
                 <NavBar />
 
+                {!searchOrDetailsVisible && <DettagliHike />}
+
                 {searchOrDetailsVisible && <div>
 
                     <h1 className="text-center mt-5">Ricerca la tua escursione!</h1>
@@ -290,6 +292,7 @@ const Search = () => {
                                                             type: "SEARCH_OR_DEATAIL_VISIBLE",
                                                             payload: false
                                                         })
+                                                        window.scrollTo(0, 0);
                                                     }}
                                                         className="btn btn-secondary p-1 btn-card" style={{ fontSize: "16px" }}>Dettagli <i className="bi bi-arrow-right-short"></i>
                                                     </Link>
@@ -315,8 +318,6 @@ const Search = () => {
                     </div>
 
                 </div>}
-
-                {!searchOrDetailsVisible && <DettagliHike />}
 
                 <div className="footer-search">< Footer /></div>
             </div>

@@ -43,8 +43,6 @@ code {
   }
 }
 
-#login-form {}
-
 .btn-register {
   color: blue;
   cursor: pointer;
@@ -146,7 +144,48 @@ code {
   top: 100vh;
 }
 
+.img-carousel-search {}
 
+/* media query per carousel search e homepage */
+/* search */
+
+@media (min-width: 0px) {
+  .img-carousel-search {
+    height: 300px;
+  }
+}
+
+@media (min-width: 400px) {
+  .img-carousel-search {
+    height: 300px;
+  }
+}
+
+@media (min-width: 500px) {
+  .img-carousel-search {
+    height: 400px;
+  }
+}
+
+@media (min-width: 750px) {
+  .img-carousel-search {
+    height: 450px;
+  }
+}
+
+@media (min-width: 992px) {
+  .img-carousel-search {
+    height: 500px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .img-carousel-search {
+    height: 500px;
+  }
+}
+
+/* homepage */
 
 @media (max-width: 530px) {
   .img-carousel-homepage {
