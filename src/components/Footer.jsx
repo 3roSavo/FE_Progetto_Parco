@@ -19,7 +19,7 @@ const Footer = () => {
                     src={logo}
                     style={{ width: "100px", height: "65px", borderRadius: "15px", marginRight: "20px" }}
                     alt="logo"
-                /> 2024 - Parco regionale dei colli euganei</p>
+                /> {new Date().getFullYear()} - Parco regionale dei colli euganei</p>
             </footer>
         </div>
 

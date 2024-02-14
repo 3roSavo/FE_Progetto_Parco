@@ -207,12 +207,12 @@ const Homepage = () => {
                 </div>
 
 
-                <h2 className=" my-5 text-center fw-bold">Escursione di oggi {formattedDate}</h2>
+                <h1 className=" mt-5 text-start fw-bold">Oggi {formattedDate} ti proponiamo:</h1>
 
 
                 {hike && <div className="row align-items-lg-center ">
 
-                    <h1 className="my-3" style={{ fontSize: "50px" }}>{hike.title}</h1>
+                    <h1 className="mb-4 mt-5 text-center" style={{ fontSize: "50px" }}>{hike.title}</h1>
 
                     <Carousel fade className="col-12 col-lg-9 col-xxl-8">
                         <Carousel.Item>

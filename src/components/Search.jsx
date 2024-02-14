@@ -84,7 +84,7 @@ const Search = () => {
         })
 
 
-        fetch("http://localhost:3001/hikes?page=" + hikesPage + "&size=" + hikesSize + "&sort=" + hikesSort, {
+        fetch("http://localhost:3001/hikes?page=" + hikesPage + "&size=500&sort=" + hikesSort, {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token")
@@ -101,14 +101,14 @@ const Search = () => {
                 setTimeout(() => {
                     setLoading(false)
 
-                    console.log(data)
+                    console.log(data.content.slice(0, hikesSize))
 
                     data.content.sort(() => Math.random() - 0.5);
 
                     //setHikeList(data.content)
                     dispach({
                         type: "HIKE_LIST",
-                        payload: data.content
+                        payload: data.content.slice(0, hikesSize)
                     })
 
 
