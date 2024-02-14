@@ -181,11 +181,6 @@ const Search = () => {
                     }
                 }))
 
-
-
-
-                // prove prove prove
-
             })
             .catch((err) => {
                 console.log(err)

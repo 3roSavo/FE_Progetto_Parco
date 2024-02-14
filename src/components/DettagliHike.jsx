@@ -63,7 +63,9 @@ const DettagliHike = () => {
                 </div>
 
                 <div className=" mt-lg-4">
-                    <h4 className=" fw-bold ">Descrizione</h4>
+                    <div className="mb-2">
+                        <h4 className=" fw-bold d-inline">Descrizione <i className="ms-4 bi bi-suit-heart heart-icon"></i></h4>
+                    </div>
                     {getHike.description}
                 </div>
             </div>
