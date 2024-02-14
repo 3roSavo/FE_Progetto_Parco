@@ -10,7 +10,7 @@ const NavBar = () => {
 
 
   //const [userInfo, setUserInfo] = useState({})  // succesivamente rimpiazzato dal global state
-  const [isAdmin, setIsAdmin] = useState(false)
+  //const [isAdmin, setIsAdmin] = useState(false)  // ho già l'informazione dal currentUser
   const [isScrolled, setIsScrolled] = useState(0);
 
 
@@ -39,12 +39,6 @@ const NavBar = () => {
           type: "CURRENT_USER",
           payload: data
         })
-
-        if (data.role === "ADMIN") {
-          setIsAdmin(true)
-        } else {
-          setIsAdmin(false)
-        }
 
       })
       .catch(err => err)
@@ -114,7 +108,7 @@ const NavBar = () => {
                 Cerca <i className="bi bi-search-heart-fill"></i>
               </Link>
             </li>
-            {isAdmin &&
+            {getUser.role === "ADMIN" &&
               <li className="nav-item">
                 <Link
                   to={"/homepage"}
@@ -124,6 +118,14 @@ const NavBar = () => {
                 </Link>
               </li>
             }
+            <li className="nav-item">
+              <Link onClick={() => localStorage.removeItem("token")}
+                to={"/login"}
+                className="nav-link fw-bold link-navbar"
+              >
+                Logout <i className="bi bi-door-open-fill"></i>
+              </Link>
+            </li>
           </ul>
           <div className="d-lg-flex d-none  align-items-center">
             <div id="" className="fw-bold text-center">
@@ -137,7 +139,7 @@ const NavBar = () => {
               <ul className="dropdown-menu navbar-dropdown-container shadow">
                 <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" to={"/"}>Action</Link></li>
                 <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" to={"/"}>Another action </Link></li>
-                <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" to={"/"}>Logout <i className="bi bi-door-open-fill"></i></Link></li>
+                <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" onClick={() => localStorage.removeItem("token")} to={"/login"}>Logout <i className="bi bi-door-open-fill"></i></Link></li>
               </ul>
             </div>
 
