@@ -367,3 +367,23 @@ code {
     transform: scale(1);
   }
 }
+
+.favourite-search-card {
+  background-color: rgba(36, 114, 39, 0.271);
+}
+
+.user-card {
+  transition: all 0.4s;
+}
+
+.user-card:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.user-card-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  box-shadow: 10px 10px 20px grey;
+}

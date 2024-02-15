@@ -105,8 +105,8 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                     </ul>
                 </div>
 
-                <div className="row">
-                    <div className="mt-lg-4 col-12 col-lg-9 col-xl-10">
+                <div className="row justify-content-center ms-0">
+                    <div className="mt-lg-4 col-12 col-lg-9 col-xl-9">
                         <div className="mb-2">
                             <h4 className=" fw-bold d-inline">Descrizione
                                 <i onClick={() => {
@@ -160,33 +160,35 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                     </div>
 
                     {usersList.length !== 0 && usersList.length < 4 && (
-                        <div className="bg-success col-10 col-sm-8 col-lg-3 col-xl-2 mt-4 rounded-4 p-3">
-                            <p>Piace anche a:</p>
-                            {usersList.map(user => {
-                                return (
-                                    <div className="row align-items-center justify-content-center" key={user.id}>
+                        <div className="favourite-search-card col-12 col-sm-10 col-md-8 col-lg-3 col-xxl-2 mt-4 mt-lg-5 rounded-4 p-3">
+                            <p className="mb-1">Piace anche a:</p>
+                            <div className="row justify-content-around">
+                                {usersList.map(user => {
+                                    return (
+                                        <div className="my-2 col-4 col-sm-3 col-lg-6 mx-lg-5 text-center user-card" key={user.id}>
 
-                                        <div className="my-2 col-12 col-lg-4">
-                                            <img style={{ width: "40px", height: "40px", borderRadius: "50px" }} src={user.userIcon} alt="" />
+                                            <div className="">
+                                                <img className="user-card-img" src={user.userIcon} alt="" />
+                                            </div>
+
+                                            <div className=""><strong>{user.username}</strong></div>
+
                                         </div>
-
-                                        <div className="col-12 px-0 col-lg-8 text-start"><strong>{user.username}</strong></div>
-
-                                    </div>
-                                )
-                            })}
+                                    )
+                                })}
+                            </div>
                         </div>
                     )}
                     {usersList.length > 3 && (
-                        <div className="bg-success col-10 col-sm-8 col-lg-3 col-xl-2 mt-4 rounded-4 p-3">
-                            <p>Piace anche a:</p>
+                        <div className="favourite-search-card col-12 col-sm-10 col-md-8 col-lg-3 col-xxl-2 mt-4 mt-lg-5 rounded-4 p-3">
+                            <p className="mb-1">Piace anche a:</p>
                             <div className="row justify-content-around">
                                 {usersList.slice(0, 3).map(user => {
                                     return (
-                                        <div className="my-2 col-4 col-sm-3 col-lg-12 text-center " key={user.id}>
+                                        <div className="my-2 col-4 col-sm-3 col-lg-6 mx-lg-5 text-center user-card" key={user.id}>
 
                                             <div className="">
-                                                <img style={{ width: "40px", height: "40px", borderRadius: "50px" }} src={user.userIcon} alt="" />
+                                                <img className="user-card-img" src={user.userIcon} alt="" />
                                             </div>
 
                                             <div className=""><strong>{user.username}</strong></div>
