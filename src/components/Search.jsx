@@ -251,8 +251,6 @@ const Search = () => {
     }, [hikeList]);
 
 
-
-
     return (
         <>
             <div className="overflow-x-hidden container min-vh-100 position-relative pt-5">
@@ -344,6 +342,10 @@ const Search = () => {
                                                         dispach({
                                                             type: "SEARCH_OR_DEATAIL_VISIBLE",
                                                             payload: false
+                                                        })
+                                                        dispach({
+                                                            type: "USERS_LIST",
+                                                            payload: []
                                                         })
                                                         window.scrollTo(0, 0);
                                                     }}

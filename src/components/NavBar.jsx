@@ -60,7 +60,7 @@ const NavBar = () => {
 
     <nav
       className="navbar navbar-expand-lg p-0 fixed-top"
-      id={isScrolled > 100 ? "navbarColored" : "navbarTransparent"}
+      id={isScrolled > 85 ? "navbarColored" : "navbarTransparent"}
       data-bs-theme="dark"
     >
       <div className="container-fluid">
@@ -119,7 +119,17 @@ const NavBar = () => {
               </li>
             }
             <li className="nav-item">
-              <Link onClick={() => localStorage.removeItem("token")}
+              <Link onClick={() => {
+                localStorage.removeItem("token")
+                dispach({
+                  type: "HIKE_LIST",
+                  payload: null
+                })
+                dispach({
+                  type: "USERS_LIST",
+                  payload: []
+                })
+              }}
                 to={"/login"}
                 className="nav-link fw-bold link-navbar"
               >
@@ -134,12 +144,27 @@ const NavBar = () => {
 
             <div className="dropdown" data-bs-popper="bottom-start">
               <button className="btn bg-transparent border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src={getUser.userIcon} style={{ width: "45px", borderRadius: "50px" }} alt="user icon" />
+                <img src={getUser.userIcon} style={{ width: "45px", height: "45px", borderRadius: "50px" }} alt="user icon" />
               </button>
               <ul className="dropdown-menu navbar-dropdown-container shadow">
                 <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" to={"/"}>Action</Link></li>
                 <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" to={"/"}>Another action </Link></li>
-                <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" onClick={() => localStorage.removeItem("token")} to={"/login"}>Logout <i className="bi bi-door-open-fill"></i></Link></li>
+                <li id="nav-dropdown-li">
+                  <Link className="navbar-dropdown-li-link"
+                    onClick={() => {
+                      localStorage.removeItem("token")
+                      dispach({
+                        type: "HIKE_LIST",
+                        payload: null
+                      })
+                      dispach({
+                        type: "USERS_LIST",
+                        payload: []
+                      })
+                    }}
+                    to={"/login"}>Logout <i className="bi bi-door-open-fill"></i>
+                  </Link>
+                </li>
               </ul>
             </div>
 

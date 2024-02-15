@@ -212,7 +212,7 @@ const Homepage = () => {
 
                 {hike && <div className="row align-items-lg-center ">
 
-                    <h1 className="mb-4 mt-5 text-center" style={{ fontSize: "50px" }}>{hike.title}</h1>
+                    <h1 className="my-4 text-center" style={{ fontSize: "50px" }}>{hike.title}</h1>
 
                     <Carousel fade className="col-12 col-lg-9 col-xxl-8">
                         <Carousel.Item>

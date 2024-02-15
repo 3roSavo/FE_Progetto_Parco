@@ -149,8 +149,6 @@ code {
   top: 100vh;
 }
 
-.img-carousel-search {}
-
 /* media query per carousel search e homepage */
 /* search */
 
@@ -211,7 +209,13 @@ code {
   }
 }
 
-@media (min-width: 993px) {
+@media (min-width: 1200px) {
+  .img-carousel-homepage {
+    height: 525px !important;
+  }
+}
+
+@media (min-width: 1500px) {
   .img-carousel-homepage {
     height: 600px !important;
   }

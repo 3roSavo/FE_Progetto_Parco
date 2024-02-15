@@ -2,7 +2,7 @@ const initialState = {
     currentUser: {},
     currentHike: {},
     searchOrDetailVisible: true,
-    hikeList: null
+    hikeList: null,
 }
 
 
