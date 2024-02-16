@@ -43,6 +43,14 @@ code {
   }
 }
 
+.input-login {
+  border-top: 3px outset rgba(49, 210, 255, 0.8);
+  border-right: 3px outset rgba(255, 8, 0, 0.6);
+  border-bottom: 3px outset rgba(255, 8, 0, 0.6);
+  border-left: 3px outset rgba(49, 210, 255, 0.8);
+  box-shadow: 10px 10px 20px grey;
+}
+
 .btn-register {
   color: blue;
   cursor: pointer;
@@ -374,6 +382,8 @@ code {
 
 .user-card {
   transition: all 0.4s;
+  text-decoration: none;
+  color: black;
 }
 
 .user-card:hover {

@@ -5,6 +5,7 @@ import foto1 from "../assets/colli-euganei-hd.jpg"
 import foto2 from "../assets/calto-contea_26.jpg"
 import foto3 from "../assets/Parco-dei-Colli-Euganei-Monte-Venda.jpg"
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
@@ -62,7 +63,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                     payload: []
                 })
             }}
-                className="btn btn-secondary p-1"><i className="bi bi-arrow-left-square"></i> indietro
+                className="btn btn-secondary p-1"><i className="bi bi-arrow-left-short"></i> indietro
             </div>
 
             <div className="row align-items-lg-center ">
@@ -165,7 +166,10 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                             <div className="row justify-content-around">
                                 {usersList.map(user => {
                                     return (
-                                        <div className="my-2 col-4 col-sm-3 col-lg-6 mx-lg-5 text-center user-card" key={user.id}>
+                                        <Link
+                                            to={"/profile/" + user.id}
+                                            className="my-2 col-4 col-sm-3 col-lg-6 mx-lg-5 text-center user-card"
+                                            key={user.id}>
 
                                             <div className="">
                                                 <img className="user-card-img" src={user.userIcon} alt="" />
@@ -173,7 +177,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
                                             <div className=""><strong>{user.username}</strong></div>
 
-                                        </div>
+                                        </Link>
                                     )
                                 })}
                             </div>
@@ -185,14 +189,17 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                             <div className="row justify-content-around">
                                 {usersList.slice(0, 3).map(user => {
                                     return (
-                                        <div className="my-2 col-4 col-sm-3 col-lg-6 mx-lg-5 text-center user-card" key={user.id}>
+                                        <Link
+                                            to={"/profile/" + user.id}
+                                            className="my-2 col-4 col-sm-3 col-lg-6 mx-lg-5 text-center user-card"
+                                            key={user.id}>
 
                                             <div className="">
                                                 <img className="user-card-img" src={user.userIcon} alt="" />
                                             </div>
 
                                             <div className=""><strong>{user.username}</strong></div>
-                                        </div>
+                                        </Link>
                                     )
                                 })
 

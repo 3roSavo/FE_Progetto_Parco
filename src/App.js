@@ -6,6 +6,7 @@ import NavBar from './components/NavBar';
 import HomePage from "./components/Homepage"
 import Search from './components/Search';
 import DettagliHike from './components/DettagliHike';
+import Profile from './components/Profile';
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
           <Route path="/homepage" element={<HomePage />} />
 
           <Route path='/search' element={<Search />} />
+
+          <Route path='/profile/:userId' element={<Profile />} />
 
 
 

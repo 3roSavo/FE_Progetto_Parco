@@ -103,7 +103,7 @@ const LoginPage = () => {
 
   return (
 
-    <div className="row min-vh-100">
+    <div className="row min-vh-100 me-0">
 
       <div className="col-12 col-lg-4 pe-lg-3 ps-lg-4 d-flex d-lg-block justify-content-center">
 
@@ -121,9 +121,10 @@ const LoginPage = () => {
 
 
           <form className="" onSubmit={getLogin}>
-            <label className="d-block mb-2">Email</label>
+            <label for="inputEmail" className="d-block mb-2">Email</label>
             <input
-              className="rounded-3 px-2 py-1 w-100"
+              id="inputEmail"
+              className="rounded-4 px-2 py-1 w-100 input-login"
               type="email"
               placeholder="inserisci email"
               value={logincredentials.email}
@@ -134,9 +135,10 @@ const LoginPage = () => {
                 })
               }}
               required />
-            <label className="d-block my-2">password</label>
+            <label for="inputPassword" className="d-block my-2">password</label>
             <input
-              className="rounded-3 px-2 py-1 w-100"
+              id="inputPassword"
+              className="rounded-4 px-2 py-1 w-100 input-login"
               type="password"
               placeholder="inserisci password"
               value={logincredentials.password}

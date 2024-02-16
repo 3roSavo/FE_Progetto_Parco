@@ -94,7 +94,7 @@ const NavBar = () => {
             </li>
             <li className="nav-item">
               <Link
-                to={"/homepage"}
+                to={"/profile/me"}
                 className="nav-link fw-bold link-navbar"
               >
                 Profilo <i className="bi bi-person-fill"></i>
@@ -129,6 +129,10 @@ const NavBar = () => {
                   type: "USERS_LIST",
                   payload: []
                 })
+                dispach({
+                  type: "SEARCH_OR_DEATAIL_VISIBLE",
+                  payload: true
+                })
               }}
                 to={"/login"}
                 className="nav-link fw-bold link-navbar"
@@ -160,6 +164,10 @@ const NavBar = () => {
                       dispach({
                         type: "USERS_LIST",
                         payload: []
+                      })
+                      dispach({
+                        type: "SEARCH_OR_DEATAIL_VISIBLE",
+                        payload: true
                       })
                     }}
                     to={"/login"}>Logout <i className="bi bi-door-open-fill"></i>
