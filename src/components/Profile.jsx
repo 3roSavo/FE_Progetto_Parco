@@ -191,8 +191,8 @@ const Profile = () => {
                                 <div className="mb-md-4">
 
                                     <img
+                                        className="userIcon-search-profile"
                                         src={userFound.userIcon}
-                                        style={{ width: "150px", height: "150px", borderRadius: "150px" }}
                                         alt="user-icon"
                                     />
 
@@ -208,7 +208,7 @@ const Profile = () => {
 
                         {commonHikesFetched.length > 0 &&
 
-                            <div className="col-12 col-md-8 col-lg-9">
+                            <div className="col-12 col-md-8 col-lg-9 px-md-0">
 
                                 <p className="mb-4 mt-3 mt-md-0 fs-5 ms-sm-3">Hey! Te e <strong>{userFound.username}</strong> avete gusti in comune!</p>
 
