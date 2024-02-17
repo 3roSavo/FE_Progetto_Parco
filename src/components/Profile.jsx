@@ -104,14 +104,12 @@ const Profile = () => {
 
     useEffect(() => {
         getUserInfo()
-    }, [])
+    }, [currentUser, userId])
 
     useEffect(() => {
         if (userFound) {
             getCommonHikes()
         }
-
-
     }, [userFound])
 
     useEffect(() => {
