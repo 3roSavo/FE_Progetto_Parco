@@ -101,14 +101,14 @@ const Profile = () => {
 
                         <div className="">
                             <img
-                                src={userFound.userIcon}
+                                src={currentUser.userIcon}
                                 style={{ width: "150px", height: "150px" }}
                                 alt="user-icon"
                             />
                         </div>
 
                         <div className="mt-2 fs-2">
-                            {userFound.username}
+                            {currentUser.username}
                         </div>
 
                     </div>
@@ -169,7 +169,7 @@ const Profile = () => {
 
                                 {commonHikes.map(hikeId => {
                                     return (
-                                        <div>{hikeId}</div>
+                                        <div key={hikeId}>{hikeId}</div>
                                     )
                                 })}
 
