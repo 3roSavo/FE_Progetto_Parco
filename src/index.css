@@ -397,3 +397,20 @@ code {
   border-radius: 50px;
   box-shadow: 10px 10px 20px grey;
 }
+
+@media (min-width: 767px) {
+  #sticky-cards-profile {
+    overflow-y: scroll;
+    height: 500px;
+  }
+}
+
+#profile-cards-imgs {
+  width: 100%;
+  height: fit-content;
+}
+
+#img-box {
+  align-items: center;
+  display: flex;
+}

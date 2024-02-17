@@ -1,10 +1,13 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import Footer from "./Footer"
 import NavBar from "./NavBar"
 import { useNavigate, useParams } from "react-router"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { Spinner } from "react-bootstrap"
+import foto1 from "../assets/colli-euganei-hd.jpg"
+import foto2 from "../assets/calto-contea_26.jpg"
+import foto3 from "../assets/Parco-dei-Colli-Euganei-Monte-Venda.jpg"
 
 const Profile = () => {
 
@@ -12,11 +15,14 @@ const Profile = () => {
     const [userFound, setUserFound] = useState(null)
 
     const [commonHikes, setCommonHikes] = useState([])
+    const [commonHikesFetched, setCommonHikesFetched] = useState([])
 
     const [loading, setLoading] = useState(false);
 
     const { userId } = useParams();
     const navigate = useNavigate();
+
+    const dispach = useDispatch();
 
     const getCommonHikes = () => {
         setCommonHikes(currentUser.hikesIdList.filter(hikeId => userFound.hikesIdList.includes(hikeId)))
@@ -61,6 +67,32 @@ const Profile = () => {
         }
     }
 
+
+
+    const fetchHikes = async () => {
+        try {
+            const hikesData = await Promise.all(
+                commonHikes.map(async hikeId => {
+                    const response = await fetch("http://localhost:3001/hikes/" + hikeId, {
+                        method: "GET",
+                        headers: {
+                            "Authorization": "Bearer " + localStorage.getItem("token")
+                        }
+                    });
+                    if (!response.ok) {
+                        throw new Error("Errore nel recupero dei dati");
+                    }
+                    return response.json();
+                })
+            );
+
+            setCommonHikesFetched(hikesData)
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     //Quando viene chiamata getUserInfo(), il componente non attende che la promessa restituita da fetch()
     //si risolva prima di continuare l'esecuzione. Quindi, quando getCommonHikes() viene chiamata subito
     //dopo setUserFound(data), userFound potrebbe non essere ancora stato aggiornato con i dati dell'utente trovato.
@@ -78,7 +110,15 @@ const Profile = () => {
         if (userFound) {
             getCommonHikes()
         }
+
+
     }, [userFound])
+
+    useEffect(() => {
+        if (commonHikes.length !== 0) {
+            fetchHikes();
+        }
+    }, [commonHikes])
 
     return (
 
@@ -97,7 +137,7 @@ const Profile = () => {
 
                 <div className="row text-center">
 
-                    <div className="col-12 col-md-4 col-lg-3 mb-3">
+                    <div className="col-12 col-md-4 col-lg-3 mb-3" style={{ borderRadius: "150px" }}>
 
                         <div className="">
                             <img
@@ -115,9 +155,11 @@ const Profile = () => {
 
                     <div className="col-12 col-md-8 col-lg-9">
 
-                        {currentUser.hikesIdList.map(hikeId => {
+                        {commonHikesFetched.map(hike => {
                             return (
-                                <div>{hikeId}</div>
+                                <div>
+                                    {hike.title}
+                                </div>
                             )
                         })}
                     </div>
@@ -133,50 +175,92 @@ const Profile = () => {
                 // potrebbero creare ulteriori problemi
                 <div>
 
-                    <div className="mb-4 mb-md-5">
-                        <button onClick={() => navigate("/search")}
-                            type="button"
-                            className="btn btn-secondary p-1">
-                            <i className="bi bi-arrow-left-short"></i>
-                            indietro
-                        </button>
-                    </div>
+                    <div className="row mx-0">
 
+                        <div className="col-12 col-md-4 col-lg-3 px-0 mx-0 text-center">
 
-                    <div className="row text-center">
-
-                        <div className="col-12 col-md-4 col-lg-3 mb-3">
-
-                            <div className="">
-                                <img
-                                    src={userFound.userIcon}
-                                    style={{ width: "150px", height: "150px" }}
-                                    alt="user-icon"
-                                />
+                            <div className=" text-start" style={{ height: "30px" }}>
+                                <button onClick={() => navigate("/search")}
+                                    type="button"
+                                    className="btn btn-secondary p-1">
+                                    <i className="bi bi-arrow-left-short"></i>
+                                    indietro
+                                </button>
                             </div>
 
-                            <div className="mt-2 fs-2">
-                                {userFound.username}
+                            <div className="d-flex flex-column justify-content-center  h-100 mx-0">
+
+                                <div className="mb-md-4">
+
+                                    <img
+                                        src={userFound.userIcon}
+                                        style={{ width: "150px", height: "150px", borderRadius: "150px" }}
+                                        alt="user-icon"
+                                    />
+
+                                    <div className="mt-2 fs-2">
+                                        {userFound.username}
+                                    </div>
+
+                                </div>
+
                             </div>
 
                         </div>
 
-                        {commonHikes.length > 0 &&
+                        {commonHikesFetched.length > 0 &&
 
                             <div className="col-12 col-md-8 col-lg-9">
 
-                                <p>Hey! Te e <strong>{userFound.username}</strong> avete gusti in comune!</p>
+                                <p className="mb-4 mt-3 mt-md-0 fs-5 ms-sm-3">Hey! Te e <strong>{userFound.username}</strong> avete gusti in comune!</p>
 
-                                {commonHikes.map(hikeId => {
-                                    return (
-                                        <div key={hikeId}>{hikeId}</div>
-                                    )
-                                })}
+                                <div id="sticky-cards-profile">
+                                    {commonHikesFetched.map(hike => {
+                                        return (
+                                            <div className="row my-4" key={hike.id}>
+
+                                                <div className="col-12 col-md-4 px-0" id="img-box">
+                                                    <img id="profile-cards-imgs" src={foto1} alt="hike-images" />
+                                                </div>
+
+                                                <div className="col-12 col-md-8 d-flex flex-wrap ">
+
+                                                    <h5>{hike.title}</h5>
+
+                                                    <p>{hike.description.slice(0, 100)}...</p>
+
+                                                    <div className="">
+                                                        <Link to={"/search"}
+                                                            onClick={() => {
+                                                                dispach({
+                                                                    type: "CURRENT_HIKE",
+                                                                    payload: hike
+                                                                })
+                                                                dispach({
+                                                                    type: "SEARCH_OR_DEATAIL_VISIBLE",
+                                                                    payload: false
+                                                                })
+                                                                dispach({
+                                                                    type: "USERS_LIST",
+                                                                    payload: []
+                                                                })
+                                                                window.scrollTo(0, 0);
+                                                            }}
+                                                            className="btn btn-secondary p-1 btn-card" style={{ fontSize: "16px" }}>Dettagli <i className="bi bi-arrow-right-short"></i>
+                                                        </Link>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        )
+                                    })}
+                                </div>
 
 
                             </div>}
 
-                        {commonHikes.length === 0 &&
+                        {commonHikesFetched.length === 0 &&
 
                             <div
                                 className="col-12 col-md-8 col-lg-9">
