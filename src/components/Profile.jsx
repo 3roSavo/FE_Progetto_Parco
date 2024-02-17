@@ -4,29 +4,36 @@ import NavBar from "./NavBar"
 import { useNavigate, useParams } from "react-router"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { Spinner } from "react-bootstrap"
 
 const Profile = () => {
 
     const currentUser = useSelector(state => state.currentUser);
-    const [userFound, setUserFound] = useState({})
+    const [userFound, setUserFound] = useState(null)
 
     const [commonHikes, setCommonHikes] = useState([])
+
+    const [loading, setLoading] = useState(false);
 
     const { userId } = useParams();
     const navigate = useNavigate();
 
     const getCommonHikes = () => {
-        if (userFound && userFound.hikesIdList) {
-            setCommonHikes(currentUser.hikesIdList.filter(hikeId => userFound.hikesIdList.includes(hikeId)))
-        }
+        setCommonHikes(currentUser.hikesIdList.filter(hikeId => userFound.hikesIdList.includes(hikeId)))
     }
 
 
     const getUserInfo = () => {
 
+        setLoading(true)
+
         if (userId === "me") {
-            setUserFound(currentUser);
+            setTimeout(() => {
+                setUserFound(currentUser);
+                setLoading(false)
+            }, 1000)
         } else {
+
             fetch("http://localhost:3001/users/" + userId, {
                 method: "GET",
                 headers: {
@@ -41,18 +48,36 @@ const Profile = () => {
                     }
                 })
                 .then((data) => {
-                    setUserFound(data)
-                    getCommonHikes()
+                    setTimeout(() => {
+                        setUserFound(data)
+                        setLoading(false)
+                    }, 1000)
                 })
                 .catch(err => {
                     console.error(err);
+                    setLoading(false)
                     throw err; // Rilancia l'errore per gestirlo nell'ambito chiamante, se necessario
                 });
         }
     }
 
+    //Quando viene chiamata getUserInfo(), il componente non attende che la promessa restituita da fetch()
+    //si risolva prima di continuare l'esecuzione. Quindi, quando getCommonHikes() viene chiamata subito
+    //dopo setUserFound(data), userFound potrebbe non essere ancora stato aggiornato con i dati dell'utente trovato.
+
+    // Non sono riuscito a risolvere mettendo getCommonHikes() all'interno del secondo then di getUserInfo(), anche se
+    // la response dovrebbe già essere gestibile senza problemi di sincronizzazione, l'errore dice che userFound è ancora
+    // null al momento del filtraggio... Quindi ho risolto implementando un secondo useEffect che ascolta i cambiamenti di
+    // userFound in modo tale da far partire il filtraggio SOLO quando finalmente userFound si degna a riempirsi
+
     useEffect(() => {
         getUserInfo()
+    }, [])
+
+    useEffect(() => {
+        if (userFound) {
+            getCommonHikes()
+        }
     }, [userFound])
 
     return (
@@ -63,7 +88,13 @@ const Profile = () => {
 
             <NavBar />
 
-            {userId === "me" &&
+            {loading && <div className="text-center"><Spinner animation="border" style={{ color: "rgb(62, 118, 206)" }} /></div>}
+
+            {((userFound && userId === "me") || (userFound && userId == currentUser.id)) &&
+                // == perchè deve confrontare una stringa (userId) cioè la path variable nell'url
+                // e currentUser.id che è invece un numero. PS non voglio fare conversioni che 
+                // potrebbero creare ulteriori problemi
+
                 <div className="row text-center">
 
                     <div className="col-12 col-md-4 col-lg-3 mb-3">
@@ -89,14 +120,17 @@ const Profile = () => {
                                 <div>{hikeId}</div>
                             )
                         })}
-
                     </div>
 
                 </div>
             }
 
 
-            {userId !== "me" &&
+            {userFound && userId !== "me" && userId != currentUser.id &&
+                // stessa cosa qui
+                // != perchè deve confrontare una stringa (userId) cioè la path variable nell'url
+                // e currentUser.id che è invece un numero. PS non voglio fare conversioni che 
+                // potrebbero creare ulteriori problemi
                 <div>
 
                     <div className="mb-4 mb-md-5">
