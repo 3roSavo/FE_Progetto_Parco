@@ -73,6 +73,12 @@ code {
   text-shadow: 10px 15px 10px grey;
 }
 
+.section-active {
+  font-size: 22px !important;
+  color: rgb(108 117 125) !important;
+  text-shadow: 10px 15px 10px grey;
+}
+
 .info-homepage {
   background-color: rgb(182, 214, 177);
   border-radius: 50px;

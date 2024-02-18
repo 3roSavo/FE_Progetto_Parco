@@ -12,8 +12,11 @@ const NavBar = () => {
   //const [userInfo, setUserInfo] = useState({})  // succesivamente rimpiazzato dal global state
   //const [isAdmin, setIsAdmin] = useState(false)  // ho già l'informazione dal currentUser
   const [isScrolled, setIsScrolled] = useState(0);
+  const [urlActive, setUrlActive] = useState("");
 
-
+  const getUrlActive = () => {
+    setUrlActive(window.location.href);
+  }
 
   const getUserInfo = () => {
     fetch("http://localhost:3001/users/me", {
@@ -45,6 +48,8 @@ const NavBar = () => {
   }
 
   useEffect(() => {
+
+    getUrlActive()
 
     getUserInfo()
 
@@ -87,7 +92,7 @@ const NavBar = () => {
             <li className="nav-item">
               <Link onClick={() => window.scrollTo(0, 0)}
                 to={"/homepage"}
-                className="nav-link fw-bold link-navbar"
+                className={urlActive.includes("http://localhost:3000/homepage") ? "nav-link fw-bold link-navbar section-active" : "nav-link fw-bold link-navbar"}
               >
                 Homepage <i className="bi bi-house-fill"></i>
               </Link>
@@ -95,7 +100,7 @@ const NavBar = () => {
             <li className="nav-item">
               <Link
                 to={"/profile/me"}
-                className="nav-link fw-bold link-navbar"
+                className={urlActive.includes("http://localhost:3000/profile") ? "nav-link fw-bold link-navbar section-active" : "nav-link fw-bold link-navbar"}
               >
                 Profilo <i className="bi bi-person-fill"></i>
               </Link>
@@ -103,7 +108,7 @@ const NavBar = () => {
             <li className="nav-item">
               <Link onClick={() => window.scrollTo(0, 0)}
                 to={"/search"}
-                className="nav-link fw-bold link-navbar"
+                className={urlActive.includes("http://localhost:3000/search") ? "nav-link fw-bold link-navbar section-active" : "nav-link fw-bold link-navbar"}
               >
                 Cerca <i className="bi bi-search-heart-fill"></i>
               </Link>
