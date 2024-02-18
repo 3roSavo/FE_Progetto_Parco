@@ -133,34 +133,97 @@ const Profile = () => {
                 // e currentUser.id che è invece un numero. PS non voglio fare conversioni che 
                 // potrebbero creare ulteriori problemi
 
-                <div className="row text-center">
+                <div className="row row mx-0">
 
-                    <div className="col-12 col-md-4 col-lg-3 mb-3" style={{ borderRadius: "150px" }}>
+                    <div className="col-12 col-md-4 col-lg-3 px-0 mx-0 text-center d-flex flex-column justify-content-center h-100 mx-0">
 
-                        <div className="">
-                            <img
-                                src={currentUser.userIcon}
-                                style={{ width: "150px", height: "150px" }}
-                                alt="user-icon"
-                            />
-                        </div>
+                        <div className="da-text-center-in-poi-il-div-sopra">
 
-                        <div className="mt-2 fs-2">
-                            {currentUser.username}
+                            <div className="">
+                                <img
+                                    className="userIcon-search-profile"
+                                    src={currentUser.userIcon}
+                                    alt="user-icon"
+                                />
+                            </div>
+
+                            <div className="mt-2 fs-2">
+                                {currentUser.username}
+                            </div>
+
                         </div>
 
                     </div>
 
-                    <div className="col-12 col-md-8 col-lg-9">
+                    {commonHikesFetched.length > 0 &&
 
-                        {commonHikesFetched.map(hike => {
-                            return (
-                                <div>
-                                    {hike.title}
-                                </div>
-                            )
-                        })}
-                    </div>
+                        <div className="col-12 col-md-8 col-lg-9 px-md-0">
+
+                            <p className="mb-4 mt-3 mt-md-0 fs-5 ms-sm-3">Ecco le tue escursioni preferite <strong>{userFound.username}</strong>!</p>
+
+                            <div id="sticky-cards-profile">
+                                {commonHikesFetched.map(hike => {
+                                    return (
+                                        <div className="row my-4" key={hike.id}>
+
+                                            <div className="col-12 col-md-4 px-0" id="img-box">
+                                                <img id="profile-cards-imgs" src={foto1} alt="hike-images" />
+                                            </div>
+
+                                            <div className="col-12 col-md-8 d-flex flex-wrap ">
+
+                                                <h5>{hike.title}</h5>
+
+                                                <p>{hike.description.slice(0, 100)}...</p>
+
+                                                <div className="">
+                                                    <Link to={"/search"}
+                                                        onClick={() => {
+                                                            dispach({
+                                                                type: "CURRENT_HIKE",
+                                                                payload: hike
+                                                            })
+                                                            dispach({
+                                                                type: "SEARCH_OR_DEATAIL_VISIBLE",
+                                                                payload: false
+                                                            })
+                                                            dispach({
+                                                                type: "USERS_LIST",
+                                                                payload: []
+                                                            })
+                                                            window.scrollTo(0, 0);
+                                                        }}
+                                                        className="btn btn-secondary p-1 btn-card" style={{ fontSize: "16px" }}>Dettagli <i className="bi bi-arrow-right-short"></i>
+                                                    </Link>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    )
+                                })}
+                            </div>
+
+                        </div>
+                    }
+
+                    {commonHikesFetched.length === 0 &&
+
+                        <div
+                            className="col-12 col-md-8 col-lg-9">
+
+                            <p className="mt-4">Oh no! Sembra che tu non abbia escursioni tra i preferiti!</p>
+
+                            <p>Rimediamo subito!</p>
+                            <Link
+                                to={"/search"}
+                                className="btn btn-secondary mt-3">
+                                Cerca escursioni
+                                <i className="bi bi-search-heart ms-2"></i>
+                            </Link>
+                        </div>
+
+                    }
 
                 </div>
             }
@@ -171,115 +234,112 @@ const Profile = () => {
                 // != perchè deve confrontare una stringa (userId) cioè la path variable nell'url
                 // e currentUser.id che è invece un numero. PS non voglio fare conversioni che 
                 // potrebbero creare ulteriori problemi
-                <div>
 
-                    <div className="row mx-0">
+                <div className="row mx-0">
 
-                        <div className="col-12 col-md-4 col-lg-3 px-0 mx-0 text-center">
+                    <div className="col-12 col-md-4 col-lg-3 px-0 mx-0 text-center">
 
-                            <div className=" text-start" style={{ height: "30px" }}>
-                                <button onClick={() => navigate("/search")}
-                                    type="button"
-                                    className="btn btn-secondary p-1">
-                                    <i className="bi bi-arrow-left-short"></i>
-                                    indietro
-                                </button>
-                            </div>
+                        <div className=" text-start" style={{ height: "30px" }}>
+                            <button onClick={() => navigate("/search")}
+                                type="button"
+                                className="btn btn-secondary p-1">
+                                <i className="bi bi-arrow-left-short"></i>
+                                indietro
+                            </button>
+                        </div>
 
-                            <div className="d-flex flex-column justify-content-center  h-100 mx-0">
+                        <div className="col-12 col-md-10 text-center  d-flex mt-2 mt-md-3 flex-column justify-content-center h-100 mx-0">
 
-                                <div className="mb-md-4">
+                            <div className="mb-md-5">
 
-                                    <img
-                                        className="userIcon-search-profile"
-                                        src={userFound.userIcon}
-                                        alt="user-icon"
-                                    />
+                                <img
+                                    className="userIcon-search-profile"
+                                    src={userFound.userIcon}
+                                    alt="user-icon"
+                                />
 
-                                    <div className="mt-2 fs-2">
-                                        {userFound.username}
-                                    </div>
-
+                                <div className="mt-2 fs-2">
+                                    {userFound.username}
                                 </div>
 
                             </div>
 
                         </div>
 
-                        {commonHikesFetched.length > 0 &&
+                    </div>
 
-                            <div className="col-12 col-md-8 col-lg-9 px-md-0">
+                    {commonHikesFetched.length > 0 &&
 
-                                <p className="mb-4 mt-3 mt-md-0 fs-5 ms-sm-3">Hey! Te e <strong>{userFound.username}</strong> avete gusti in comune!</p>
+                        <div className="col-12 col-md-8 col-lg-9 px-md-0">
 
-                                <div id="sticky-cards-profile">
-                                    {commonHikesFetched.map(hike => {
-                                        return (
-                                            <div className="row my-4" key={hike.id}>
+                            <p className="mb-4 mt-3 mt-md-0 fs-5 ms-sm-3">Hey! Te e <strong>{userFound.username}</strong> avete gusti in comune!</p>
 
-                                                <div className="col-12 col-md-4 px-0" id="img-box">
-                                                    <img id="profile-cards-imgs" src={foto1} alt="hike-images" />
-                                                </div>
+                            <div id="sticky-cards-profile">
+                                {commonHikesFetched.map(hike => {
+                                    return (
+                                        <div className="row my-4" key={hike.id}>
 
-                                                <div className="col-12 col-md-8 d-flex flex-wrap ">
+                                            <div className="col-12 col-md-4 px-0" id="img-box">
+                                                <img id="profile-cards-imgs" src={foto1} alt="hike-images" />
+                                            </div>
 
-                                                    <h5>{hike.title}</h5>
+                                            <div className="col-12 col-md-8 d-flex flex-wrap ">
 
-                                                    <p>{hike.description.slice(0, 100)}...</p>
+                                                <h5>{hike.title}</h5>
 
-                                                    <div className="">
-                                                        <Link to={"/search"}
-                                                            onClick={() => {
-                                                                dispach({
-                                                                    type: "CURRENT_HIKE",
-                                                                    payload: hike
-                                                                })
-                                                                dispach({
-                                                                    type: "SEARCH_OR_DEATAIL_VISIBLE",
-                                                                    payload: false
-                                                                })
-                                                                dispach({
-                                                                    type: "USERS_LIST",
-                                                                    payload: []
-                                                                })
-                                                                window.scrollTo(0, 0);
-                                                            }}
-                                                            className="btn btn-secondary p-1 btn-card" style={{ fontSize: "16px" }}>Dettagli <i className="bi bi-arrow-right-short"></i>
-                                                        </Link>
-                                                    </div>
+                                                <p>{hike.description.slice(0, 100)}...</p>
 
+                                                <div className="">
+                                                    <Link to={"/search"}
+                                                        onClick={() => {
+                                                            dispach({
+                                                                type: "CURRENT_HIKE",
+                                                                payload: hike
+                                                            })
+                                                            dispach({
+                                                                type: "SEARCH_OR_DEATAIL_VISIBLE",
+                                                                payload: false
+                                                            })
+                                                            dispach({
+                                                                type: "USERS_LIST",
+                                                                payload: []
+                                                            })
+                                                            window.scrollTo(0, 0);
+                                                        }}
+                                                        className="btn btn-secondary p-1 btn-card" style={{ fontSize: "16px" }}>Dettagli <i className="bi bi-arrow-right-short"></i>
+                                                    </Link>
                                                 </div>
 
                                             </div>
-                                        )
-                                    })}
-                                </div>
 
-
-                            </div>}
-
-                        {commonHikesFetched.length === 0 &&
-
-                            <div
-                                className="col-12 col-md-8 col-lg-9">
-
-                                Oh no! Sembra che te e <strong>{userFound.username}</strong> non abbiate escursioni preferite in comune!
-
-                                <div>Rimediamo subito!</div>
-                                <Link
-                                    to={"/search"}
-                                    className="btn btn-secondary mt-3">
-                                    Cerca escursioni
-                                    <i className="bi bi-search-heart ms-2"></i>
-                                </Link>
+                                        </div>
+                                    )
+                                })}
                             </div>
 
-                        }
 
-                    </div>
+                        </div>
+                    }
+
+                    {commonHikesFetched.length === 0 &&
+
+                        <div
+                            className="col-12 col-md-8 col-lg-9">
+
+                            <p className="mt-4">Oh no! Sembra che te e <strong>{userFound.username}</strong> non abbiate escursioni preferite in comune!</p>
+
+                            <p>Rimediamo subito!</p>
+                            <Link
+                                to={"/search"}
+                                className="btn btn-secondary mt-3">
+                                Cerca escursioni
+                                <i className="bi bi-search-heart ms-2"></i>
+                            </Link>
+                        </div>
+
+                    }
 
                 </div>}
-
 
             <Footer />
 
