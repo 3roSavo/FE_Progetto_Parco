@@ -4,7 +4,7 @@ import NavBar from "./NavBar"
 import { useNavigate, useParams } from "react-router"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import { Spinner } from "react-bootstrap"
+import { Button, Form, Modal, Spinner } from "react-bootstrap"
 import foto1 from "../assets/colli-euganei-hd.jpg"
 import foto2 from "../assets/calto-contea_26.jpg"
 import foto3 from "../assets/Parco-dei-Colli-Euganei-Monte-Venda.jpg"
@@ -17,12 +17,17 @@ const Profile = () => {
     const [commonHikes, setCommonHikes] = useState([])
     const [commonHikesFetched, setCommonHikesFetched] = useState([])
 
+    const [showModify, setShowModify] = useState(false);
+
     const [loading, setLoading] = useState(false);
 
     const { userId } = useParams();
     const navigate = useNavigate();
 
     const dispach = useDispatch();
+
+    const handleCloseModify = () => setShowModify(false);
+    const handleShowModify = () => setShowModify(true);
 
     const getCommonHikes = () => {
         setCommonHikes(currentUser.hikesIdList.filter(hikeId => userFound.hikesIdList.includes(hikeId)))
@@ -137,18 +142,35 @@ const Profile = () => {
 
                     <div className="col-12 col-md-4 col-lg-3 px-0 mx-0 text-center d-flex flex-column justify-content-center h-100 mx-0">
 
-                        <div className="da-text-center-in-poi-il-div-sopra">
+                        <div className="">
+                            <img
+                                className="userIcon-search-profile"
+                                src={currentUser.userIcon}
+                                alt="user-icon"
+                            />
+                        </div>
 
-                            <div className="">
-                                <img
-                                    className="userIcon-search-profile"
-                                    src={currentUser.userIcon}
-                                    alt="user-icon"
-                                />
+                        <div className="mt-2 fs-2">
+                            {currentUser.username}
+                        </div>
+
+                        <div className="row">
+
+                            <div className="col-12 col-sm-6 col-md-12  mt-3 mt-md-4" id="modify-profile-section">
+                                <button onClick={handleShowModify}
+                                    type="button"
+                                    className="btn text-light shadow "
+                                    id="shuffle-button">
+                                    Modifica
+                                </button>
                             </div>
 
-                            <div className="mt-2 fs-2">
-                                {currentUser.username}
+                            <div className="col-12 col-sm-6 col-md-12  mt-3 mt-md-4" id="modify-profile-section">
+                                <button
+                                    type="button"
+                                    className="btn btn-danger shadow">
+                                    Elimina
+                                </button>
                             </div>
 
                         </div>
@@ -159,7 +181,7 @@ const Profile = () => {
 
                         <div className="col-12 col-md-8 col-lg-9 px-md-0">
 
-                            <p className="mb-4 mt-3 mt-md-0 fs-5 ms-sm-3">Ecco le tue escursioni preferite <strong>{userFound.username}</strong>!</p>
+                            <p className="mb-4 mt-4 mt-md-0 fs-5 ms-sm-3">Ecco le tue escursioni preferite <strong>{userFound.username}</strong>!</p>
 
                             <div id="sticky-cards-profile">
                                 {commonHikesFetched.map(hike => {
@@ -170,7 +192,7 @@ const Profile = () => {
                                                 <img id="profile-cards-imgs" src={foto1} alt="hike-images" />
                                             </div>
 
-                                            <div className="col-12 col-md-8 d-flex flex-wrap ">
+                                            <div className="col-12 col-md-8 mt-3 mt-md-0 row">
 
                                                 <h5>{hike.title}</h5>
 
@@ -283,7 +305,7 @@ const Profile = () => {
                                                 <img id="profile-cards-imgs" src={foto1} alt="hike-images" />
                                             </div>
 
-                                            <div className="col-12 col-md-8 d-flex flex-wrap ">
+                                            <div className="col-12 col-md-8 d-flex mt-3 mt-md-0 flex-wrap ">
 
                                                 <h5>{hike.title}</h5>
 
@@ -342,6 +364,39 @@ const Profile = () => {
                 </div>}
 
             <Footer />
+
+            <Modal show={showModify} onHide={handleCloseModify}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Modal heading</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                            <Form.Label>Email address</Form.Label>
+                            <Form.Control
+                                type="email"
+                                placeholder="name@example.com"
+                                autoFocus
+                            />
+                        </Form.Group>
+                        <Form.Group
+                            className="mb-3"
+                            controlId="exampleForm.ControlTextarea1"
+                        >
+                            <Form.Label>Example textarea</Form.Label>
+                            <Form.Control as="textarea" rows={3} />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseModify}>
+                        Close
+                    </Button>
+                    <Button variant="primary" onClick={handleCloseModify}>
+                        Save Changes
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
         </div>
     )

@@ -428,3 +428,9 @@ code {
   align-items: center;
   display: flex;
 }
+
+@media (min-width: 450px) and (max-width: 767px) {
+  #modify-profile-section {
+    width: 50%;
+  }
+}
