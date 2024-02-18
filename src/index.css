@@ -434,3 +434,8 @@ code {
     width: 50%;
   }
 }
+
+.modal-settings {
+  background: rgb(198, 49, 49) !important;
+  background: linear-gradient(0deg, rgba(198, 49, 49, 0.5) 0%, rgba(34, 165, 195, 0.46870623249299714) 100%) !important;
+}

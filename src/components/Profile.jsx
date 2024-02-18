@@ -19,6 +19,15 @@ const Profile = () => {
 
     const [showModify, setShowModify] = useState(false);
 
+    const [userFormInput, setUserFormInput] = useState({
+        userIcon: null,
+        username: currentUser.username,
+        email: currentUser.email,
+        password: ""
+    })
+
+    const [fileUserIcon, setFileUserIcon] = useState(null)
+
     const [loading, setLoading] = useState(false);
 
     const { userId } = useParams();
@@ -98,6 +107,92 @@ const Profile = () => {
         }
     };
 
+    // salvataggio icona utente
+
+
+    const saveUserIcon = () => {
+
+        const formData = new FormData();
+        formData.append('file', fileUserIcon);
+
+        fetch("http://localhost:3001/users/me/uploadIcon", {
+            method: "PUT",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+                'Content-Type': 'multipart/form-data'
+
+            },
+            body: { formData }
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    throw new Error("Errore nel caricamento del profilo")
+                }
+            })
+
+            .then((cloudinaryURL) => {
+                setUserFormInput({
+                    ...userFormInput,
+                    userIcon: cloudinaryURL
+                })
+                setFileUserIcon(null)
+            })
+
+            .catch(err => {
+                console.error(err);
+                throw err;
+            });
+    }
+
+
+
+    const modifyUser = (e) => {
+
+        e.preventDefault()
+
+        fetch("http://localhost:3001/users/me", {
+
+            method: "PUT",
+
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            },
+
+            body: JSON.stringify(userFormInput)
+        })
+
+            .then((response) => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    throw new Error("Errore nella modifica del profilo")
+                }
+            })
+
+            .then((data) => {
+                console.log(data)
+                alert("Modifica del profilo avvenuta con successo")
+                setUserFormInput({
+                    userIcon: null,
+                    username: userFormInput.username,
+                    email: userFormInput.email,
+                    password: ""
+                })
+
+            })
+
+            .catch(err => {
+                console.log(err)
+                alert("Problema nella modifica profilo")
+            })
+    }
+
+
+
+
     //Quando viene chiamata getUserInfo(), il componente non attende che la promessa restituita da fetch()
     //si risolva prima di continuare l'esecuzione. Quindi, quando getCommonHikes() viene chiamata subito
     //dopo setUserFound(data), userFound potrebbe non essere ancora stato aggiornato con i dati dell'utente trovato.
@@ -122,6 +217,15 @@ const Profile = () => {
             fetchHikes();
         }
     }, [commonHikes])
+
+    useEffect(() => {
+
+        if (fileUserIcon != null) {
+
+            console.log("sono dentro!")
+        }
+        console.log("primo render")
+    }, [])
 
     return (
 
@@ -365,37 +469,95 @@ const Profile = () => {
 
             <Footer />
 
-            <Modal show={showModify} onHide={handleCloseModify}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Modal heading</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                            <Form.Label>Email address</Form.Label>
-                            <Form.Control
-                                type="email"
-                                placeholder="name@example.com"
-                                autoFocus
-                            />
-                        </Form.Group>
-                        <Form.Group
-                            className="mb-3"
-                            controlId="exampleForm.ControlTextarea1"
-                        >
-                            <Form.Label>Example textarea</Form.Label>
-                            <Form.Control as="textarea" rows={3} />
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModify}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={handleCloseModify}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
+            <Modal show={showModify} onHide={handleCloseModify} className="">
+                <div className="modal-settings">
+                    <Modal.Header closeButton>
+                        <Modal.Title>Modifica profilo</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+
+                            <Form.Group className="mb-3" controlId="inputUsername">
+                                <Form.Label>Username</Form.Label>
+                                <Form.Control
+                                    className="bg-transparent"
+                                    type="text"
+                                    placeholder="inserisci username"
+                                    autoFocus
+                                    value={userFormInput.username}
+                                    onChange={(e) => {
+                                        setUserFormInput({
+                                            ...userFormInput,
+                                            username: e.target.value
+                                        })
+                                    }}
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="inputEmail">
+                                <Form.Label>Indirizzo e-mail</Form.Label>
+                                <Form.Control
+                                    className="bg-transparent"
+                                    type="email"
+                                    placeholder="name@example.com"
+                                    value={userFormInput.email}
+                                    onChange={(e) => {
+                                        setUserFormInput({
+                                            ...userFormInput,
+                                            email: e.target.value
+                                        })
+                                    }}
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="inputPassword">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control
+                                    className="bg-transparent"
+                                    type="password"
+                                    placeholder="inserisci password"
+                                    value={userFormInput.password}
+                                    onChange={(e) => {
+                                        setUserFormInput({
+                                            ...userFormInput,
+                                            password: e.target.value
+                                        })
+                                    }}
+                                />
+                            </Form.Group>
+                            <Form.Group className="mb-3" controlId="inputFile">
+                                <Form.Label>Icona utente</Form.Label>
+                                <Form.Control
+                                    className="bg-transparent"
+                                    type="file"
+                                    onChange={(e) => {
+                                        setFileUserIcon(e.target.files[0])
+                                    }}
+                                />
+                            </Form.Group>
+
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseModify}>
+                            Chiudi
+                        </Button>
+                        <Button
+                            variant="primary"
+                            onClick={(e) => {
+                                if (fileUserIcon !== null && fileUserIcon !== undefined) {
+
+                                } else {
+                                    modifyUser(e)
+                                }
+
+
+                                handleCloseModify()
+                            }}>
+                            Salva
+                        </Button>
+                    </Modal.Footer>
+                </div>
             </Modal>
 
         </div>
