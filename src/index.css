@@ -398,8 +398,9 @@ code {
 }
 
 .userIcon-search-profile {
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
   border-radius: 150px;
   box-shadow: 10px 10px 30px grey;
 }

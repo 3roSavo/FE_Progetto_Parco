@@ -113,16 +113,15 @@ const Profile = () => {
     const saveUserIcon = () => {
 
         const formData = new FormData();
-        formData.append('file', fileUserIcon);
+        formData.append('icon', fileUserIcon);
 
         fetch("http://localhost:3001/users/me/uploadIcon", {
             method: "PUT",
             headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token"),
-                'Content-Type': 'multipart/form-data'
+                "Authorization": "Bearer " + localStorage.getItem("token")
 
             },
-            body: { formData }
+            body: formData
         })
             .then((response) => {
                 if (response.ok) {
@@ -132,10 +131,10 @@ const Profile = () => {
                 }
             })
 
-            .then((cloudinaryURL) => {
+            .then((data) => {
                 setUserFormInput({
                     ...userFormInput,
-                    userIcon: cloudinaryURL
+                    userIcon: data.userIconUrl
                 })
                 setFileUserIcon(null)
             })
@@ -148,9 +147,7 @@ const Profile = () => {
 
 
 
-    const modifyUser = (e) => {
-
-        e.preventDefault()
+    const modifyUser = () => {
 
         fetch("http://localhost:3001/users/me", {
 
@@ -181,11 +178,14 @@ const Profile = () => {
                     email: userFormInput.email,
                     password: ""
                 })
+                dispach({
+                    type: "CURRENT_USER",
+                    payload: data
+                })
 
             })
-
             .catch(err => {
-                console.log(err)
+                console.log("Errore: " + err)
                 alert("Problema nella modifica profilo")
             })
     }
@@ -220,12 +220,12 @@ const Profile = () => {
 
     useEffect(() => {
 
-        if (fileUserIcon != null) {
-
-            console.log("sono dentro!")
+        if (userFormInput.userIcon !== null) {
+            console.log("sono dentro l'if")
+            modifyUser()
         }
         console.log("primo render")
-    }, [])
+    }, [userFormInput.userIcon])
 
     return (
 
@@ -526,7 +526,7 @@ const Profile = () => {
                                 />
                             </Form.Group>
                             <Form.Group className="mb-3" controlId="inputFile">
-                                <Form.Label>Icona utente</Form.Label>
+                                <Form.Label>Icona utente (opzionale)</Form.Label>
                                 <Form.Control
                                     className="bg-transparent"
                                     type="file"
@@ -544,14 +544,12 @@ const Profile = () => {
                         </Button>
                         <Button
                             variant="primary"
-                            onClick={(e) => {
+                            onClick={() => {
                                 if (fileUserIcon !== null && fileUserIcon !== undefined) {
-
+                                    saveUserIcon()
                                 } else {
-                                    modifyUser(e)
+                                    modifyUser()
                                 }
-
-
                                 handleCloseModify()
                             }}>
                             Salva
