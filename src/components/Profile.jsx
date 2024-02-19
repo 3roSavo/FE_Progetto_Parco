@@ -18,6 +18,12 @@ const Profile = () => {
     const [commonHikesFetched, setCommonHikesFetched] = useState([])
 
     const [showModify, setShowModify] = useState(false);
+    const handleCloseModify = () => setShowModify(false);
+    const handleShowModify = () => setShowModify(true);
+
+    const [showDelete, setShowDelete] = useState(false);
+    const handleCloseDelete = () => setShowDelete(false);
+    const handleShowDelete = () => setShowDelete(true);
 
     const [userFormInput, setUserFormInput] = useState({
         userIcon: null,
@@ -35,8 +41,6 @@ const Profile = () => {
 
     const dispach = useDispatch();
 
-    const handleCloseModify = () => setShowModify(false);
-    const handleShowModify = () => setShowModify(true);
 
     const getCommonHikes = () => {
         setCommonHikes(currentUser.hikesIdList.filter(hikeId => userFound.hikesIdList.includes(hikeId)))
@@ -200,6 +204,49 @@ const Profile = () => {
             })
     }
 
+    const deleteUser = () => {
+
+        fetch("http://localhost:3001/users/me", {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Errore nel caricamento del profilo")
+                }
+            })
+            .then(() => {
+                alert("Utente cancellato con successo!")
+                navigate("/login")
+                localStorage.removeItem("token")
+
+                // non dovrei resettare tutti gli state alla cancellazione dell'utente?
+                /*dispach({
+                    type: "HIKE_LIST",
+                    payload: null
+                })
+                dispach({
+                    type: "USERS_LIST",
+                    payload: []
+                })
+                dispach({
+                    type: "SEARCH_OR_DEATAIL_VISIBLE",
+                    payload: true
+                })
+                dispach({
+                    type: "CURRENT_USER",
+                    payload: {}
+                })*/
+            })
+            .catch(err => {
+                console.error(err);
+                setLoading(false)
+                throw err; // Rilancia l'errore per gestirlo nell'ambito chiamante, se necessario
+            });
+
+    }
 
 
 
@@ -287,7 +334,7 @@ const Profile = () => {
                             </div>
 
                             <div className="col-12 col-sm-6 col-md-12  mt-3 mt-md-4" id="modify-profile-section">
-                                <button
+                                <button onClick={handleShowDelete}
                                     type="button"
                                     className="btn btn-danger shadow">
                                     Elimina
@@ -358,12 +405,16 @@ const Profile = () => {
                             <p className="mt-4">Oh no! Sembra che tu non abbia escursioni tra i preferiti!</p>
 
                             <p>Rimediamo subito!</p>
-                            <Link
-                                to={"/search"}
-                                className="btn btn-secondary mt-3">
-                                Cerca escursioni
-                                <i className="bi bi-search-heart ms-2"></i>
-                            </Link>
+
+                            <div className="text-center">
+                                <Link
+                                    to={"/search"}
+                                    className="btn btn-secondary mt-3">
+                                    Cerca escursioni
+                                    <i className="bi bi-search-heart ms-2"></i>
+                                </Link>
+                            </div>
+
                         </div>
 
                     }
@@ -472,12 +523,16 @@ const Profile = () => {
                             <p className="mt-4">Oh no! Sembra che te e <strong>{userFound.username}</strong> non abbiate escursioni preferite in comune!</p>
 
                             <p>Rimediamo subito!</p>
-                            <Link
-                                to={"/search"}
-                                className="btn btn-secondary mt-3">
-                                Cerca escursioni
-                                <i className="bi bi-search-heart ms-2"></i>
-                            </Link>
+
+                            <div className="text-center">
+                                <Link
+                                    to={"/search"}
+                                    className="btn btn-secondary mt-3">
+                                    Cerca escursioni
+                                    <i className="bi bi-search-heart ms-2"></i>
+                                </Link>
+                            </div>
+
                         </div>
 
                     }
@@ -570,6 +625,29 @@ const Profile = () => {
                                 handleCloseModify()
                             }}>
                             Salva
+                        </Button>
+                    </Modal.Footer>
+                </div>
+            </Modal>
+
+            <Modal show={showDelete} onHide={handleCloseDelete}>
+                <div className="modal-settings">
+                    <Modal.Header closeButton>
+                        <Modal.Title>Eliminazione profilo<i className="bi bi-trash ms-3"></i></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Sei sicuro di voler eliminare il profilo?<br></br> L'operazione è <strong>irreversibile</strong>!</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseDelete}>
+                            Annulla
+                        </Button>
+                        <Button
+                            variant="danger"
+                            onClick={() => {
+                                handleCloseDelete()
+                                deleteUser()
+                            }}
+                        >
+                            Elimina
                         </Button>
                     </Modal.Footer>
                 </div>

@@ -130,7 +130,7 @@ const LoginPage = () => {
           <p className=" fw-bold mt-4 fs-4 ">Login</p>
 
           <form className="" onSubmit={getLogin}>
-            <label for="inputEmail" className="d-block mb-2">Email</label>
+            <label htmlFor="inputEmail" className="d-block mb-2">Email</label>
             <input
               id="inputEmail"
               className="rounded-4 px-2 py-1 w-100 input-login"
@@ -144,7 +144,7 @@ const LoginPage = () => {
                 })
               }}
               required />
-            <label for="inputPassword" className="d-block my-2">password</label>
+            <label htmlFor="inputPassword" className="d-block my-2">password</label>
             <input
               id="inputPassword"
               className="rounded-4 px-2 py-1 w-100 input-login"
