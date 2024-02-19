@@ -5,9 +5,9 @@ import foto3 from "../assets/download.jpeg"
 import foto4 from "../assets/istockphoto-1078986424-612x612.jpg"
 import foto5 from "../assets/Escursioni-800.jpg"
 import foto6 from "../assets/euganei.jpg"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useState } from "react"
-import { Button, Form, Modal } from "react-bootstrap"
+import { Button, Carousel, Form, Modal, Spinner } from "react-bootstrap"
 
 
 const LoginPage = () => {
@@ -24,6 +24,8 @@ const LoginPage = () => {
     "email": "",
     "password": ""
   })
+
+  const [loading, setLoading] = useState(false)
 
   const [show, setShow] = useState(false);
 
@@ -64,6 +66,9 @@ const LoginPage = () => {
   }
 
   const registerUser = () => {
+
+    setLoading(true)
+
     fetch("http://localhost:3001/auth/register", {
 
       method: "POST",
@@ -84,16 +89,21 @@ const LoginPage = () => {
       })
 
       .then((data) => {
-        console.log(data)
-        alert("Registrazione avvenuta con successo")
-        setLoginCredentials({
-          email: register.email,
-          password: register.password
-        })
+        setTimeout(() => {
+
+          console.log(data)
+          alert("Registrazione avvenuta con successo")
+          setLoginCredentials({
+            email: register.email,
+            password: register.password
+          })
+          setLoading(false)
+        }, 1000)
 
       })
 
       .catch(err => {
+        setLoading(false)
         console.log(err)
         alert("Problema nella registrazione")
       })
@@ -103,9 +113,9 @@ const LoginPage = () => {
 
   return (
 
-    <div className="row min-vh-100 me-0">
+    <div className="row min-vh-100 justify-content-center mx-0 px-0 container-fluid container mx-auto align-items-lg-center ">
 
-      <div className="col-12 col-lg-4 pe-lg-3 ps-lg-4 d-flex d-lg-block justify-content-center">
+      <div className="mx-0 px-0 col-12 col-sm-8 col-md-6 col-lg-4 row justify-content-center overflow-y-scroll sideBar-login">
 
         <div className="" id="login-form">
           <div className="mt-lg-2">
@@ -115,10 +125,9 @@ const LoginPage = () => {
           <p className=" my-auto fs-3">Voglia di camminare? <br></br>
             Sei nel posto giusto!</p>
 
+          {loading && <div className="text-center"><Spinner animation="border" style={{ color: "rgb(62, 118, 206)" }} /></div>}
+
           <p className=" fw-bold mt-4 fs-4 ">Login</p>
-
-
-
 
           <form className="" onSubmit={getLogin}>
             <label for="inputEmail" className="d-block mb-2">Email</label>
@@ -152,7 +161,8 @@ const LoginPage = () => {
 
             <div className="my-3"><button className="btn btn-success rounded-5 w-100 mt-4 mb-3">Login</button></div>
           </form>
-          <p className="text-end">oppure
+          <p className="text-end">
+            oppure
 
             <span onClick={handleShow} className="btn-register"> registrati</span>
 
@@ -162,93 +172,97 @@ const LoginPage = () => {
 
       </div>
 
-      <div id="carouselExampleSlidesOnly" className="px-0 carousel slide col-lg-8 col-md-7 d-none d-lg-block" data-bs-ride="carousel">
-        <div className="carousel-inner">
-          <div className="carousel-item active vh-100">
-            <img src={foto1} className="d-block vw-100 h-100 d-block" style={{ objectPosition: 'center' }} alt="..." />
-          </div>
-          <div className="carousel-item vh-100">
-            <img src={foto2} className="d-block vw-100 h-100 d-block " style={{ objectPosition: 'center' }} alt="..." />
-          </div>
-          <div className="carousel-item vh-100">
-            <img src={foto3} className="d-block vw-100 h-100" style={{ objectPosition: 'center' }} alt="..." />
-          </div>
-          <div className="carousel-item vh-100">
-            <img src={foto4} className="d-block vw-100 h-100" style={{ objectPosition: 'center' }} alt="..." />
-          </div>
-          <div className="carousel-item vh-100">
-            <img src={foto5} className="d-block vw-100 h-100" style={{ objectPosition: 'center' }} alt="..." />
-          </div>
-          <div className="carousel-item vh-100">
-            <img src={foto6} className="d-block vw-100 h-100" style={{ objectPosition: 'center' }} alt="..." />
-          </div>
-        </div>
-      </div>
+      <Carousel fade className="d-none d-lg-block col-lg-8 px-0 login-carousel">
+        <Carousel.Item>
+          <img className="login-carousel-imgs" src={foto1} alt="first-img-carousel" />
+          <Carousel.Caption>
+            <h3>First slide label</h3>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item>
+          <img className="login-carousel-imgs" src={foto2} alt="second-img-carousel" />
+          <Carousel.Caption>
+            <h3>Second slide label</h3>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item>
+          <img className="login-carousel-imgs" src={foto3} alt="third-img-carousel" />
+          <Carousel.Caption>
+            <h3>Third slide label</h3>
+          </Carousel.Caption>
+        </Carousel.Item>
+      </Carousel>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Registrazione</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-              <Form.Label>User name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Inserisci qui"
-                autoFocus
-                value={register.username}
-                onChange={(e) => {
-                  setRegister({
-                    ...register,
-                    username: e.target.value
-                  })
-                }}
-              />
-            </Form.Group>
 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
-              <Form.Label>Indirizzo email</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="name@example.com"
-                value={register.email}
-                onChange={(e) => {
-                  setRegister({
-                    ...register,
-                    email: e.target.value
-                  })
-                }}
-              />
-            </Form.Group>
+        <div className="modal-settings">
+          <Modal.Header closeButton>
+            <Modal.Title>Registrazione</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+                <Form.Label>User name</Form.Label>
+                <Form.Control
+                  className="bg-transparent"
+                  type="text"
+                  placeholder="Inserisci qui"
+                  autoFocus
+                  value={register.username}
+                  onChange={(e) => {
+                    setRegister({
+                      ...register,
+                      username: e.target.value
+                    })
+                  }}
+                />
+              </Form.Group>
 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control
-                placeholder="Inserisci qui"
-                type="password"
-                value={register.password}
-                onChange={(e) => {
-                  setRegister({
-                    ...register,
-                    password: e.target.value
-                  })
-                }}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Chiudi
-          </Button>
-          <Button variant="primary" onClick={() => {
-            handleClose()
-            registerUser()
-          }}>
-            Invia
-          </Button>
-        </Modal.Footer>
+              <Form.Group className="mb-3" controlId="exampleForm.ControlInput2">
+                <Form.Label>Indirizzo e-mail</Form.Label>
+                <Form.Control
+                  className="bg-transparent"
+                  type="text"
+                  placeholder="name@example.com"
+                  value={register.email}
+                  onChange={(e) => {
+                    setRegister({
+                      ...register,
+                      email: e.target.value
+                    })
+                  }}
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="exampleForm.ControlInput3">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  className="bg-transparent"
+                  placeholder="Inserisci qui"
+                  type="password"
+                  value={register.password}
+                  onChange={(e) => {
+                    setRegister({
+                      ...register,
+                      password: e.target.value
+                    })
+                  }}
+                />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleClose}>
+              Chiudi
+            </Button>
+            <Button variant="primary" onClick={() => {
+              handleClose()
+              registerUser()
+            }}>
+              Registrati!
+            </Button>
+          </Modal.Footer>
+        </div>
       </Modal>
 
 

@@ -156,7 +156,7 @@ const Homepage = () => {
 
                 </div>
 
-                <h1 className="text-end homepage-titles">Paesaggi mozzafiato!</h1>
+                <h1 className="text-end homepage-titles my-4">Paesaggi mozzafiato!</h1>
 
 
                 <div className="row m-0">
@@ -193,7 +193,7 @@ const Homepage = () => {
 
                 </div>
 
-                <h1 className="homepage-titles">Vieni a trovarci!</h1>
+                <h1 className="homepage-titles my-4">Vieni a trovarci!</h1>
 
                 <div className="my-4 row">
 

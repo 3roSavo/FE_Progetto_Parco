@@ -111,6 +111,7 @@ const Profile = () => {
 
 
     const saveUserIcon = () => {
+        setLoading(true)
 
         const formData = new FormData();
         formData.append('icon', fileUserIcon);
@@ -132,15 +133,19 @@ const Profile = () => {
             })
 
             .then((data) => {
-                setUserFormInput({
-                    ...userFormInput,
-                    userIcon: data.userIconUrl
-                })
-                setFileUserIcon(null)
+                setTimeout(() => {
+                    setUserFormInput({
+                        ...userFormInput,
+                        userIcon: data.userIconUrl
+                    })
+                    setFileUserIcon(null)
+                    setLoading(false)
+                }, 1000)
             })
 
             .catch(err => {
                 console.error(err);
+                setLoading(false)
                 throw err;
             });
     }
@@ -148,6 +153,7 @@ const Profile = () => {
 
 
     const modifyUser = () => {
+        setLoading(true)
 
         fetch("http://localhost:3001/users/me", {
 
@@ -170,23 +176,27 @@ const Profile = () => {
             })
 
             .then((data) => {
-                console.log(data)
-                alert("Modifica del profilo avvenuta con successo")
-                setUserFormInput({
-                    userIcon: null,
-                    username: userFormInput.username,
-                    email: userFormInput.email,
-                    password: ""
-                })
-                dispach({
-                    type: "CURRENT_USER",
-                    payload: data
-                })
+                setTimeout(() => {
 
+                    console.log(data)
+                    alert("Modifica del profilo avvenuta con successo")
+                    setUserFormInput({
+                        userIcon: null,
+                        username: userFormInput.username,
+                        email: userFormInput.email,
+                        password: ""
+                    })
+                    dispach({
+                        type: "CURRENT_USER",
+                        payload: data
+                    })
+                    setLoading(false)
+                }, 1000)
             })
             .catch(err => {
                 console.log("Errore: " + err)
                 alert("Problema nella modifica profilo")
+                setLoading(false)
             })
     }
 
@@ -254,8 +264,15 @@ const Profile = () => {
                             />
                         </div>
 
-                        <div className="mt-2 fs-2">
-                            {currentUser.username}
+                        <div className="row mt-2 mt-sm-3 fs-3 align-items-center justify-content-around">
+
+                            <div className="px-0 col-12 col-md-12">
+                                {currentUser.username}
+                            </div>
+
+                            <div className="px-0 fs-5 col-12 col-md-12">
+                                {currentUser.email.slice(0, 5)}***{currentUser.email.slice(currentUser.email.lastIndexOf() - 5, currentUser.email.length)}
+                            </div>
                         </div>
 
                         <div className="row">

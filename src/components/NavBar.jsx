@@ -74,8 +74,8 @@ const NavBar = () => {
       <div className="container-fluid">
         <a className="navbar-brand" href="#">
           <img
+            className="logo-icon-navbar"
             src={logo}
-            style={{ width: "100px", height: "65px", borderRadius: "15px" }}
             alt="logo"
           />
         </a>
@@ -156,7 +156,7 @@ const NavBar = () => {
 
             <div className="dropdown" data-bs-popper="bottom-start">
               <button className="btn bg-transparent border-0 dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src={getUser.userIcon} style={{ width: "45px", height: "45px", borderRadius: "50px" }} alt="user icon" />
+                <img className="user-icon-navbar" src={getUser.userIcon} alt="user icon" />
               </button>
               <ul className="dropdown-menu navbar-dropdown-container shadow">
                 <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" to={"/"}>Action</Link></li>

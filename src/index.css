@@ -43,12 +43,23 @@ code {
   }
 }
 
+.sideBar-login {}
+
+.login-carousel {}
+
+.login-carousel-imgs {
+  width: 100%;
+  object-position: center;
+  object-fit: fill;
+  border-radius: 15px;
+}
+
 .input-login {
   border-top: 3px outset rgba(49, 210, 255, 0.8);
   border-right: 3px outset rgba(255, 8, 0, 0.6);
   border-bottom: 3px outset rgba(255, 8, 0, 0.6);
   border-left: 3px outset rgba(49, 210, 255, 0.8);
-  box-shadow: 10px 10px 20px grey;
+  box-shadow: 6px 6px 12px grey;
 }
 
 .btn-register {
@@ -71,6 +82,19 @@ code {
   font-size: 22px !important;
   color: rgb(108 117 125) !important;
   text-shadow: 10px 15px 10px grey;
+}
+
+.logo-icon-navbar {
+  width: 100px;
+  height: 60px;
+  border-radius: 15px;
+}
+
+.user-icon-navbar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50px;
+  object-fit: cover;
 }
 
 .section-active {
@@ -135,7 +159,6 @@ code {
 
 
 .homepage-titles {
-  margin: 80px 0px 70px 0px;
   font-size: 70px;
   font-weight: bold;
 
@@ -409,6 +432,7 @@ code {
   width: 40px;
   height: 40px;
   border-radius: 50px;
+  object-fit: cover;
   box-shadow: 10px 10px 20px grey;
 }
 
