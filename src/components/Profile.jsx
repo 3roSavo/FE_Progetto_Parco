@@ -41,6 +41,15 @@ const Profile = () => {
 
     const dispach = useDispatch();
 
+    const [showButton, setShowButton] = useState(false)
+
+    const handleShowButton = () => {
+        if (window.scrollY > 150) {
+            setShowButton(true)
+        } else {
+            setShowButton(false)
+        }
+    }
 
     const getCommonHikes = () => {
         setCommonHikes(currentUser.hikesIdList.filter(hikeId => userFound.hikesIdList.includes(hikeId)))
@@ -284,11 +293,30 @@ const Profile = () => {
         console.log("primo render")
     }, [userFormInput.userIcon])
 
+    // gestione comparsa-scomparsa pulsante apice dopo un certo scroll
+    useEffect(() => {
+        const handleShowButton = () => {
+            if (window.scrollY > 800) {
+                setShowButton(true)
+            } else {
+                setShowButton(false)
+            }
+        }
+        window.addEventListener('scroll', handleShowButton);
+    })
+
     return (
 
 
 
         <div style={{ paddingTop: "130px" }} className="container">
+
+            <div className="top-arrow d-md-none ">
+                <i onClick={() => window.scrollTo(0, 0)}
+                    class={showButton ? "bi bi-arrow-up-circle-fill" : "bi bi-arrow-up-circle-fill d-none"}
+                >
+                </i>
+            </div>
 
             <NavBar />
 

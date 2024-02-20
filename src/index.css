@@ -464,3 +464,32 @@ code {
   background: rgb(198, 49, 49) !important;
   background: linear-gradient(0deg, rgba(198, 49, 49, 0.5) 0%, rgba(34, 165, 195, 0.46870623249299714) 100%) !important;
 }
+
+.top-arrow {
+  font-size: 40px;
+  color: rgba(147, 173, 69, 0.5);
+  position: fixed;
+  bottom: 25px;
+  right: 50px;
+}
+
+.bi-arrow-up-circle-fill {
+  box-shadow: none;
+}
+
+.bi-arrow-up-circle-fill::before {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 4px solid rgba(0, 0, 0, 0.5);
+  transition: 0.3s;
+  border-radius: 100px;
+}
+
+.bi-arrow-up-circle-fill:hover::before {
+  transform: scale(1.2);
+  color: rgb(133, 155, 67);
+  background-color: black;
+  border: 4px solid black;
+  transition: 0.3s;
+  box-shadow: 6px 8px 13px rgba(0, 0, 0, 0.459);
+  cursor: pointer;
+}
