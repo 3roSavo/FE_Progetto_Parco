@@ -43,13 +43,13 @@ const Profile = () => {
 
     const [showButton, setShowButton] = useState(false)
 
-    const handleShowButton = () => {
+    /*const handleShowButton = () => {
         if (window.scrollY > 150) {
             setShowButton(true)
         } else {
             setShowButton(false)
         }
-    }
+    }*/
 
     const getCommonHikes = () => {
         setCommonHikes(currentUser.hikesIdList.filter(hikeId => userFound.hikesIdList.includes(hikeId)))
@@ -285,7 +285,6 @@ const Profile = () => {
     }, [commonHikes])
 
     useEffect(() => {
-
         if (userFormInput.userIcon !== null) {
             console.log("sono dentro l'if")
             modifyUser()

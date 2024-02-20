@@ -15,10 +15,16 @@ const Search = () => {
     const dispach = useDispatch()
 
     const [inputValue, setInputValue] = useState("");
-    //const [hikeList, setHikeList] = useState(null);  // questo andrebbe a livello globale
 
-    //const [searchOrDetailsVisible, setSearchOrDetailsVisible] = useState(true)
-    //const [detailVisible, setDetailVisible] = useState(false)
+    const [showButton, setShowButton] = useState(false)
+
+    /*const handleShowButton = () => {
+        if (window.scrollY > 150) {
+            setShowButton(true)
+        } else {
+            setShowButton(false)
+        }
+    }*/
 
     const [hikesPage, setHikesPage] = useState(0)
     const [hikesSize, setHikesSize] = useState(10)
@@ -250,10 +256,29 @@ const Search = () => {
     useEffect(() => {
     }, [hikeList]);
 
+    // gestione comparsa-scomparsa pulsante apice dopo un certo scroll
+    useEffect(() => {
+        const handleShowButton = () => {
+            if (window.scrollY > 800) {
+                setShowButton(true)
+            } else {
+                setShowButton(false)
+            }
+        }
+        window.addEventListener('scroll', handleShowButton);
+    })
+
 
     return (
         <>
             <div className="overflow-x-hidden container min-vh-100 position-relative pt-5">
+
+                <div className="top-arrow d-lg-none z-3 ">
+                    <i onClick={() => window.scrollTo(0, 0)}
+                        class={showButton ? "bi bi-arrow-up-circle-fill" : "bi bi-arrow-up-circle-fill d-none"}
+                    >
+                    </i>
+                </div>
 
                 <NavBar />
 
