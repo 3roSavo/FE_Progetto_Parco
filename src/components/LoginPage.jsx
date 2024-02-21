@@ -6,7 +6,7 @@ import foto4 from "../assets/istockphoto-1078986424-612x612.jpg"
 import foto5 from "../assets/Escursioni-800.jpg"
 import foto6 from "../assets/euganei.jpg"
 import { useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button, Carousel, Form, Modal, Spinner } from "react-bootstrap"
 
 
@@ -32,6 +32,15 @@ const LoginPage = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [wrongEmail, setWrongEmail] = useState({
+    state: false,
+    message: ""
+  });
+  const [wrongPassword, setWrongPassword] = useState({
+    state: false,
+    message: ""
+  });
+
   const getLogin = (e) => {
     e.preventDefault()
 
@@ -50,7 +59,10 @@ const LoginPage = () => {
         if (response.ok) {
           return response.json()
         } else {
-          throw new Error("Errore nella login")
+          return response.json()
+            .then((errorData) => {
+              throw new Error(errorData.message)
+            })
         }
       })
 
@@ -60,9 +72,39 @@ const LoginPage = () => {
         navigate("/homepage")
       })
 
-      .catch((err) => {
-        return err;
+      .catch((errorMessage) => {
+
+        if (errorMessage.toString().includes("email")) {
+
+          setWrongEmail({
+            message: errorMessage,
+            state: true
+          })
+
+          setTimeout(() => {
+            setWrongEmail({
+              message: "",
+              state: false
+            })
+          }, 3000)
+        } else {
+
+          setWrongPassword({
+            message: errorMessage,
+            state: true
+          })
+
+          setTimeout(() => {
+            setWrongPassword({
+              message: "",
+              state: false
+            })
+          }, 3000)
+
+        }
+
       });
+
   }
 
   const registerUser = () => {
@@ -107,7 +149,10 @@ const LoginPage = () => {
         console.log(err)
         alert("Problema nella registrazione")
       })
+
   }
+  useEffect(() => {
+  }, [wrongEmail.state])
 
 
 
@@ -127,7 +172,7 @@ const LoginPage = () => {
 
           {loading && <div className="text-center"><Spinner animation="border" style={{ color: "rgb(62, 118, 206)" }} /></div>}
 
-          <p className=" fw-bold mt-4 fs-4 ">Login</p>
+          <p className=" fw-bold mt-4 fs-4 text-center mb-1">Login</p>
 
           <form className="" onSubmit={getLogin}>
             <label htmlFor="inputEmail" className="d-block mb-2">Email</label>
@@ -144,6 +189,7 @@ const LoginPage = () => {
                 })
               }}
               required />
+            {wrongEmail.state && <div className="validation-login">email errata!</div>}
             <label htmlFor="inputPassword" className="d-block my-2">password</label>
             <input
               id="inputPassword"
@@ -159,7 +205,9 @@ const LoginPage = () => {
               }}
               required />
 
-            <div className="my-3"><button className="btn btn-success rounded-5 w-100 mt-4 mb-3">Login</button></div>
+            {wrongPassword.state && <div className="validation-login">password errata!</div>}
+
+            <div className="my-3"><button className="btn btn-success rounded-5 w-100 mt-3">Login</button></div>
           </form>
           <p className="text-end">
             oppure

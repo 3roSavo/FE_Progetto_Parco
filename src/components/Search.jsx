@@ -18,14 +18,6 @@ const Search = () => {
 
     const [showButton, setShowButton] = useState(false)
 
-    /*const handleShowButton = () => {
-        if (window.scrollY > 150) {
-            setShowButton(true)
-        } else {
-            setShowButton(false)
-        }
-    }*/
-
     const [hikesPage, setHikesPage] = useState(0)
     const [hikesSize, setHikesSize] = useState(10)
     const [hikesSort, setHikesSort] = useState("title")
@@ -258,15 +250,21 @@ const Search = () => {
 
     // gestione comparsa-scomparsa pulsante apice dopo un certo scroll
     useEffect(() => {
-        const handleShowButton = () => {
+        const handleScroll = () => {
             if (window.scrollY > 800) {
-                setShowButton(true)
+                setShowButton(true);
             } else {
-                setShowButton(false)
+                setShowButton(false);
             }
-        }
-        window.addEventListener('scroll', handleShowButton);
-    })
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        // Rimuovo l'event listener quando il componente viene smontato
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
 
 
     return (
@@ -275,7 +273,7 @@ const Search = () => {
 
                 <div className="top-arrow d-lg-none z-3 ">
                     <i onClick={() => window.scrollTo(0, 0)}
-                        class={showButton ? "bi bi-arrow-up-circle-fill" : "bi bi-arrow-up-circle-fill d-none"}
+                        className={showButton ? "bi bi-arrow-up-circle-fill" : "bi bi-arrow-up-circle-fill d-none"}
                     >
                     </i>
                 </div>

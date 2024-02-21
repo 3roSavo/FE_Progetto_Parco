@@ -43,14 +43,6 @@ const Profile = () => {
 
     const [showButton, setShowButton] = useState(false)
 
-    /*const handleShowButton = () => {
-        if (window.scrollY > 150) {
-            setShowButton(true)
-        } else {
-            setShowButton(false)
-        }
-    }*/
-
     const getCommonHikes = () => {
         setCommonHikes(currentUser.hikesIdList.filter(hikeId => userFound.hikesIdList.includes(hikeId)))
     }
@@ -292,27 +284,32 @@ const Profile = () => {
         console.log("primo render")
     }, [userFormInput.userIcon])
 
-    // gestione comparsa-scomparsa pulsante apice dopo un certo scroll
     useEffect(() => {
-        const handleShowButton = () => {
+        const handleScroll = () => {
             if (window.scrollY > 800) {
-                setShowButton(true)
+                setShowButton(true);
             } else {
-                setShowButton(false)
+                setShowButton(false);
             }
-        }
-        window.addEventListener('scroll', handleShowButton);
-    })
+        };
+
+        window.addEventListener("scroll", handleScroll);
+
+        // Rimuovo l'event listener quando il componente viene smontato
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
 
     return (
 
 
 
-        <div style={{ paddingTop: "130px" }} className="container">
+        <div className="container profile-container">
 
             <div className="top-arrow d-md-none ">
                 <i onClick={() => window.scrollTo(0, 0)}
-                    class={showButton ? "bi bi-arrow-up-circle-fill" : "bi bi-arrow-up-circle-fill d-none"}
+                    className={showButton ? "bi bi-arrow-up-circle-fill" : "bi bi-arrow-up-circle-fill d-none"}
                 >
                 </i>
             </div>
@@ -344,8 +341,14 @@ const Profile = () => {
                                 {currentUser.username}
                             </div>
 
-                            <div className="px-0 fs-5 col-12 col-md-12">
-                                {currentUser.email.slice(0, 5)}***{currentUser.email.slice(currentUser.email.lastIndexOf() - 5, currentUser.email.length)}
+                            <div title={currentUser.email}
+                                className="px-0 fs-6 col-12 col-md-12">
+                                {currentUser.email.length > 18 &&
+                                    <span>{currentUser.email.slice(0, 6)}***{currentUser.email.slice(currentUser.email.lastIndexOf() - 4, currentUser.email.length)}</span>
+                                }
+                                {currentUser.email.length <= 18 &&
+                                    currentUser.email
+                                }
                             </div>
                         </div>
 

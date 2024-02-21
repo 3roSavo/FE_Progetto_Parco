@@ -17,10 +17,26 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
     const dispach = useDispatch()
 
+    const getShuffleUsers = (array) => {
+
+        // mescolo direttamente usersList senza crearmene una copia con l'operatore (...)
+
+        // Implemento l'algoritmo di Fisher-Yates per mescolare l'array
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1)); // Genera un indice casuale tra 0 e i
+            [array[i], array[j]] = [array[j], array[i]]; // Scambia gli elementi
+        }
+        return array;
+    }
+
     useEffect(() => {
 
         // in un ciclo non posso chiamare direttamente una fetch, perchè è asincrona, quindi
-        // dovrò chiamarla con un' operazione asincrona
+        // dovrò dichiarare di aspettare che tutte le promise siano concluse con un' operazione asincrona
+        // terminato il processo avrò a disposizione userData
+        // occhio che avere un ciclo molto grande che fa richieste al server è molto dispendioso
+        // nel mio caso è voluto perchè ho progettato così il mio backend consapevolmente
+        // in futuro valuta la possibilità di avere oggetti Hike più grandi (con liste di User completi e non solo dei loro id)
 
         const fetchUsers = async () => {
             try {
@@ -38,6 +54,8 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                         return response.json();
                     })
                 );
+
+                getShuffleUsers(usersData)
 
                 setUsersList(usersData)
 
