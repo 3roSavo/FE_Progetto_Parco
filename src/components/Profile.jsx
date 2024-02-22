@@ -43,10 +43,17 @@ const Profile = () => {
 
     const [showButton, setShowButton] = useState(false)
 
-    const getCommonHikes = () => {
-        setCommonHikes(currentUser.hikesIdList.filter(hikeId => userFound.hikesIdList.includes(hikeId)))
-    }
+    //-------------------------------------------------------------------
 
+    const getCommonHikes = () => { // se l'utente sei te dobbiamo solo mostrare i tuoi preferiti
+        if (userId === "me" || currentUser.id == userId) {
+            setCommonHikes(
+                currentUser.hikesIdList
+            )
+        } else { // altrimenti confrontiamoli con i suoi
+            setCommonHikes(currentUser.hikesIdList.filter(hikeId => userFound.hikesIdList.includes(hikeId)))
+        }
+    }
 
     const getUserInfo = () => {
 
@@ -176,7 +183,10 @@ const Profile = () => {
                 if (response.ok) {
                     return response.json()
                 } else {
-                    throw new Error("Errore nella modifica del profilo")
+                    return response.json()
+                        .then((errorData) => {
+                            throw new Error(errorData.message)
+                        })
                 }
             })
 
@@ -199,8 +209,8 @@ const Profile = () => {
                 }, 1000)
             })
             .catch(err => {
-                console.log("Errore: " + err)
-                alert("Problema nella modifica profilo")
+                console.log(err)
+                alert(err)
                 setLoading(false)
             })
     }
