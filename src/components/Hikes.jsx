@@ -308,7 +308,7 @@ const Hikes = () => {
                         {getUser.role === "ADMIN" &&
 
                             <div className=" flex-grow-1 text-start">
-                                <div className="btn btn-primary  my-2 me-2 opacity-75  ">Crea <i className="bi bi-plus-square-fill"></i></div>
+                                <div id="create-btn" className="btn my-2 me-2">Crea <i className="bi bi-signpost-split-fill"></i></div>
                             </div>
 
                         }
