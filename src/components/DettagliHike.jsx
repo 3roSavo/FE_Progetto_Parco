@@ -12,6 +12,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
     const getHike = useSelector(state => state.currentHike)
     const hikeList = useSelector(state => state.hikeList)
     const currentUser = useSelector(state => state.currentUser)
+    const previousPath = useSelector(state => state.previousPath)
 
     const [usersList, setUsersList] = useState([])
 
@@ -80,11 +81,14 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                     type: "USERS_LIST",
                     payload: []
                 })
+                if (previousPath.includes("/profile")) {
+                    window.history.back()
+                }
             }}
                 className="btn btn-secondary p-1"><i className="bi bi-arrow-left-short"></i> indietro
             </div>
 
-            <div className="row justify-content-center ">
+            <div className="row justify-content-center mx-0">
 
                 <h1 className="my-3" style={{ fontSize: "50px" }}>{getHike.title}</h1>
 
@@ -172,7 +176,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                         {currentUser.role === "ADMIN" &&
                             <i
                                 onClick={() => { }}
-                                class="bi bi-gear-fill gear-icon">
+                                className="bi bi-gear-fill gear-icon">
                             </i>
                         }
 

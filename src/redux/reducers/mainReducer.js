@@ -3,6 +3,7 @@ const initialState = {
     currentHike: {},
     searchOrDetailVisible: true,
     hikeList: null,
+    previousPath: ""
 }
 
 
@@ -29,6 +30,11 @@ const mainReducer = (state = initialState, action) => {
             return {
                 ...state,
                 hikeList: action.payload
+            };
+        case "PREVIOUS_PATH":
+            return {
+                ...state,
+                previousPath: action.payload
             }
 
         default: return state

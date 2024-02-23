@@ -3,7 +3,7 @@ import Footer from "./Footer"
 import DettagliHike from "./DettagliHike"
 import NavBar from "./NavBar"
 import foto6 from "../assets/calto-contea_26.jpg"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { Spinner } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 
@@ -21,6 +21,8 @@ const Hikes = () => {
     const [hikesPage, setHikesPage] = useState(0)
     const [hikesSize, setHikesSize] = useState(10)
     const [hikesSort, setHikesSort] = useState("title")
+
+    const location = useLocation()
 
     const [loading, setLoading] = useState(false);
 
@@ -306,7 +308,7 @@ const Hikes = () => {
                         {getUser.role === "ADMIN" &&
 
                             <div className=" flex-grow-1 text-start">
-                                <div className="btn btn-success my-2 me-2 ">Crea <i class="bi bi-plus-square"></i></div>
+                                <div className="btn btn-primary  my-2 me-2 opacity-75  ">Crea <i className="bi bi-plus-square-fill"></i></div>
                             </div>
 
                         }
@@ -317,7 +319,7 @@ const Hikes = () => {
                             </button>
                         </div>
 
-                        <div className="dropdown my-2 mx-2">
+                        <div className="dropdown my-2 ms-2">
                             <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Ordina per:
                             </button>
@@ -331,7 +333,7 @@ const Hikes = () => {
                             </ul>
                         </div>
 
-                        <div className="dropdown my-2">
+                        <div className="dropdown my-2 ms-2">
                             <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 N° risultati:
                             </button>
@@ -377,6 +379,10 @@ const Hikes = () => {
                                                         dispach({
                                                             type: "USERS_LIST",
                                                             payload: []
+                                                        })
+                                                        dispach({
+                                                            type: "PREVIOUS_PATH",
+                                                            payload: location.pathname
                                                         })
                                                         window.scrollTo(0, 0);
                                                     }}

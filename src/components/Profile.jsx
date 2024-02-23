@@ -3,7 +3,7 @@ import Footer from "./Footer"
 import NavBar from "./NavBar"
 import { useNavigate, useParams } from "react-router"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { Button, Form, Modal, Spinner } from "react-bootstrap"
 import foto1 from "../assets/colli-euganei-hd.jpg"
 import foto2 from "../assets/calto-contea_26.jpg"
@@ -24,6 +24,8 @@ const Profile = () => {
     const [showDelete, setShowDelete] = useState(false);
     const handleCloseDelete = () => setShowDelete(false);
     const handleShowDelete = () => setShowDelete(true);
+
+    const location = useLocation();
 
     const [userFormInput, setUserFormInput] = useState({
         userIcon: null,
@@ -423,6 +425,10 @@ const Profile = () => {
                                                                 type: "USERS_LIST",
                                                                 payload: []
                                                             })
+                                                            dispach({
+                                                                type: "PREVIOUS_PATH",
+                                                                payload: location.pathname
+                                                            })
                                                             window.scrollTo(0, 0);
                                                         }}
                                                         className="btn btn-secondary p-1 btn-card" style={{ fontSize: "16px" }}>Dettagli <i className="bi bi-arrow-right-short"></i>
@@ -450,7 +456,7 @@ const Profile = () => {
 
                             <div className="text-center">
                                 <Link
-                                    to={"/search"}
+                                    to={"/search/hikes"}
                                     className="btn btn-secondary mt-3">
                                     Cerca escursioni
                                     <i className="bi bi-search-heart ms-2"></i>
@@ -476,7 +482,7 @@ const Profile = () => {
                     <div className="col-12 col-md-4 col-lg-3 px-0 mx-0 text-center">
 
                         <div className=" text-start" style={{ height: "30px" }}>
-                            <button onClick={() => navigate("/search/hikes")}
+                            <button onClick={() => { window.history.back() }}
                                 type="button"
                                 className="btn btn-secondary p-1">
                                 <i className="bi bi-arrow-left-short"></i>
@@ -513,13 +519,13 @@ const Profile = () => {
                             <div id="sticky-cards-profile">
                                 {commonHikesFetched.map(hike => {
                                     return (
-                                        <div className="row my-4" key={hike.id}>
+                                        <div className="row my-4 mx-0" key={hike.id}>
 
                                             <div className="col-12 col-md-4 px-0" id="img-box">
                                                 <img id="profile-cards-imgs" src={foto1} alt="hike-images" />
                                             </div>
 
-                                            <div className="col-12 col-md-8 d-flex mt-3 mt-md-0 flex-wrap ">
+                                            <div className="col-12 col-md-8 row mt-3 mt-md-0 flex-wrap mx-0">
 
                                                 <h5>{hike.title}</h5>
 
@@ -539,6 +545,10 @@ const Profile = () => {
                                                             dispach({
                                                                 type: "USERS_LIST",
                                                                 payload: []
+                                                            })
+                                                            dispach({
+                                                                type: "PREVIOUS_PATH",
+                                                                payload: location.pathname
                                                             })
                                                             window.scrollTo(0, 0);
                                                         }}
@@ -568,7 +578,7 @@ const Profile = () => {
 
                             <div className="text-center">
                                 <Link
-                                    to={"/search"}
+                                    to={"/search/hikes"}
                                     className="btn btn-secondary mt-3">
                                     Cerca escursioni
                                     <i className="bi bi-search-heart ms-2"></i>
