@@ -295,6 +295,7 @@ const Profile = () => {
     }, [userFormInput.userIcon])
 
     useEffect(() => {
+
         const handleScroll = () => {
             if (window.scrollY > 800) {
                 setShowButton(true);
@@ -309,6 +310,7 @@ const Profile = () => {
         return () => {
             window.removeEventListener("scroll", handleScroll);
         };
+
     }, []);
 
     return (
@@ -407,7 +409,7 @@ const Profile = () => {
                                                 <p>{hike.description.slice(0, 100)}...</p>
 
                                                 <div className="">
-                                                    <Link to={"/search"}
+                                                    <Link to={"/search/hikes"}
                                                         onClick={() => {
                                                             dispach({
                                                                 type: "CURRENT_HIKE",
@@ -474,7 +476,7 @@ const Profile = () => {
                     <div className="col-12 col-md-4 col-lg-3 px-0 mx-0 text-center">
 
                         <div className=" text-start" style={{ height: "30px" }}>
-                            <button onClick={() => navigate("/search")}
+                            <button onClick={() => navigate("/search/hikes")}
                                 type="button"
                                 className="btn btn-secondary p-1">
                                 <i className="bi bi-arrow-left-short"></i>
@@ -524,7 +526,7 @@ const Profile = () => {
                                                 <p>{hike.description.slice(0, 100)}...</p>
 
                                                 <div className="">
-                                                    <Link to={"/search"}
+                                                    <Link to={"/search/hikes"}
                                                         onClick={() => {
                                                             dispach({
                                                                 type: "CURRENT_HIKE",

@@ -116,16 +116,6 @@ const NavBar = () => {
                 Cerca <i className="bi bi-search-heart-fill"></i>
               </Link>
             </li>
-            {getUser.role === "ADMIN" &&
-              <li className="nav-item">
-                <Link
-                  to={"/homepage"}
-                  className="nav-link fw-bold link-navbar"
-                >
-                  Back-Office <i className="bi bi-gear-fill"></i>
-                </Link>
-              </li>
-            }
             <li className="nav-item">
               <Link onClick={() => {
                 localStorage.removeItem("token")

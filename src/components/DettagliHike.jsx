@@ -84,7 +84,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                 className="btn btn-secondary p-1"><i className="bi bi-arrow-left-short"></i> indietro
             </div>
 
-            <div className="row align-items-lg-center ">
+            <div className="row justify-content-center ">
 
                 <h1 className="my-3" style={{ fontSize: "50px" }}>{getHike.title}</h1>
 
@@ -114,120 +114,128 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                     </Carousel.Item>
                 </Carousel>
 
-                <div className="col-12 col-lg-3 col-xxl-4 mt-3 mt-lg-0 ">
-                    <ul className="ps-3">
-                        <li className="py-lg-2 py-1">Difficoltà: <strong>{getHike.difficulty}</strong></li>
-                        <li className="py-lg-2 py-1">Durata: <strong>{getHike.duration}</strong></li>
-                        <li className="py-lg-2 py-1">Dislivello: <strong>{getHike.elevationGain}mt</strong></li>
-                        <li className="py-lg-2 py-1">Lunghezza: <strong>{getHike.length}km</strong></li>
-                        <li className="py-lg-2 py-1">N° sentiero: <strong>{getHike.trailNumber}</strong></li>
-                    </ul>
-                </div>
+                <ul className="ps-3 ps-xl-4 ps-xxl-5 pe-2 list-unstyled text-center text-md-start col-12 col-md-4 col-lg-3 col-xxl-4 my-3 my-lg-auto">
+                    <li className="py-lg-2 py-2 py-md-3 py-lg-4">Difficoltà: <strong>{getHike.difficulty}</strong></li>
+                    <li className="py-lg-2 py-2 py-md-3 py-lg-4">Durata: <strong>{getHike.duration}</strong></li>
+                    <li className="py-lg-2 py-2 py-md-3 py-lg-4">Dislivello: <strong>{getHike.elevationGain}mt</strong></li>
+                    <li className="py-lg-2 py-2 py-md-3 py-lg-4">Lunghezza: <strong>{getHike.length}km</strong></li>
+                    <li className="py-lg-2 py-2 py-md-3 py-lg-4">N° sentiero: <strong>{getHike.trailNumber}</strong></li>
+                </ul>
 
-                <div className="row justify-content-center ms-0">
-                    <div className="mt-lg-4 col-12 col-lg-9 col-xl-9">
-                        <div className="mb-2">
-                            <h4 className=" fw-bold d-inline">Descrizione
-                                <i onClick={() => {
-                                    if (getHike.usersIdList.includes(currentUser.id)) {
+                <div className="mt-lg-5 mt-md-3 col-12 col-md-8 col-lg-9 px-2 pe-md-3 ps-lg-3 pe-lg-4">
+                    <div className="mb-2 d-flex justify-content-md-center justify-content-lg-start align-items-center  ">
 
-                                        deleteFavourite(getHike.id)
+                        <h4 className="fw-bold my-0">Descrizione</h4>
 
-                                        dispach({
-                                            type: "USERS_LIST",
-                                            payload: []
-                                        })
+                        <i onClick={() => {
+                            if (getHike.usersIdList.includes(currentUser.id)) {
 
-                                        dispach({
-                                            type: "CURRENT_HIKE",
-                                            payload: {
-                                                ...getHike,
-                                                usersIdList: getHike.usersIdList.filter(userId => userId !== currentUser.id)
-                                            }
-                                        })
+                                deleteFavourite(getHike.id)
 
+                                dispach({
+                                    type: "USERS_LIST",
+                                    payload: []
+                                })
 
-                                    } else {
-                                        saveFavourite(getHike.id)
-
-                                        dispach({
-                                            type: "USERS_LIST",
-                                            payload: []
-                                        })
-
-                                        dispach({
-                                            type: "CURRENT_HIKE",
-                                            payload: {
-                                                ...getHike,
-                                                usersIdList: [
-                                                    ...getHike.usersIdList,
-                                                    currentUser.id
-                                                ]
-                                            }
-                                        })
+                                dispach({
+                                    type: "CURRENT_HIKE",
+                                    payload: {
+                                        ...getHike,
+                                        usersIdList: getHike.usersIdList.filter(userId => userId !== currentUser.id)
                                     }
-                                }}
-                                    className={getHike.usersIdList.includes(currentUser.id) ? "ms-4 bi bi-suit-heart-fill heart-icon heart-fill" : "ms-4 bi bi-suit-heart heart-icon"}>
-                                </i>
-                            </h4>
-                        </div>
+                                })
 
-                        <div>
-                            {getHike.description}
-                        </div>
+
+                            } else {
+                                saveFavourite(getHike.id)
+
+                                dispach({
+                                    type: "USERS_LIST",
+                                    payload: []
+                                })
+
+                                dispach({
+                                    type: "CURRENT_HIKE",
+                                    payload: {
+                                        ...getHike,
+                                        usersIdList: [
+                                            ...getHike.usersIdList,
+                                            currentUser.id
+                                        ]
+                                    }
+                                })
+                            }
+                        }}
+                            className={getHike.usersIdList.includes(currentUser.id) ? "text-center mx-4 bi bi-suit-heart-fill heart-icon heart-fill" : "text-center mx-4 bi bi-suit-heart heart-icon"}>
+                        </i>
+
+                        {currentUser.role === "ADMIN" &&
+                            <i
+                                onClick={() => { }}
+                                class="bi bi-gear-fill gear-icon">
+                            </i>
+                        }
 
                     </div>
 
-                    {usersList.length !== 0 && usersList.length < 4 && (
-                        <div className="favourite-search-card col-12 col-sm-10 col-md-8 col-lg-3 col-xxl-2 mt-4 mt-lg-5 rounded-4 p-3">
-                            <p className="mb-1">Piace anche a:</p>
-                            <div className="row justify-content-around">
-                                {usersList.map(user => {
-                                    return (
-                                        <Link
-                                            to={"/profile/" + user.id}
-                                            className="my-2 col-4 col-sm-3 col-lg-6 mx-lg-5 text-center user-card"
-                                            key={user.id}>
-
-                                            <div className="">
-                                                <img className="user-card-img" src={user.userIcon} alt="" />
-                                            </div>
-
-                                            <div className=""><strong>{user.username}</strong></div>
-
-                                        </Link>
-                                    )
-                                })}
-                            </div>
-                        </div>
-                    )}
-                    {usersList.length > 3 && (
-                        <div className="favourite-search-card col-12 col-sm-10 col-md-8 col-lg-3 col-xxl-2 mt-4 mt-lg-5 rounded-4 p-3">
-                            <p className="mb-1">Piace anche a:</p>
-                            <div className="row justify-content-around">
-                                {usersList.slice(0, 3).map(user => {
-                                    return (
-                                        <Link
-                                            to={"/profile/" + user.id}
-                                            className="my-2 col-4 col-sm-3 col-lg-6 mx-lg-5 text-center user-card"
-                                            key={user.id}>
-
-                                            <div className="">
-                                                <img className="user-card-img" src={user.userIcon} alt="" />
-                                            </div>
-
-                                            <div className=""><strong>{user.username}</strong></div>
-                                        </Link>
-                                    )
-                                })
-
-                                }
-                            </div>
-                            <span>e altre <strong>{usersList.length - 3}</strong> persone</span>
-                        </div>
-                    )}
+                    <div>
+                        {getHike.description}
+                    </div>
 
                 </div>
+
+
+
+                {usersList.length !== 0 && usersList.length < 4 && (
+                    <div className="favourite-search-card col-12 col-sm-10 col-md-8 col-lg-3 mt-4 mt-lg-5 rounded-4 p-3">
+                        <p className="mb-1">Piace anche a:</p>
+                        <div className="row justify-content-around">
+                            {usersList.map(user => {
+                                return (
+                                    <Link
+                                        to={"/profile/" + user.id}
+                                        className="my-2 col-4 col-sm-3 col-lg-6 mx-lg-5 text-center user-card"
+                                        key={user.id}>
+
+                                        <div className="">
+                                            <img className="user-card-img" src={user.userIcon} alt="" />
+                                        </div>
+
+                                        <div className=""><strong>{user.username}</strong></div>
+
+                                    </Link>
+                                )
+                            })}
+                        </div>
+                    </div>
+                )}
+                {usersList.length > 3 && (
+                    <div className="favourite-search-card col-12 col-sm-10 col-md-8 col-lg-3 mt-4 mt-lg-5 rounded-4 p-3">
+                        <p className="mb-1">Piace anche a:</p>
+                        <div className="row justify-content-around">
+                            {usersList.slice(0, 3).map(user => {
+                                return (
+                                    <Link
+                                        to={"/profile/" + user.id}
+                                        className="my-2 col-4 col-sm-3 col-lg-6 mx-lg-5 text-center user-card"
+                                        key={user.id}>
+
+                                        <div className="">
+                                            <img className="user-card-img" src={user.userIcon} alt="" />
+                                        </div>
+
+                                        <div className="mt-1"><strong>{user.username}</strong></div>
+                                    </Link>
+                                )
+                            })
+
+                            }
+                        </div>
+                        <span>e altre <strong>{usersList.length - 3}</strong> persone</span>
+                    </div>
+                )}
+
+
             </div>
 
 
