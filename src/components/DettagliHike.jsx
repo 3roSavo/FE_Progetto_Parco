@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import NavBar from "./NavBar"
-import { Button, Carousel, Form, Modal } from "react-bootstrap"
+import { Button, Carousel, Form, Modal, Spinner } from "react-bootstrap"
 import foto1 from "../assets/colli-euganei-hd.jpg"
 import foto2 from "../assets/calto-contea_26.jpg"
 import foto3 from "../assets/Parco-dei-Colli-Euganei-Monte-Venda.jpg"
@@ -19,13 +19,21 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
     const [usersList, setUsersList] = useState([])
 
+    const [imagesList, setImagesList] = useState({
+        hikesPictureList: getHike.urlImagesList
+    })
+
     const dispach = useDispatch()
 
-    const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false);
 
+    const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+    const [showDelete, setShowDelete] = useState(false);
+    const handleCloseDelete = () => setShowDelete(false);
+    const handleShowDelete = () => setShowDelete(true);
 
 
     const getShuffleUsers = (array) => {
@@ -39,6 +47,84 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
         }
         return array;
     }
+
+    const deleteHike = (hikeId) => {
+
+        fetch("http://localhost:3001/hikes/" + hikeId, {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+            }
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Errore nell'eliminazione dell'escursione")
+                }
+            })
+            .then(() => {
+
+                alert("Cancellazione dell'escursione avvenuta con successo")
+
+                setLoading(false)
+
+                dispach({
+                    type: "HIKE_LIST",
+                    payload: hikeList.filter(hike => {
+                        return hike.id !== hikeId
+                    })
+                })
+
+                dispach({
+                    type: "SEARCH_OR_DEATAIL_VISIBLE",
+                    payload: true
+                })
+                dispach({
+                    type: "USERS_LIST",
+                    payload: []
+                })
+
+            })
+            .catch(err => {
+                console.error(err);
+                alert(err)
+                setLoading(false)
+                throw err; // Rilancia l'errore per gestirlo nell'ambito chiamante, se necessario
+            });
+    }
+
+    const deleteHikePictures = (hikeId) => {
+
+        setLoading(true)
+
+        fetch("http://localhost:3001/hikes/" + hikeId + "/deletePictures", {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                hikesPictureList: getHike.urlImagesList
+            })
+        })
+
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json()
+                        .then((errorData) => {
+                            throw new Error(errorData.message)
+                        })
+                }
+            })
+            .then(() => {
+                deleteHike(hikeId)
+            })
+            .catch((err) => {
+                console.log(err)
+                alert(err)
+                setLoading(false)
+            })
+    }
+
 
     useEffect(() => {
 
@@ -80,23 +166,29 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
         }
     }, []);
 
+    //------------------------------------------------------------------------------------------------
+
     return (
         <div className="mt-5">
             <div onClick={() => {
-                dispach({
-                    type: "SEARCH_OR_DEATAIL_VISIBLE",
-                    payload: true
-                })
-                dispach({
-                    type: "USERS_LIST",
-                    payload: []
-                })
+
                 if (previousPath.includes("/profile")) {
                     window.history.back()
+                } else {
+                    dispach({
+                        type: "SEARCH_OR_DEATAIL_VISIBLE",
+                        payload: true
+                    })
+                    dispach({
+                        type: "USERS_LIST",
+                        payload: []
+                    })
                 }
             }}
                 className="btn btn-secondary p-1"><i className="bi bi-arrow-left-short"></i> indietro
             </div>
+
+            {loading && <div className="text-center"><Spinner animation="border" style={{ color: "rgb(62, 118, 206)" }} /></div>}
 
             <div className="row justify-content-center mx-0">
 
@@ -136,7 +228,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                     <li className="py-lg-2 py-2 py-md-3 py-lg-4">N° sentiero: <strong>{getHike.trailNumber}</strong></li>
                 </ul>
 
-                <div className="mt-lg-5 mt-md-3 col-12 col-md-8 col-lg-9 px-2 pe-md-3 ps-lg-3 pe-lg-4">
+                <div className="mt-lg-5 mt-md-3 col-12 col-md-8 col-lg-9 px-2 pe-md-3 ps-lg-3 pe-lg-4 flex-grow-1">
                     <div className="mb-2 d-flex justify-content-md-center justify-content-lg-start align-items-center  ">
 
                         <h4 className="fw-bold my-0">Descrizione</h4>
@@ -468,16 +560,54 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
                         </Form>
                     </Modal.Body>
+                    <Modal.Footer className=" justify-content-between ">
+                        <div>
+                            <Button variant="danger" onClick={() => {
+                                handleClose()
+                                handleShowDelete()
+                            }}>
+                                Elimina
+                            </Button>
+                        </div>
+                        <div>
+                            <Button variant="secondary" className="me-2 me-md-3" onClick={() => {
+                                handleClose()
+                                setHikeModify({ ...getHike })
+                                setFilesHike([])
+                            }}>
+                                Annulla
+                            </Button>
+                            <Button variant="primary" onClick={handleClose}>
+                                Salva
+                            </Button>
+                        </div>
+
+                    </Modal.Footer>
+                </div>
+            </Modal>
+
+            <Modal show={showDelete} onHide={handleCloseDelete}>
+                <div className="modal-settings">
+                    <Modal.Header closeButton>
+                        <Modal.Title>Eliminazione escursione<i className="bi bi-trash ms-3"></i></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Sei sicuro di voler eliminare l'escursione?<br></br> L'operazione è <strong>irreversibile</strong>!</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={() => {
-                            handleClose()
-                            setHikeModify({ ...getHike })
-                            setFilesHike([])
+                            handleCloseDelete()
+                            handleShow()
                         }}>
                             Annulla
                         </Button>
-                        <Button variant="primary" onClick={handleClose}>
-                            Salva
+                        <Button
+                            variant="danger"
+                            onClick={() => {
+                                deleteHikePictures(getHike.id)
+                                //deleteHike(getHike.id)
+                                handleCloseDelete()
+                            }}
+                        >
+                            Elimina
                         </Button>
                     </Modal.Footer>
                 </div>

@@ -227,7 +227,7 @@ const Profile = () => {
         })
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("Errore nel caricamento del profilo")
+                    throw new Error("Errore nell'eliminazione del profilo")
                 }
             })
             .then(() => {
