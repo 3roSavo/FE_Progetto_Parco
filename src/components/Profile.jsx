@@ -595,8 +595,19 @@ const Profile = () => {
 
             <Modal show={showModify} onHide={handleCloseModify} className="">
                 <div className="modal-settings">
-                    <Modal.Header closeButton>
+                    <Modal.Header>
                         <Modal.Title>Modifica profilo</Modal.Title>
+                        <Button className="bg-transparent border-0 py-0 fs-3 text-dark x-icon" onClick={() => {
+                            setUserFormInput({
+                                userIcon: null,
+                                username: currentUser.username,
+                                email: currentUser.email,
+                                password: ""
+                            })
+                            handleCloseModify()
+                        }}>
+                            <i className="bi bi-x-lg"></i>
+                        </Button>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
@@ -663,8 +674,16 @@ const Profile = () => {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={handleCloseModify}>
-                            Chiudi
+                        <Button variant="secondary" onClick={() => {
+                            handleCloseModify()
+                            setUserFormInput({
+                                userIcon: null,
+                                username: currentUser.username,
+                                email: currentUser.email,
+                                password: ""
+                            })
+                        }}>
+                            Annulla
                         </Button>
                         <Button
                             variant="primary"

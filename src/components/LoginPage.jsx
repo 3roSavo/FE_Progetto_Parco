@@ -222,19 +222,29 @@ const LoginPage = () => {
 
       <Carousel fade className="d-none d-lg-block col-lg-8 px-0 login-carousel">
         <Carousel.Item>
-          <img className="login-carousel-imgs" src={foto1} alt="first-img-carousel" />
+          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1708875502/Progetto_Parco/Galleria_Foto_Escursioni/colli-euganei-hd_ofcxd0.jpg"
+            alt="first-img-carousel" />
           <Carousel.Caption>
             <h3>First slide label</h3>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
-          <img className="login-carousel-imgs" src={foto2} alt="second-img-carousel" />
+          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1708875365/Progetto_Parco/Galleria_Foto_Escursioni/AdobeStock_386432993_rivahr.webp"
+            alt="second-img-carousel" />
           <Carousel.Caption>
             <h3>Second slide label</h3>
           </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
-          <img className="login-carousel-imgs" src={foto3} alt="third-img-carousel" />
+          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1708876512/Progetto_Parco/Galleria_Foto_Escursioni/download_xozq7q.jpg"
+            alt="third-img-carousel" />
+          <Carousel.Caption>
+            <h3>Third slide label</h3>
+          </Carousel.Caption>
+        </Carousel.Item>
+        <Carousel.Item>
+          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1708876576/Progetto_Parco/Galleria_Foto_Escursioni/DSC_0070_jwu3su.jpg"
+            alt="fourth-img-carousel" />
           <Carousel.Caption>
             <h3>Third slide label</h3>
           </Carousel.Caption>

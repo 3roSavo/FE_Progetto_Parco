@@ -4,7 +4,7 @@ import DettagliHike from "./DettagliHike"
 import NavBar from "./NavBar"
 import foto6 from "../assets/calto-contea_26.jpg"
 import { Link, useLocation } from "react-router-dom"
-import { Spinner } from "react-bootstrap"
+import { Button, Form, Modal, Spinner } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 
 const Hikes = () => {
@@ -17,6 +17,24 @@ const Hikes = () => {
     const [inputValue, setInputValue] = useState("");
 
     const [showButton, setShowButton] = useState(false)
+
+    const [createHike, setCreateHike] = useState({
+        title: "",
+        description: "",
+        duration: "",
+        length: 15,
+        elevationGain: 1000,
+        trailNumber: 10,
+        difficulty: "EASY",
+        urlImagesList: []
+    })
+    const [filesHike, setFilesHike] = useState([]) // state locale per le immagini escursione (file)
+
+    const [showCreateModal, setShowCreateModal] = useState(false);
+
+    const handleClose = () => setShowCreateModal(false);
+    const handleShow = () => setShowCreateModal(true);
+
 
     const [hikesPage, setHikesPage] = useState(0)
     const [hikesSize, setHikesSize] = useState(10)
@@ -247,6 +265,49 @@ const Hikes = () => {
     }
 
 
+    const savePictures = () => {
+
+    }
+
+    const saveHike = () => {
+        setLoading(true)
+
+        fetch("http://localhost:3001/hikes", {
+
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
+            },
+            body: JSON.stringify(createHike)
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    return response.json()
+                        .then((errorData) => {
+                            throw new Error(errorData.message)
+                        })
+                }
+            })
+            .then((data) => {
+                setTimeout(() => {
+                    alert("escursione " + data.title + " creata con successo")
+                    setLoading(false)
+                }, 1000)
+            })
+            .catch((err) => {
+                console.log(err)
+                alert(err)
+                setLoading(false)
+            })
+
+    }
+
+
+
+
     useEffect(() => {
     }, [hikeList]);
 
@@ -267,6 +328,24 @@ const Hikes = () => {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
+
+    useEffect(() => {
+        if (createHike.urlImagesList.length !== 0) {
+
+            saveHike()
+
+            setCreateHike({
+                title: "",
+                description: "",
+                duration: "",
+                length: 15,
+                elevationGain: 1000,
+                trailNumber: 10,
+                difficulty: "EASY",
+                urlImagesList: []
+            })
+        }
+    }, [createHike.urlImagesList])
 
 
     return (
@@ -308,7 +387,16 @@ const Hikes = () => {
                         {getUser.role === "ADMIN" &&
 
                             <div className=" flex-grow-1 text-start">
-                                <div id="create-btn" className="btn my-2 me-2">Crea <i className="bi bi-signpost-split-fill"></i></div>
+                                <div
+                                    id="create-btn"
+                                    className="btn my-2 me-2"
+                                    onClick={() => {
+                                        //setShowCreateModal(true) // qui NON crea problemi di loop infiniti
+                                        handleShow()
+                                    }}
+                                >
+                                    Crea <i className="bi bi-signpost-split-fill"></i>
+                                </div>
                             </div>
 
                         }
@@ -413,6 +501,249 @@ const Hikes = () => {
                 </div>}
 
                 <div className="footer-search">< Footer /></div>
+
+                <Modal
+                    size="lg"
+                    show={showCreateModal}
+                    onHide={() => {
+                        //setShowCreateModal(false) // facendo così crea un loop infinito
+                        handleClose()
+                        setFilesHike([])
+                    }}>
+                    <div className="modal-settings">
+                        <Modal.Header>
+                            <Modal.Title>Crea Escursione</Modal.Title>
+                            <Button className="bg-transparent border-0 py-0 fs-3 text-dark x-icon" onClick={() => {
+                                setFilesHike([])
+                                handleClose()
+                                //setShowCreateModal(false) // facendo così crea un loop infinito
+                            }}>
+                                <i className="bi bi-x-lg"></i>
+                            </Button>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form>
+
+                                <Form.Group className="mb-3" controlId="modify-title-hike">
+                                    <Form.Label>Titolo</Form.Label>
+                                    <Form.Control
+                                        className=" bg-transparent"
+                                        type="text"
+                                        placeholder="Inserisci qui..."
+                                        value={createHike.title}
+                                        onChange={(e) => {
+                                            setCreateHike({
+                                                ...createHike,
+                                                title: e.target.value
+                                            })
+                                        }}
+                                        autoFocus
+                                    />
+                                </Form.Group>
+
+                                <Form.Group className="mb-3" controlId="modify-description-hike">
+                                    <Form.Label>Descrizione</Form.Label>
+                                    <Form.Control
+                                        className=" bg-transparent"
+                                        as="textarea"
+                                        placeholder="Inserisci qui la descrizione. Max 500 caratteri"
+                                        rows={6}
+                                        value={createHike.description}
+                                        onChange={(e) => {
+                                            setCreateHike({
+                                                ...createHike,
+                                                description: e.target.value
+                                            })
+                                        }}
+                                    />
+                                </Form.Group>
+
+                                <Form.Group className="mb-3" controlId="controlRadio">
+                                    <Form.Label>Difficoltà:</Form.Label>
+                                    <div>
+                                        <Form.Check
+                                            className=""
+                                            type="radio"
+                                            id="easy-difficulty"
+                                            label="Easy"
+                                            name="radioGroup"
+                                            value="EASY"
+                                            checked={createHike.difficulty === "EASY"}
+                                            onChange={() => {
+                                                setCreateHike({
+                                                    ...createHike,
+                                                    difficulty: "EASY"
+                                                })
+                                            }}
+                                        />
+                                        <Form.Check
+                                            className=""
+                                            type="radio"
+                                            id="moderate-difficulty"
+                                            label="Moderate"
+                                            name="radioGroup"
+                                            value="MODERATE"
+                                            checked={createHike.difficulty === "MODERATE"}
+                                            onChange={() => {
+                                                setCreateHike({
+                                                    ...createHike,
+                                                    difficulty: "MODERATE"
+                                                })
+                                            }}
+                                        />
+                                        <Form.Check
+                                            className=""
+                                            type="radio"
+                                            id="difficult-difficulty"
+                                            label="Difficult"
+                                            name="radioGroup"
+                                            value="DIFFICULT"
+                                            checked={createHike.difficulty === "DIFFICULT"}
+                                            onChange={() => {
+                                                setCreateHike({
+                                                    ...createHike,
+                                                    difficulty: "DIFFICULT"
+                                                })
+                                            }}
+                                        />
+                                        <Form.Check
+                                            className=""
+                                            type="radio"
+                                            id="expert-hiking-difficulty"
+                                            label="Expert hiking"
+                                            name="radioGroup"
+                                            value="EXPERT_HIKING"
+                                            checked={createHike.difficulty === "EXPERT_HIKING"}
+                                            onChange={() => {
+                                                setCreateHike({
+                                                    ...createHike,
+                                                    difficulty: "EXPERT_HIKING"
+                                                })
+                                            }}
+                                        />
+                                    </div>
+                                </Form.Group>
+
+                                <Form.Group className="mb-3" controlId="modify-duration-hike">
+                                    <Form.Label>Durata</Form.Label>
+                                    <Form.Control
+                                        className=" bg-transparent"
+                                        type="text"
+                                        placeholder="Es 2h:30"
+                                        value={createHike.duration}
+                                        onChange={(e) => {
+                                            setCreateHike({
+                                                ...createHike,
+                                                duration: e.target.value
+                                            })
+                                        }}
+                                    />
+                                </Form.Group>
+
+                                <Form.Group className="mb-3" controlId="modify-length-hike">
+                                    <Form.Label>Lunghezza (km)</Form.Label>
+                                    <Form.Range
+                                        className=" bg-transparent"
+                                        min={0}
+                                        max={30}
+                                        step={0.1}
+                                        placeholder="Es 6.5"
+                                        value={createHike.length}
+                                        onChange={(e) => {
+                                            setCreateHike({
+                                                ...createHike,
+                                                length: parseFloat(e.target.value)
+                                            })
+                                        }}
+                                    />
+                                    <div className="text-center">
+                                        <Form.Text>{createHike.length} Km</Form.Text>
+                                    </div>
+                                </Form.Group>
+
+                                <Form.Group className="mb-3" controlId="modify-elevationGain-hike">
+                                    <Form.Label>Dislivello (metri)</Form.Label>
+                                    <Form.Range
+                                        className=" bg-transparent"
+                                        min={0}
+                                        max={2000}
+                                        step={1}
+                                        placeholder="Es 6.5"
+                                        value={createHike.elevationGain}
+                                        onChange={(e) => {
+                                            setCreateHike({
+                                                ...createHike,
+                                                elevationGain: parseFloat(e.target.value)
+                                            })
+                                        }}
+                                    />
+                                    <div className="text-center">
+                                        <Form.Text>{createHike.elevationGain} metri</Form.Text>
+                                    </div>
+                                </Form.Group>
+
+                                <Form.Group className="mb-3" controlId="modify-trailNumber-hike">
+                                    <Form.Label>N° sentiero</Form.Label>
+                                    <Form.Control
+                                        className=" bg-transparent"
+                                        type="number"
+                                        placeholder="Es 12"
+                                        value={createHike.trailNumber}
+                                        onChange={(e) => {
+                                            setCreateHike({
+                                                ...createHike,
+                                                trailNumber: e.target.value
+                                            })
+                                        }}
+                                    />
+                                </Form.Group>
+
+                                <Form.Group className="mb-3" controlId="inputFile">
+                                    <Form.Label>Immagini escursione (max 4 elementi, max 10 MB ciascuna)</Form.Label>
+                                    <Form.Control
+                                        className="bg-transparent"
+                                        type="file"
+                                        multiple
+                                        onChange={(e) => {
+                                            const selectedFiles = Array.from(e.target.files);
+                                            if (selectedFiles.length <= 4) {
+                                                setFilesHike([...filesHike, ...selectedFiles])
+                                            } else {
+                                                alert("numero di file superiore a 4")
+                                            }
+                                        }}
+                                    />
+                                </Form.Group>
+
+                            </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={() => {
+
+                                //setShowCreateModal(false) // facendo così crea un loop infinito
+                                handleClose()
+                                setFilesHike([])
+                            }}>
+                                Annulla
+                            </Button>
+                            <Button variant="primary" onClick={() => {
+
+
+                                if (filesHike.length === 0) {
+                                    setCreateHike({
+                                        ...createHike,
+                                        urlImagesList: ["https://res.cloudinary.com/diklzegyw/image/upload/v1708900889/Progetto_Parco/Galleria_Foto_Escursioni/placeholder_rsuiuy.webp"]
+                                    })
+                                } else {
+
+                                }
+                                handleClose()
+                            }}>
+                                Salva
+                            </Button>
+                        </Modal.Footer>
+                    </div>
+                </Modal>
             </div>
         </>
     )

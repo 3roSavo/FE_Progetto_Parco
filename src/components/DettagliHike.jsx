@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux"
 import NavBar from "./NavBar"
-import { Carousel } from "react-bootstrap"
+import { Button, Carousel, Form, Modal } from "react-bootstrap"
 import foto1 from "../assets/colli-euganei-hd.jpg"
 import foto2 from "../assets/calto-contea_26.jpg"
 import foto3 from "../assets/Parco-dei-Colli-Euganei-Monte-Venda.jpg"
@@ -10,6 +10,9 @@ import { Link } from "react-router-dom"
 const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
     const getHike = useSelector(state => state.currentHike)
+    const [hikeModify, setHikeModify] = useState({ ...getHike })
+    const [filesHike, setFilesHike] = useState([])
+
     const hikeList = useSelector(state => state.hikeList)
     const currentUser = useSelector(state => state.currentUser)
     const previousPath = useSelector(state => state.previousPath)
@@ -17,6 +20,13 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
     const [usersList, setUsersList] = useState([])
 
     const dispach = useDispatch()
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+
 
     const getShuffleUsers = (array) => {
 
@@ -175,7 +185,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
                         {currentUser.role === "ADMIN" &&
                             <i
-                                onClick={() => { }}
+                                onClick={handleShow}
                                 className="bi bi-gear-fill gear-icon">
                             </i>
                         }
@@ -241,6 +251,237 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
 
             </div>
+
+
+            <Modal
+                size="lg"
+                show={show}
+                onHide={() => {
+                    handleClose()
+                    setHikeModify({ ...getHike })
+                    setFilesHike([])
+                }}>
+                <div className="modal-settings">
+                    <Modal.Header>
+                        <Modal.Title>Modifica Escursione</Modal.Title>
+                        <Button className="bg-transparent border-0 py-0 fs-3 text-dark x-icon" onClick={() => {
+                            setHikeModify({ ...getHike })
+                            setFilesHike([])
+                            handleClose()
+                        }}>
+                            <i className="bi bi-x-lg"></i>
+                        </Button>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Form>
+
+                            <Form.Group className="mb-3" controlId="modify-title-hike">
+                                <Form.Label>Titolo</Form.Label>
+                                <Form.Control
+                                    className=" bg-transparent"
+                                    type="text"
+                                    placeholder="Inserisci qui..."
+                                    value={hikeModify.title}
+                                    onChange={(e) => {
+                                        setHikeModify({
+                                            ...hikeModify,
+                                            title: e.target.value
+                                        })
+                                    }}
+                                    autoFocus
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="modify-description-hike">
+                                <Form.Label>Descrizione</Form.Label>
+                                <Form.Control
+                                    className=" bg-transparent"
+                                    as="textarea"
+                                    placeholder="Inserisci qui la descrizione. Max 500 caratteri"
+                                    rows={6}
+                                    value={hikeModify.description}
+                                    onChange={(e) => {
+                                        setHikeModify({
+                                            ...hikeModify,
+                                            description: e.target.value
+                                        })
+                                    }}
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="controlRadio">
+                                <Form.Label>Difficoltà:</Form.Label>
+                                <div>
+                                    <Form.Check
+                                        className=""
+                                        type="radio"
+                                        id="easy-difficulty"
+                                        label="Easy"
+                                        name="radioGroup"
+                                        value="EASY"
+                                        checked={hikeModify.difficulty === "EASY"}
+                                        onChange={() => {
+                                            setHikeModify({
+                                                ...hikeModify,
+                                                difficulty: "EASY"
+                                            })
+                                        }}
+                                    />
+                                    <Form.Check
+                                        className=""
+                                        type="radio"
+                                        id="moderate-difficulty"
+                                        label="Moderate"
+                                        name="radioGroup"
+                                        value="MODERATE"
+                                        checked={hikeModify.difficulty === "MODERATE"}
+                                        onChange={() => {
+                                            setHikeModify({
+                                                ...hikeModify,
+                                                difficulty: "MODERATE"
+                                            })
+                                        }}
+                                    />
+                                    <Form.Check
+                                        className=""
+                                        type="radio"
+                                        id="difficult-difficulty"
+                                        label="Difficult"
+                                        name="radioGroup"
+                                        value="DIFFICULT"
+                                        checked={hikeModify.difficulty === "DIFFICULT"}
+                                        onChange={() => {
+                                            setHikeModify({
+                                                ...hikeModify,
+                                                difficulty: "DIFFICULT"
+                                            })
+                                        }}
+                                    />
+                                    <Form.Check
+                                        className=""
+                                        type="radio"
+                                        id="expert-hiking-difficulty"
+                                        label="Expert hiking"
+                                        name="radioGroup"
+                                        value="EXPERT_HIKING"
+                                        checked={hikeModify.difficulty === "EXPERT_HIKING"}
+                                        onChange={() => {
+                                            setHikeModify({
+                                                ...hikeModify,
+                                                difficulty: "EXPERT_HIKING"
+                                            })
+                                        }}
+                                    />
+                                </div>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="modify-duration-hike">
+                                <Form.Label>Durata</Form.Label>
+                                <Form.Control
+                                    className=" bg-transparent"
+                                    type="text"
+                                    placeholder="Es 2h:30"
+                                    value={hikeModify.duration}
+                                    onChange={(e) => {
+                                        setHikeModify({
+                                            ...hikeModify,
+                                            duration: e.target.value
+                                        })
+                                    }}
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="modify-length-hike">
+                                <Form.Label>Lunghezza (km)</Form.Label>
+                                <Form.Range
+                                    className=" bg-transparent"
+                                    min={0}
+                                    max={30}
+                                    step={0.1}
+                                    placeholder="Es 6.5"
+                                    value={hikeModify.length}
+                                    onChange={(e) => {
+                                        setHikeModify({
+                                            ...hikeModify,
+                                            length: parseFloat(e.target.value)
+                                        })
+                                    }}
+                                />
+                                <div className="text-center">
+                                    <Form.Text>{hikeModify.length} Km</Form.Text>
+                                </div>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="modify-elevationGain-hike">
+                                <Form.Label>Dislivello (metri)</Form.Label>
+                                <Form.Range
+                                    className=" bg-transparent"
+                                    min={0}
+                                    max={2000}
+                                    step={1}
+                                    placeholder="Es 6.5"
+                                    value={hikeModify.elevationGain}
+                                    onChange={(e) => {
+                                        setHikeModify({
+                                            ...hikeModify,
+                                            elevationGain: parseFloat(e.target.value)
+                                        })
+                                    }}
+                                />
+                                <div className="text-center">
+                                    <Form.Text>{hikeModify.elevationGain} metri</Form.Text>
+                                </div>
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="modify-trailNumber-hike">
+                                <Form.Label>N° sentiero</Form.Label>
+                                <Form.Control
+                                    className=" bg-transparent"
+                                    type="number"
+                                    placeholder="Es 12"
+                                    value={hikeModify.trailNumber}
+                                    onChange={(e) => {
+                                        setHikeModify({
+                                            ...hikeModify,
+                                            trailNumber: e.target.value
+                                        })
+                                    }}
+                                />
+                            </Form.Group>
+
+                            <Form.Group className="mb-3" controlId="inputFile">
+                                <Form.Label>Immagini escursione (max 4 elementi, max 10 MB ciascuna)</Form.Label>
+                                <Form.Control
+                                    className="bg-transparent"
+                                    type="file"
+                                    multiple
+                                    onChange={(e) => {
+                                        const selectedFiles = Array.from(e.target.files);
+                                        if (selectedFiles.length <= 4) {
+                                            setFilesHike([...filesHike, ...selectedFiles])
+                                        } else {
+                                            alert("numero di file superiore a 4")
+                                        }
+                                    }}
+                                />
+                            </Form.Group>
+
+                        </Form>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => {
+                            handleClose()
+                            setHikeModify({ ...getHike })
+                            setFilesHike([])
+                        }}>
+                            Annulla
+                        </Button>
+                        <Button variant="primary" onClick={handleClose}>
+                            Salva
+                        </Button>
+                    </Modal.Footer>
+                </div>
+            </Modal>
 
 
         </div>
