@@ -264,9 +264,49 @@ const Hikes = () => {
 
     }
 
+    const saveHikePictures = (hikeId, hikeTitle) => {
 
-    const savePictures = () => {
+        const formData = new FormData(); // con un array di file devo ciclare e appendere a formData ogni singolo elemento chiave-valore ("pictures": file)
+        filesHike.forEach(file => {
+            formData.append('pictures', file);
+        });
 
+        fetch("http://localhost:3001/hikes/" + hikeId + "/uploadListPictures", {
+            method: "PUT",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+
+            },
+            body: formData
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    return response.json()
+                        .then((errorData) => {
+                            throw new Error(errorData.message)
+                        })
+                }
+            })
+
+            .then((data) => {
+                setTimeout(() => {
+                    setCreateHike({
+                        ...createHike,
+                        urlImagesList: data
+                    })
+                    alert("Escursione " + hikeTitle + " creata con successo")
+                    setLoading(false)
+
+                }, 1000)
+            })
+
+            .catch(err => {
+                console.error(err);
+                alert(err)
+                setLoading(false)
+            });
     }
 
     const saveHike = () => {
@@ -293,8 +333,15 @@ const Hikes = () => {
             })
             .then((data) => {
                 setTimeout(() => {
-                    alert("escursione " + data.title + " creata con successo")
-                    setLoading(false)
+
+                    if (filesHike.length === 0) {
+                        alert("escursione " + data.title + " creata con successo")
+                        setLoading(false)
+                    } else {
+                        saveHikePictures(data.id, data.title)
+                    }
+
+
                 }, 1000)
             })
             .catch((err) => {
@@ -332,7 +379,11 @@ const Hikes = () => {
     useEffect(() => {
         if (createHike.urlImagesList.length !== 0) {
 
-            saveHike()
+            if (filesHike.length === 0) {
+                saveHike()
+            } else {
+                setFilesHike([])
+            }
 
             setCreateHike({
                 title: "",
@@ -707,7 +758,7 @@ const Hikes = () => {
                                         onChange={(e) => {
                                             const selectedFiles = Array.from(e.target.files);
                                             if (selectedFiles.length <= 4) {
-                                                setFilesHike([...filesHike, ...selectedFiles])
+                                                setFilesHike([...selectedFiles])
                                             } else {
                                                 alert("numero di file superiore a 4")
                                             }
@@ -735,6 +786,7 @@ const Hikes = () => {
                                         urlImagesList: ["https://res.cloudinary.com/diklzegyw/image/upload/v1708900889/Progetto_Parco/Galleria_Foto_Escursioni/placeholder_rsuiuy.webp"]
                                     })
                                 } else {
+                                    saveHike()
 
                                 }
                                 handleClose()
