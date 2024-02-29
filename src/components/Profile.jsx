@@ -421,10 +421,10 @@ const Profile = () => {
                                                                 type: "SEARCH_OR_DEATAIL_VISIBLE",
                                                                 payload: false
                                                             })
-                                                            dispach({
+                                                            /*dispach({
                                                                 type: "USERS_LIST",
                                                                 payload: []
-                                                            })
+                                                            })*/
                                                             dispach({
                                                                 type: "PREVIOUS_PATH",
                                                                 payload: location.pathname
@@ -542,10 +542,10 @@ const Profile = () => {
                                                                 type: "SEARCH_OR_DEATAIL_VISIBLE",
                                                                 payload: false
                                                             })
-                                                            dispach({
+                                                            /*dispach({
                                                                 type: "USERS_LIST",
                                                                 payload: []
-                                                            })
+                                                            })*/
                                                             dispach({
                                                                 type: "PREVIOUS_PATH",
                                                                 payload: location.pathname

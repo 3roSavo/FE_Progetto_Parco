@@ -123,10 +123,10 @@ const NavBar = () => {
                   type: "HIKE_LIST",
                   payload: null
                 })
-                dispach({
+                /*dispach({
                   type: "USERS_LIST",
                   payload: []
-                })
+                })*/
                 dispach({
                   type: "SEARCH_OR_DEATAIL_VISIBLE",
                   payload: true
@@ -159,10 +159,10 @@ const NavBar = () => {
                         type: "HIKE_LIST",
                         payload: null
                       })
-                      dispach({
+                      /*dispach({
                         type: "USERS_LIST",
                         payload: []
-                      })
+                      })*/
                       dispach({
                         type: "SEARCH_OR_DEATAIL_VISIBLE",
                         payload: true

@@ -51,7 +51,6 @@ const Hikes = () => {
 
         setLoading(true)
 
-        //setHikeList(null)
         dispach({
             type: "HIKE_LIST",
             payload: null
@@ -76,7 +75,6 @@ const Hikes = () => {
                     setLoading(false)
                     console.log(data)
 
-                    //setHikeList(data.content)
                     dispach({
                         type: "HIKE_LIST",
                         payload: data.content
@@ -95,7 +93,6 @@ const Hikes = () => {
 
         setLoading(true)
 
-        //setHikeList(null)
         dispach({
             type: "HIKE_LIST",
             payload: null
@@ -123,7 +120,6 @@ const Hikes = () => {
 
                     data.content.sort(() => Math.random() - 0.5);
 
-                    //setHikeList(data.content)
                     dispach({
                         type: "HIKE_LIST",
                         payload: data.content.slice(0, hikesSize)
@@ -264,14 +260,14 @@ const Hikes = () => {
 
     }
 
-    const saveHikePictures = (hikeId, hikeTitle) => {
+    const saveHikePictures = (hike) => {
 
         const formData = new FormData(); // con un array di file devo ciclare e appendere a formData ogni singolo elemento chiave-valore ("pictures": file)
         filesHike.forEach(file => {
             formData.append('pictures', file);
         });
 
-        fetch("http://localhost:3001/hikes/" + hikeId + "/uploadListPictures", {
+        fetch("http://localhost:3001/hikes/" + hike.id + "/uploadListPictures", {
             method: "PUT",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token")
@@ -292,11 +288,33 @@ const Hikes = () => {
 
             .then((data) => {
                 setTimeout(() => {
+                    alert("Escursione " + hike.title + " creata con successo")
                     setCreateHike({
                         ...createHike,
                         urlImagesList: data
                     })
-                    alert("Escursione " + hikeTitle + " creata con successo")
+                    dispach({
+                        type: "HIKE_LIST",
+                        payload: [{
+                            ...hike,
+                            urlImagesList: data
+                        }]
+                    })
+                    dispach({
+                        type: "CURRENT_HIKE",
+                        payload: {
+                            ...hike,
+                            urlImagesList: data
+                        }
+                    })
+                    dispach({
+                        type: "SEARCH_OR_DEATAIL_VISIBLE",
+                        payload: false
+                    })
+                    dispach({
+                        type: "PREVIOUS_PATH",
+                        payload: location.pathname
+                    })
                     setLoading(false)
 
                 }, 1000)
@@ -336,9 +354,27 @@ const Hikes = () => {
 
                     if (filesHike.length === 0) {
                         alert("escursione " + data.title + " creata con successo")
+                        dispach({
+                            type: "HIKE_LIST",
+                            payload: [{
+                                ...data
+                            }]
+                        })
+                        dispach({
+                            type: "CURRENT_HIKE",
+                            payload: data
+                        })
+                        dispach({
+                            type: "SEARCH_OR_DEATAIL_VISIBLE",
+                            payload: false
+                        })
+                        dispach({
+                            type: "PREVIOUS_PATH",
+                            payload: location.pathname
+                        })
                         setLoading(false)
                     } else {
-                        saveHikePictures(data.id, data.title)
+                        saveHikePictures(data)
                     }
 
 
@@ -516,10 +552,6 @@ const Hikes = () => {
                                                             payload: false
                                                         })
                                                         dispach({
-                                                            type: "USERS_LIST",
-                                                            payload: []
-                                                        })
-                                                        dispach({
                                                             type: "PREVIOUS_PATH",
                                                             payload: location.pathname
                                                         })
@@ -597,7 +629,7 @@ const Hikes = () => {
                                     <Form.Control
                                         className=" bg-transparent"
                                         as="textarea"
-                                        placeholder="Inserisci qui la descrizione. Max 500 caratteri"
+                                        placeholder="Inserisci qui la descrizione. Min 12 caratteri, max 1000 caratteri"
                                         rows={6}
                                         value={createHike.description}
                                         onChange={(e) => {
@@ -695,7 +727,7 @@ const Hikes = () => {
                                     <Form.Label>Lunghezza (km)</Form.Label>
                                     <Form.Range
                                         className=" bg-transparent"
-                                        min={0}
+                                        min={0.1}
                                         max={30}
                                         step={0.1}
                                         placeholder="Es 6.5"

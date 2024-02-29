@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom"
 import NavBar from "./NavBar"
 import Footer from "./Footer"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 const Search = () => {
 
     const currentUser = useSelector(state => state.currentUser)
+
+    const dispatch = useDispatch()
 
 
     return (
@@ -32,7 +34,12 @@ const Search = () => {
                         </div>
 
                         <div className="col-6 col-md-4">
-                            <Link onClick={() => { }}
+                            <Link onClick={() => {
+                                dispatch({
+                                    type: "SEARCH_OR_DEATAIL_VISIBLE",
+                                    payload: true
+                                })
+                            }}
                                 to={"/search/hikes"}
                                 className="btn btn-success shadow ">
                                 Escursioni

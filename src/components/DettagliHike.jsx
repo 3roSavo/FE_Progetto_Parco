@@ -10,7 +10,15 @@ import { Link } from "react-router-dom"
 const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
     const getHike = useSelector(state => state.currentHike)
-    const [hikeModify, setHikeModify] = useState({ ...getHike })
+    const [hikeModify, setHikeModify] = useState({
+        title: getHike.title,
+        description: getHike.description,
+        duration: getHike.duration,
+        length: getHike.length,
+        elevationGain: getHike.elevationGain,
+        trailNumber: getHike.trailNumber,
+        difficulty: getHike.difficulty
+    })
     const [filesHike, setFilesHike] = useState([])
 
     const hikeList = useSelector(state => state.hikeList)
@@ -19,13 +27,15 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
     const [usersList, setUsersList] = useState([])
 
-    const [imagesList, setImagesList] = useState({
+    /*const [imagesList, setImagesList] = useState({
         hikesPictureList: getHike.urlImagesList
-    })
+    })*/
 
     const dispach = useDispatch()
 
     const [loading, setLoading] = useState(false);
+
+    const [pictureSelected, setPictureSelected] = useState([])
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
@@ -78,10 +88,6 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                     type: "SEARCH_OR_DEATAIL_VISIBLE",
                     payload: true
                 })
-                dispach({
-                    type: "USERS_LIST",
-                    payload: []
-                })
 
             })
             .catch(err => {
@@ -125,8 +131,104 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
             })
     }
 
+    // modifica escursione
+    const fetchModifyHike = (hikeId) => {
+
+        setLoading(true)
+
+        fetch("http://localhost:3001/hikes/" + hikeId, {
+            method: "PUT",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(hikeModify)
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    return response.json()
+                        .then((errorData) => {
+                            throw new Error(errorData.message)
+                        })
+                }
+            })
+            .then((data) => {
+                setTimeout(() => {
+
+                    /*dispach({
+                        type: "CURRENT_HIKE",
+                        payload: {
+                            ...getHike,
+                            title: hikeModify.title,
+                            description: hikeModify.description,
+                            duration: hikeModify.duration,
+                            length: hikeModify.length,
+                            elevationGain: hikeModify.elevationGain,
+                            trailNumber: hikeModify.trailNumber,
+                            difficulty: hikeModify.difficulty
+                        }
+                    })*/
+                    // sostituisci col dispach qui sotto
+                    dispach({
+                        type: "HIKE_LIST",
+                        payload: hikeList.map(hike => {
+                            if (hike.id === getHike.id) {
+                                return {
+                                    ...getHike,
+                                    title: hikeModify.title,
+                                    description: hikeModify.description,
+                                    duration: hikeModify.duration,
+                                    length: hikeModify.length,
+                                    elevationGain: hikeModify.elevationGain,
+                                    trailNumber: hikeModify.trailNumber,
+                                    difficulty: hikeModify.difficulty
+                                }
+                            } else {
+                                return hike
+                            }
+                        })
+                    })
+
+                    console.log(data)
+                    alert("Prima fetch modifica escursione eseguita!")
+                    setLoading(false)
+                    window.scrollTo(0, 0)
+                }, 1000)
+
+            })
+            .catch((err) => {
+                console.log(err)
+                setLoading(false)
+            })
+
+    }
+
+    /*useEffect(() => {
+        dispach({
+            type: "HIKE_LIST",
+            payload: hikeList.map(hike => {
+                if (hike.id !== getHike.id) {
+                    return hike
+                } else {
+                    return getHike
+                }
+            })
+        })
+        console.log("cambiamento stato getHike")
+    }, [getHike])*/
 
     useEffect(() => {
+
+        const foundHike = hikeList.find(hike => hike.id === getHike.id);
+        if (foundHike) {
+            dispach({
+                type: "CURRENT_HIKE",
+                payload: foundHike
+            });
+        }
+
 
         // in un ciclo non posso chiamare direttamente una fetch, perchè è asincrona, quindi
         // dovrò dichiarare di aspettare che tutte le promise siano concluse con un' operazione asincrona
@@ -134,7 +236,6 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
         // occhio che avere un ciclo molto grande che fa richieste al server è molto dispendioso
         // nel mio caso è voluto perchè ho progettato così il mio backend consapevolmente
         // in futuro valuta la possibilità di avere oggetti Hike più grandi (con liste di User completi e non solo dei loro id)
-
         const fetchUsers = async () => {
             try {
                 const usersData = await Promise.all(
@@ -163,9 +264,11 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
         if (getHike.usersIdList.length !== 0) {
             fetchUsers();
+        } else {
+            setUsersList([])
         }
-    }, []);
 
+    }, [hikeList]);
     //------------------------------------------------------------------------------------------------
 
     return (
@@ -178,10 +281,6 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                     dispach({
                         type: "SEARCH_OR_DEATAIL_VISIBLE",
                         payload: true
-                    })
-                    dispach({
-                        type: "USERS_LIST",
-                        payload: []
                     })
                 }
             }}
@@ -236,12 +335,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                         <i onClick={() => {
                             if (getHike.usersIdList.includes(currentUser.id)) {
 
-                                deleteFavourite(getHike.id)
-
-                                dispach({
-                                    type: "USERS_LIST",
-                                    payload: []
-                                })
+                                deleteFavourite(getHike.id) // viene settato hikeList
 
                                 dispach({
                                     type: "CURRENT_HIKE",
@@ -253,12 +347,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
 
                             } else {
-                                saveFavourite(getHike.id)
-
-                                dispach({
-                                    type: "USERS_LIST",
-                                    payload: []
-                                })
+                                saveFavourite(getHike.id) // viene settato hikeList
 
                                 dispach({
                                     type: "CURRENT_HIKE",
@@ -350,15 +439,33 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                 show={show}
                 onHide={() => {
                     handleClose()
-                    setHikeModify({ ...getHike })
+                    setHikeModify({
+                        title: getHike.title,
+                        description: getHike.description,
+                        duration: getHike.duration,
+                        length: getHike.length,
+                        elevationGain: getHike.elevationGain,
+                        trailNumber: getHike.trailNumber,
+                        difficulty: getHike.difficulty
+                    })
                     setFilesHike([])
+                    setPictureSelected([])
                 }}>
                 <div className="modal-settings">
                     <Modal.Header>
                         <Modal.Title>Modifica Escursione</Modal.Title>
                         <Button className="bg-transparent border-0 py-0 fs-3 text-dark x-icon" onClick={() => {
-                            setHikeModify({ ...getHike })
+                            setHikeModify({
+                                title: getHike.title,
+                                description: getHike.description,
+                                duration: getHike.duration,
+                                length: getHike.length,
+                                elevationGain: getHike.elevationGain,
+                                trailNumber: getHike.trailNumber,
+                                difficulty: getHike.difficulty
+                            })
                             setFilesHike([])
+                            setPictureSelected([])
                             handleClose()
                         }}>
                             <i className="bi bi-x-lg"></i>
@@ -487,7 +594,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                                 <Form.Label>Lunghezza (km)</Form.Label>
                                 <Form.Range
                                     className=" bg-transparent"
-                                    min={0}
+                                    min={0.1}
                                     max={30}
                                     step={0.1}
                                     placeholder="Es 6.5"
@@ -541,8 +648,37 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                                 />
                             </Form.Group>
 
+                            <Form.Group className="mb-4" controlId="deleteFile">
+                                <Form.Label>Seleziona immagini da eliminare:</Form.Label>
+                                <div className="row justify-content-center gap-4 mt-3">
+                                    {getHike.urlImagesList.map(string => {
+                                        return (
+                                            <div className="col-5 col-md-4  pe-0 ps-0 text-center" key={string}>
+                                                <img
+                                                    onClick={() => {
+                                                        if (pictureSelected.includes(string)) {
+                                                            setPictureSelected(pictureSelected.filter(stringUrl => stringUrl !== string))
+                                                        } else {
+                                                            setPictureSelected([
+                                                                ...pictureSelected,
+                                                                string
+                                                            ])
+                                                        }
+                                                    }}
+                                                    className={pictureSelected.includes(string) ? "modal-delete-images rounded-3" : "rounded-3 not-selected-images"}
+
+                                                    src={string}
+                                                    alt="pictures" />
+                                            </div>
+                                        )
+                                    })
+                                    }
+                                </div>
+
+                            </Form.Group>
+
                             <Form.Group className="mb-3" controlId="inputFile">
-                                <Form.Label>Immagini escursione (max 4 elementi, max 10 MB ciascuna)</Form.Label>
+                                <Form.Label>Aggiungi immagini (max 4 elementi da 10 mb ciascuno)</Form.Label>
                                 <Form.Control
                                     className="bg-transparent"
                                     type="file"
@@ -550,7 +686,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                                     onChange={(e) => {
                                         const selectedFiles = Array.from(e.target.files);
                                         if (selectedFiles.length <= 4) {
-                                            setFilesHike([...filesHike, ...selectedFiles])
+                                            setFilesHike([...selectedFiles])
                                         } else {
                                             alert("numero di file superiore a 4")
                                         }
@@ -572,12 +708,26 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                         <div>
                             <Button variant="secondary" className="me-2 me-md-3" onClick={() => {
                                 handleClose()
-                                setHikeModify({ ...getHike })
+                                setHikeModify({
+                                    title: getHike.title,
+                                    description: getHike.description,
+                                    duration: getHike.duration,
+                                    length: getHike.length,
+                                    elevationGain: getHike.elevationGain,
+                                    trailNumber: getHike.trailNumber,
+                                    difficulty: getHike.difficulty
+                                })
+                                setPictureSelected([])
                                 setFilesHike([])
                             }}>
                                 Annulla
                             </Button>
-                            <Button variant="primary" onClick={handleClose}>
+                            <Button
+                                variant="primary"
+                                onClick={() => {
+                                    fetchModifyHike(getHike.id)
+                                    handleClose()
+                                }}>
                                 Salva
                             </Button>
                         </div>
@@ -603,7 +753,6 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                             variant="danger"
                             onClick={() => {
                                 deleteHikePictures(getHike.id)
-                                //deleteHike(getHike.id)
                                 handleCloseDelete()
                             }}
                         >
