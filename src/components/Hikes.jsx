@@ -271,7 +271,6 @@ const Hikes = () => {
             method: "PUT",
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("token")
-
             },
             body: formData
         })

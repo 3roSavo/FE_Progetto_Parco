@@ -25,11 +25,9 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
     const currentUser = useSelector(state => state.currentUser)
     const previousPath = useSelector(state => state.previousPath)
 
-    const [usersList, setUsersList] = useState([])
+    let hikeFound = hikeList.find(hike => hike.id === getHike.id)
 
-    /*const [imagesList, setImagesList] = useState({
-        hikesPictureList: getHike.urlImagesList
-    })*/
+    const [usersList, setUsersList] = useState([])
 
     const dispach = useDispatch()
 
@@ -131,19 +129,109 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
             })
     }
 
-    // modifica escursione
-    const fetchModifyHike = (hikeId) => {
+    // modifica escursione -------------------------------------------
+    const fetchModifyHike = () => {
+
+        if (
+            getHike.title !== hikeModify.title
+            || getHike.description !== hikeModify.description
+            || getHike.duration !== hikeModify.duration
+            || getHike.length !== hikeModify.length
+            || getHike.elevationGain !== hikeModify.elevationGain
+            || getHike.trailNumber !== hikeModify.trailNumber
+            || getHike.difficulty !== hikeModify.difficulty
+        ) {
+
+            setLoading(true)
+
+            fetch("http://localhost:3001/hikes/" + getHike.id, {
+                method: "PUT",
+                headers: {
+                    "Authorization": "Bearer " + localStorage.getItem("token"),
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(hikeModify)
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        return response.json()
+                    } else {
+                        return response.json()
+                            .then((errorData) => {
+                                throw new Error(errorData.message)
+                            })
+                    }
+                })
+                .then((data) => {
+                    window.scrollTo(0, 0)
+                    setTimeout(() => {
+
+                        dispach({
+                            type: "HIKE_LIST",
+                            payload: hikeList.map(hike => {
+                                if (hike.id === getHike.id) {
+                                    return {
+                                        ...getHike,
+                                        title: hikeModify.title,
+                                        description: hikeModify.description,
+                                        duration: hikeModify.duration,
+                                        length: hikeModify.length,
+                                        elevationGain: hikeModify.elevationGain,
+                                        trailNumber: hikeModify.trailNumber,
+                                        difficulty: hikeModify.difficulty
+                                    }
+                                } else {
+                                    return hike
+                                }
+                            })
+                        })
+
+                        console.log(data)
+
+                        if (filesHike.length === 0 && pictureSelected.length === 0) {
+                            setLoading(false)
+                            alert("Modifica solo dei dati alfanumerici completata!")
+                        }
+                    }, 1000)
+
+                })
+                .catch((err) => {
+                    alert(err)
+                    console.log(err)
+                    handleShow()
+                    setLoading(false)
+                })
+
+        } else if (filesHike.length !== 0) {
+            addPictures()
+            setFilesHike([])
+
+        } else {
+            removeSelectedPictures()
+            setPictureSelected([])
+        }
+
+
+
+    }
+
+    const addPictures = () => {
 
         setLoading(true)
 
-        fetch("http://localhost:3001/hikes/" + hikeId, {
+        const formData = new FormData(); // con un array di file devo ciclare e appendere a formData ogni singolo elemento chiave-valore ("pictures": file)
+        filesHike.forEach(file => {
+            formData.append('pictures', file);
+        });
+
+        fetch("http://localhost:3001/hikes/" + getHike.id + "/uploadListPictures", {
             method: "PUT",
             headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token"),
-                "Content-Type": "application/json"
+                'Authorization': 'Bearer ' + localStorage.getItem("token")
             },
-            body: JSON.stringify(hikeModify)
+            body: formData
         })
+
             .then((response) => {
                 if (response.ok) {
                     return response.json()
@@ -154,36 +242,20 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                         })
                 }
             })
-            .then((data) => {
-                setTimeout(() => {
 
-                    /*dispach({
-                        type: "CURRENT_HIKE",
-                        payload: {
-                            ...getHike,
-                            title: hikeModify.title,
-                            description: hikeModify.description,
-                            duration: hikeModify.duration,
-                            length: hikeModify.length,
-                            elevationGain: hikeModify.elevationGain,
-                            trailNumber: hikeModify.trailNumber,
-                            difficulty: hikeModify.difficulty
-                        }
-                    })*/
-                    // sostituisci col dispach qui sotto
+            .then((urlArray) => {
+                window.scrollTo(0, 0)
+
+                setTimeout(() => {
                     dispach({
                         type: "HIKE_LIST",
                         payload: hikeList.map(hike => {
                             if (hike.id === getHike.id) {
                                 return {
-                                    ...getHike,
-                                    title: hikeModify.title,
-                                    description: hikeModify.description,
-                                    duration: hikeModify.duration,
-                                    length: hikeModify.length,
-                                    elevationGain: hikeModify.elevationGain,
-                                    trailNumber: hikeModify.trailNumber,
-                                    difficulty: hikeModify.difficulty
+                                    ...hike,
+                                    urlImagesList: [
+                                        ...urlArray
+                                    ]
                                 }
                             } else {
                                 return hike
@@ -191,33 +263,82 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                         })
                     })
 
-                    console.log(data)
-                    alert("Prima fetch modifica escursione eseguita!")
-                    setLoading(false)
-                    window.scrollTo(0, 0)
+                    if (pictureSelected.length === 0) {
+                        alert("Salvataggio escursione completato con successo!")
+                        setLoading(false)
+                    } /*else {
+                        removeSelectedPictures()
+                    }*/
+
                 }, 1000)
 
+
+            })
+
+            .catch(err => {
+                console.error(err);
+                alert(err)
+                setLoading(false)
+            });
+    }
+
+    const removeSelectedPictures = () => {
+
+        setLoading(true)
+
+        fetch("http://localhost:3001/hikes/" + getHike.id + "/deletePictures", {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                hikesPictureList: pictureSelected
+            })
+        })
+
+            .then((response) => {
+                if (!response.ok) {
+                    return response.json()
+                        .then((errorData) => {
+                            throw new Error(errorData.message)
+                        })
+                } else {
+                    return response.json()
+                }
+            })
+            .then((urlArray) => {
+
+                window.scrollTo(0, 0)
+
+                setTimeout(() => {
+
+                    dispach({
+                        type: "HIKE_LIST",
+                        payload: hikeList.map(hike => {
+                            if (hike.id === getHike.id) {
+                                return {
+                                    ...hike,
+                                    urlImagesList: urlArray
+                                }
+                            } else {
+                                return hike
+                            }
+                        })
+                    })
+
+                    alert("Modifica tra cui l'eliminazione di foto avvenuta correttamente")
+                    setLoading(false)
+                }, 1000)
             })
             .catch((err) => {
                 console.log(err)
+                alert(err)
                 setLoading(false)
             })
 
     }
 
-    /*useEffect(() => {
-        dispach({
-            type: "HIKE_LIST",
-            payload: hikeList.map(hike => {
-                if (hike.id !== getHike.id) {
-                    return hike
-                } else {
-                    return getHike
-                }
-            })
-        })
-        console.log("cambiamento stato getHike")
-    }, [getHike])*/
 
     useEffect(() => {
 
@@ -229,6 +350,15 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
             });
         }
 
+        if (filesHike.length !== 0) {
+            addPictures()
+            setFilesHike([])
+        }
+
+        if (pictureSelected.length !== 0 && filesHike.length === 0) {
+            removeSelectedPictures()
+            setPictureSelected([])
+        }
 
         // in un ciclo non posso chiamare direttamente una fetch, perchè è asincrona, quindi
         // dovrò dichiarare di aspettare che tutte le promise siano concluse con un' operazione asincrona
@@ -258,6 +388,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                 setUsersList(usersData)
 
             } catch (error) {
+                alert(error)
                 console.error(error);
             }
         };
@@ -269,6 +400,11 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
         }
 
     }, [hikeList]);
+
+    /*useEffect(() => {
+
+    }, [hikeFound])*/
+
     //------------------------------------------------------------------------------------------------
 
     return (
@@ -496,7 +632,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                                 <Form.Control
                                     className=" bg-transparent"
                                     as="textarea"
-                                    placeholder="Inserisci qui la descrizione. Max 500 caratteri"
+                                    placeholder="Inserisci qui la descrizione. Min 12 caratteri, max 1000 caratteri"
                                     rows={6}
                                     value={hikeModify.description}
                                     onChange={(e) => {
@@ -725,7 +861,23 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                             <Button
                                 variant="primary"
                                 onClick={() => {
-                                    fetchModifyHike(getHike.id)
+
+                                    if (
+                                        getHike.title !== hikeModify.title
+                                        || getHike.description !== hikeModify.description
+                                        || getHike.duration !== hikeModify.duration
+                                        || getHike.length !== hikeModify.length
+                                        || getHike.elevationGain !== hikeModify.elevationGain
+                                        || getHike.trailNumber !== hikeModify.trailNumber
+                                        || getHike.difficulty !== hikeModify.difficulty
+                                        || filesHike.length !== 0
+                                        || pictureSelected.length !== 0
+                                    ) {
+                                        fetchModifyHike()
+                                    }
+
+                                    //setFilesHike([])
+                                    //setPictureSelected([])
                                     handleClose()
                                 }}>
                                 Salva
@@ -736,10 +888,15 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                 </div>
             </Modal>
 
-            <Modal show={showDelete} onHide={handleCloseDelete}>
+            <Modal show={showDelete} onHide={() => {
+                handleCloseDelete()
+                handleShow()
+            }}>
                 <div className="modal-settings">
                     <Modal.Header closeButton>
-                        <Modal.Title>Eliminazione escursione<i className="bi bi-trash ms-3"></i></Modal.Title>
+                        <Modal.Title>
+                            <div>Eliminazione escursione</div>
+                        </Modal.Title>
                     </Modal.Header>
                     <Modal.Body>Sei sicuro di voler eliminare l'escursione?<br></br> L'operazione è <strong>irreversibile</strong>!</Modal.Body>
                     <Modal.Footer>
