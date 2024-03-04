@@ -143,14 +143,15 @@ const Homepage = () => {
                         <h1 style={{ fontSize: "75px", fontWeight: 700 }}>Colli Euganei</h1>
                     </div>
 
-                    <div className="col-12 col-md-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloremque aspernatur cum pe
-                        rferendis sit veritatis totam porro perspiciatis modi ad ipsa unde voluptatem, at
-                        que odit commodi laborum, aliquam optio voluptates fuga? Lorem ipsum, dolor sit
-                        amet consectetur adipisicing elit. Dignissimos vero consequuntur placeat, amet autem qua
-                        s rerum exercitationem excepturi a, itaque velit quod dolores assumenda eve
-                        iet iusto deserunt vitae laudantium. Maiores.rum, aliquam optio voluptates fuga? Lorem ipsum, dolor sit
-                        amet consectetur adipisicing elit. Dignissimos vero consequuntur placeat, amet autem qua
-                        adipisicing elit. Dignissimos vero consequuntur placeat, ame
+                    <div className="col-12 col-md-6">
+                        I <strong>Colli Euganei</strong> sono un comprensorio montuoso costituito da circa un centinaio di rilievi la
+                        cui altezza non supera mai i 600 metri. La peculiare storia geologica ha reso possibile la formazione
+                        di una straordinaria biodiversità botanica e faunistica, che a partire dal 1989 si è deciso di salvaguardare
+                        istituendo il primo <strong>Parco Regionale del Veneto</strong>. Oltre ad avere una funzione di tutela ambientale, il
+                        Parco si occupa della valorizzazione turistica delle risorse naturali.
+                        Un fitta rete di <strong>sentieri ed itinerari escursionistici</strong> consente di esplorare il territorio in maniera
+                        sostenibile: a piedi, in bicicletta o a cavallo è possibile scoprire gli angoli più belli dei Colli Euganei
+                        immergendosi nella natura e praticando il proprio sport preferito.
                     </div>
 
                 </div>
@@ -158,50 +159,47 @@ const Homepage = () => {
                 <h1 className="text-end homepage-titles my-4">Paesaggi mozzafiato!</h1>
 
 
-                <div className="row m-0">
-                    <Carousel fade className="col-12 col-lg-8  mx-0 p-0">
+                <div className="row m-0 align-items-center ">
+                    <Carousel fade className="col-12 col-lg-8  mx-0 p-0 h-100">
                         <Carousel.Item className="">
                             <img src={foto5} className="rounded-5 w-100 img-carousel-homepage" alt="..." />
-                            <Carousel.Caption>
-                                <h3>First slide label</h3>
-                                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                            </Carousel.Caption>
                         </Carousel.Item>
                         <Carousel.Item className="">
                             <img src={foto6} className="rounded-5 w-100 img-carousel-homepage" alt="..." />
-                            <Carousel.Caption>
-                                <h3>First slide label</h3>
-                                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                            </Carousel.Caption>
                         </Carousel.Item>
                         <Carousel.Item className="">
                             <img src={foto7} className="rounded-5 w-100 img-carousel-homepage" alt="..." />
-                            <Carousel.Caption>
-                                <h3>First slide label</h3>
-                                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                            </Carousel.Caption>
                         </Carousel.Item>
                     </Carousel>
 
-                    <div className="col-12 col-lg-4 ps-lg-4 pe-0 mt-4 mt-lg-0">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Non incidunt at perspiciatis. Deleniti
-                        ipsum quae et tenetur non in magni dolores sint optio eligendi harum cumque, minus laborum t
-                        emporibus facilis? Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti sit quaerat asperiore
-                        s distinctio, possimus eveniet blanditiis libero et, deleniti laudantium quibusdam expedita quis? Itaque sun
-                        t modi mollitia nisi, iure eius?
+                    <div className="col-12 col-lg-4 ps-lg-4 pe-0 mt-4 mt-lg-0">
+                        I Colli Euganei si stagliano inaspettati nel cuore della pianura veneta con i loro inconfondibili
+                        volumi conici. La geometria quasi perfetta è il formidabile risultato di fenomeni vulcanici risalenti
+                        a oltre 40 milioni di anni fa. Al fascino paesaggistico si accompagna l'unicità degli ambienti
+                        naturali e una sorprendente ricchezza del patrimonio culturale. Incantevoli angoli di natura
+                        incontaminata e pittoreschi borghi storici si susseguono lungo i molteplici itinerari che si possono
+                        percorrere all'interno del Parco.
+                        A rendere ancora più appagante e stimolante il soggiorno sui Colli Euganei sono le eccellenze
+                        enogastronomiche locali, dal pregiatissimo vino alle esclusive specialità culinarie che si possono gustare
+                        nei numerosi ristoranti, trattorie, agriturismi e cantine.
                     </div>
 
                 </div>
 
                 <h1 className="homepage-titles my-4">Vieni a trovarci!</h1>
 
-                <div className="my-4 row">
+                <div className="my-4 row align-items-center">
 
                     <div className="col-12 col-md-7 col-lg-6 px-sm-0"><MapComponent /></div>
 
-                    <p className="mt-4 mt-md-0  ps-md-4  col-12 col-md-5 col-lg-6">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi alias quas hic vero nesciunt cum quam corporis?
-                        Quasi temporibus reprehenderit aut doloribus! Asperiores veritatis quasi, placeat vel cumque delectus architecto?
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat eos a et iure veniam nemo est temporibus, inventore, quibusdam
-                        velit natus eaque delectus repudiandae officia quod laboriosam eveniet veritatis distinctio!
+                    <p className="mt-4 mt-md-0 mb-0 ps-md-4  col-12 col-md-5 col-lg-6">
+                        I Colli Euganei sono un gruppo di colline di origine vulcanica presenti all'interno della regione Veneto,
+                        situata a Nord-Est dell'Italia. L'intera zona, distante pochi chilometri a sud da Padova, costituisce
+                        il Primo Parco Regionale della Regione Veneto. Il Veneto si colloca al primo posto per il numero di
+                        turisti europei che decidono di trascorrere le loro vacanze in Italia con una quota di 1/5 del totale
+                        (fonte: Osservatorio Nazionale del Turismo anno 2012). I Colli Euganei godono di una posizione centrale e
+                        rappresentano un punto strategico della zona dal quale è possibile raggiungere le più importanti destinazioni
+                        turistiche in sole 1-2 ore.
                     </p>
                 </div>
 
