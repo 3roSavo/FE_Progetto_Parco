@@ -401,7 +401,7 @@ const Profile = () => {
                                         <div className="row my-4" key={hike.id}>
 
                                             <div className="col-12 col-md-4 px-0" id="img-box">
-                                                <img id="profile-cards-imgs" src={foto1} alt="hike-images" />
+                                                <img id="profile-cards-imgs" style={{ maxHeight: "250px" }} src={hike.urlImagesList[0]} alt="hike-images" />
                                             </div>
 
                                             <div className="col-12 col-md-8 mt-3 mt-md-0 row">
@@ -522,7 +522,7 @@ const Profile = () => {
                                         <div className="row my-4 mx-0" key={hike.id}>
 
                                             <div className="col-12 col-md-4 px-0" id="img-box">
-                                                <img id="profile-cards-imgs" src={foto1} alt="hike-images" />
+                                                <img id="profile-cards-imgs" style={{ maxHeight: "250px" }} src={hike.urlImagesList[0]} alt="hike-images" />
                                             </div>
 
                                             <div className="col-12 col-md-8 row mt-3 mt-md-0 flex-wrap mx-0">

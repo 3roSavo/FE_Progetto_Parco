@@ -1,9 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import NavBar from "./NavBar"
 import { Button, Carousel, Form, Modal, Spinner } from "react-bootstrap"
-import foto1 from "../assets/colli-euganei-hd.jpg"
-import foto2 from "../assets/calto-contea_26.jpg"
-import foto3 from "../assets/Parco-dei-Colli-Euganei-Monte-Venda.jpg"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
@@ -190,7 +186,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
                         if (filesHike.length === 0 && pictureSelected.length === 0) {
                             setLoading(false)
-                            alert("Modifica solo dei dati alfanumerici completata!")
+                            alert("Modifica dell'escursione avvenuta correttamente!")
                         }
                     }, 1000)
 
@@ -264,7 +260,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                     })
 
                     if (pictureSelected.length === 0) {
-                        alert("Salvataggio escursione completato con successo!")
+                        alert("Modifica dell'escursione avvenuta correttamente!")
                         setLoading(false)
                     } /*else {
                         removeSelectedPictures()
@@ -327,7 +323,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                         })
                     })
 
-                    alert("Modifica tra cui l'eliminazione di foto avvenuta correttamente")
+                    alert("Modifica dell'escursione avvenuta correttamente!")
                     setLoading(false)
                 }, 1000)
             })
@@ -427,40 +423,29 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
             <div className="row justify-content-center mx-0">
 
-                <h1 className="my-3" style={{ fontSize: "50px" }}>{getHike.title}</h1>
+                <h1 className="my-3 text-md-center">{getHike.title}</h1>
 
-                <Carousel fade className="col-12 col-lg-9 col-xxl-8">
-                    <Carousel.Item>
-                        <img src={foto1} alt="paesaggio" className="img-carousel-detail rounded-4 img-carousel-search" />
-                        <Carousel.Caption>
-                            <h3>First slide label</h3>
-                            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img src={foto2} alt="paesaggio" className="img-carousel-detail rounded-4 img-carousel-search" />
-                        <Carousel.Caption>
-                            <h3>Second slide label</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                    <Carousel.Item>
-                        <img src={foto3} alt="paesaggio" className="img-carousel-detail rounded-4 img-carousel-search" />
-                        <Carousel.Caption>
-                            <h3>Third slide label</h3>
-                            <p>
-                                Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-                            </p>
-                        </Carousel.Caption>
-                    </Carousel.Item>
-                </Carousel>
+                <div className="col-12 col-lg-9 col-xxl-8 px-0 px-md-4 px-lg-3 px-xl-5">
+
+                    <Carousel className="px-0 carousel-modify">
+
+                        {getHike.urlImagesList.map(image => {
+                            return (
+                                <Carousel.Item key={image}>
+                                    <img src={image} alt="paesaggio" className="img-carousel-detail rounded-4 img-carousel-search" />
+                                </Carousel.Item>
+                            )
+                        })}
+                    </Carousel>
+
+                </div>
 
                 <ul className="ps-3 ps-xl-4 ps-xxl-5 pe-2 list-unstyled text-center text-md-start col-12 col-md-4 col-lg-3 col-xxl-4 my-3 my-lg-auto">
-                    <li className="py-lg-2 py-2 py-md-3 py-lg-4">Difficoltà: <strong>{getHike.difficulty}</strong></li>
-                    <li className="py-lg-2 py-2 py-md-3 py-lg-4">Durata: <strong>{getHike.duration}</strong></li>
-                    <li className="py-lg-2 py-2 py-md-3 py-lg-4">Dislivello: <strong>{getHike.elevationGain}mt</strong></li>
-                    <li className="py-lg-2 py-2 py-md-3 py-lg-4">Lunghezza: <strong>{getHike.length}km</strong></li>
-                    <li className="py-lg-2 py-2 py-md-3 py-lg-4">N° sentiero: <strong>{getHike.trailNumber}</strong></li>
+                    <li className="py-2 py-md-4">Difficoltà: <strong>{getHike.difficulty}</strong></li>
+                    <li className="py-2 py-md-4">Durata: <strong>{getHike.duration}</strong></li>
+                    <li className="py-2 py-md-4">Dislivello: <strong>{getHike.elevationGain}mt</strong></li>
+                    <li className="py-2 py-md-4">Lunghezza: <strong>{getHike.length}km</strong></li>
+                    <li className="py-2 py-md-4">N° sentiero: <strong>{getHike.trailNumber}</strong></li>
                 </ul>
 
                 <div className="mt-lg-5 mt-md-3 col-12 col-md-8 col-lg-9 px-2 pe-md-3 ps-lg-3 pe-lg-4 flex-grow-1">
@@ -611,7 +596,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                         <Form>
 
                             <Form.Group className="mb-3" controlId="modify-title-hike">
-                                <Form.Label>Titolo</Form.Label>
+                                <Form.Label><strong>Titolo</strong></Form.Label>
                                 <Form.Control
                                     className=" bg-transparent"
                                     type="text"
@@ -628,7 +613,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="modify-description-hike">
-                                <Form.Label>Descrizione</Form.Label>
+                                <Form.Label><strong>Descrizione</strong></Form.Label>
                                 <Form.Control
                                     className=" bg-transparent"
                                     as="textarea"
@@ -645,7 +630,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="controlRadio">
-                                <Form.Label>Difficoltà:</Form.Label>
+                                <Form.Label><strong>Difficoltà</strong></Form.Label>
                                 <div>
                                     <Form.Check
                                         className=""
@@ -711,7 +696,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="modify-duration-hike">
-                                <Form.Label>Durata</Form.Label>
+                                <Form.Label><strong>Durata</strong></Form.Label>
                                 <Form.Control
                                     className=" bg-transparent"
                                     type="text"
@@ -727,7 +712,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="modify-length-hike">
-                                <Form.Label>Lunghezza (km)</Form.Label>
+                                <Form.Label><strong>Lunghezza (km)</strong></Form.Label>
                                 <Form.Range
                                     className=" bg-transparent"
                                     min={0.1}
@@ -748,7 +733,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="modify-elevationGain-hike">
-                                <Form.Label>Dislivello (metri)</Form.Label>
+                                <Form.Label><strong>Dislivello (metri)</strong></Form.Label>
                                 <Form.Range
                                     className=" bg-transparent"
                                     min={0}
@@ -769,7 +754,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="modify-trailNumber-hike">
-                                <Form.Label>N° sentiero</Form.Label>
+                                <Form.Label><strong>N° sentiero</strong></Form.Label>
                                 <Form.Control
                                     className=" bg-transparent"
                                     type="number"
@@ -785,7 +770,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                             </Form.Group>
 
                             <Form.Group className="mb-4" controlId="deleteFile">
-                                <Form.Label>Seleziona immagini da eliminare:</Form.Label>
+                                <Form.Label><strong>Seleziona immagini da eliminare</strong></Form.Label>
                                 <div className="row justify-content-center gap-4 mt-3">
                                     {getHike.urlImagesList.map(string => {
                                         return (
@@ -814,7 +799,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="inputFile">
-                                <Form.Label>Aggiungi immagini (max 4 elementi da 10 mb ciascuno)</Form.Label>
+                                <Form.Label><strong>Aggiungi immagini</strong> (max 4 elementi da 10 mb ciascuno)</Form.Label>
                                 <Form.Control
                                     className="bg-transparent"
                                     type="file"
@@ -890,6 +875,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
             <Modal show={showDelete} onHide={() => {
                 handleCloseDelete()
+                setFilesHike([])
                 handleShow()
             }}>
                 <div className="modal-settings">
@@ -902,6 +888,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                     <Modal.Footer>
                         <Button variant="secondary" onClick={() => {
                             handleCloseDelete()
+                            setFilesHike([])
                             handleShow()
                         }}>
                             Annulla

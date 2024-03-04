@@ -6,7 +6,6 @@ import Footer from "./Footer"
 import NavBar from "./NavBar"
 import MapComponent from "./MapComponent"
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
 
 
@@ -212,45 +211,31 @@ const Homepage = () => {
 
                 {hike && <div className="row align-items-lg-center ">
 
-                    <h1 className="my-4 text-center" style={{ fontSize: "50px" }}>{hike.title}</h1>
+                    <h1 className="my-4 text-md-center">{hike.title}</h1>
 
-                    <Carousel fade className="col-12 col-lg-9 col-xxl-8">
-                        <Carousel.Item>
-                            <img src={foto5} alt="paesaggio" className="img-carousel-detail rounded-4 img-carousel-search" />
-                            <Carousel.Caption>
-                                <h3>First slide label</h3>
-                                <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img src={foto6} alt="paesaggio" className="img-carousel-detail rounded-4 img-carousel-search" />
-                            <Carousel.Caption>
-                                <h3>Second slide label</h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                        <Carousel.Item>
-                            <img src={foto7} alt="paesaggio" className="img-carousel-detail rounded-4 img-carousel-search" />
-                            <Carousel.Caption>
-                                <h3>Third slide label</h3>
-                                <p>
-                                    Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-                                </p>
-                            </Carousel.Caption>
-                        </Carousel.Item>
-                    </Carousel>
+                    <div className="col-12 col-lg-9 col-xxl-8 px-0 px-md-4 px-lg-3 px-xl-5">
 
-                    <div className="col-12 col-lg-3 col-xxl-4 mt-3 mt-lg-0 ">
-                        <ul className="ps-3">
-                            <li className="py-lg-2 py-1">Difficoltà: <strong>{hike.difficulty}</strong></li>
-                            <li className="py-lg-2 py-1">Durata: <strong>{hike.duration}</strong></li>
-                            <li className="py-lg-2 py-1">Dislivello: <strong>{hike.elevationGain}mt</strong></li>
-                            <li className="py-lg-2 py-1">Lunghezza: <strong>{hike.length}km</strong></li>
-                            <li className="py-lg-2 py-1">N° sentiero: <strong>{hike.trailNumber}</strong></li>
-                        </ul>
+                        <Carousel className="carousel-modify px-0">
+                            {hike.urlImagesList.map(image => {
+                                return (
+                                    <Carousel.Item key={image}>
+                                        <img src={image} alt="paesaggio" className="img-carousel-detail rounded-4 img-carousel-search" />
+                                    </Carousel.Item>
+                                )
+                            })}
+                        </Carousel>
+
                     </div>
 
-                    <div className=" mt-lg-4">
+                    <ul className="ps-3 ps-xl-4 ps-xxl-5 pe-2 list-unstyled text-center text-md-start col-12 col-md-4 col-lg-3 col-xxl-4 my-3 my-lg-auto">
+                        <li className="py-2 py-md-4">Difficoltà: <strong>{hike.difficulty}</strong></li>
+                        <li className="py-2 py-md-4">Durata: <strong>{hike.duration}</strong></li>
+                        <li className="py-2 py-md-4">Dislivello: <strong>{hike.elevationGain}mt</strong></li>
+                        <li className="py-2 py-md-4">Lunghezza: <strong>{hike.length}km</strong></li>
+                        <li className="py-2 py-md-4">N° sentiero: <strong>{hike.trailNumber}</strong></li>
+                    </ul>
+
+                    <div className="mt-lg-5 mt-md-3 col-12 col-md-8 col-lg-9 px-2 pe-md-3 ps-lg-3 pe-lg-4 flex-grow-1">
                         <div className="mb-2">
                             <h4 className=" fw-bold d-inline">Descrizione
                                 <i onClick={() => {

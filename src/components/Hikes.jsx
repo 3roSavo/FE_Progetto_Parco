@@ -44,6 +44,12 @@ const Hikes = () => {
 
     const [loading, setLoading] = useState(false);
 
+    const getRandomUrlIndex = (hike) => {
+        const randomIndex = Math.floor(Math.random() * hike.urlImagesList.length)
+        return hike.urlImagesList[randomIndex]
+        // non so perchè ma la randomizza anche allo scroll della pagina
+    }
+
 
     const getTitleHikes = (e) => {
 
@@ -387,12 +393,6 @@ const Hikes = () => {
 
     }
 
-
-
-
-    useEffect(() => {
-    }, [hikeList]);
-
     // gestione comparsa-scomparsa pulsante apice dopo un certo scroll
     useEffect(() => {
         const handleScroll = () => {
@@ -527,8 +527,8 @@ const Hikes = () => {
                         {hikeList && hikeList.map((hike) => {
                             return (
                                 <div className="col-10 col-sm-6 col-md-5 col-lg-4 col-xl-3" key={hike.id}>
-                                    <div className="card bg-transparent shadow-sm" id="cards">
-                                        <img src={foto6} className="card-img-top" alt="foto-escursione" style={{ maxHeight: "250px", objectFit: "cover" }} />
+                                    <div className="card bg-transparent shadow" id="cards">
+                                        <img src={hike.urlImagesList[0]} className="card-img-top" alt="foto-escursione" style={{ height: "180px", objectFit: "cover" }} />
                                         <div className="card-body row my-3 mx-2 p-0">
                                             <h5 className="card-title text-center">{hike.title}</h5>
                                             <ul className="list-group list-group-flush">

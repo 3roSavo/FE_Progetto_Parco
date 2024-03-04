@@ -201,9 +201,16 @@ code {
 }
 
 .img-carousel-detail {
-  object-position: center;
-  height: 500px;
-  width: 100%;
+  object-fit: fill;
+  object-position: center !important;
+  max-width: 100%;
+}
+
+.carousel-modify {
+  /*background: linear-gradient(0deg, rgba(21, 129, 46, 0.30) 0%, rgba(34, 165, 195, 0.3) 100%) !important;*/
+  overflow: hidden;
+  border-radius: 30px;
+  text-align: center;
 }
 
 .btn-card:hover {
@@ -238,7 +245,7 @@ code {
   }
 }
 
-@media (min-width: 750px) {
+@media (min-width: 768px) {
   .img-carousel-search {
     height: 450px;
   }
