@@ -635,3 +635,44 @@ code {
   cursor: pointer;
   transition: all 0.5s;
 }
+
+.youtube-video {
+  border-radius: 40px !important;
+}
+
+@media (min-width: 0px) and (max-width: 576px) {
+  .youtube-video {
+
+    height: 250px;
+  }
+}
+
+@media (min-width: 576px) {
+  .youtube-video {
+    height: 287px;
+  }
+}
+
+@media (min-width: 767px) {
+  .youtube-video {
+    height: 388px;
+  }
+}
+
+@media (min-width: 992px) {
+  .youtube-video {
+    height: 343px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .youtube-video {
+    height: 411px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .youtube-video {
+    height: 478px;
+  }
+}

@@ -186,6 +186,29 @@ const Homepage = () => {
 
                 </div>
 
+                <div className="row mt-3 mt-lg-5 pt-4 align-items-center ">
+
+                    <div className="col-12 col-lg-4">
+                        <h3>Alta Via dei Colli Euganei</h3>
+                        <p>
+                            Benvenuti nell'incantevole mondo dei Colli Euganei, un'oasi di natura e bellezza situata nel cuore della
+                            regione veneta. In questo video, vi porteremo in un'emozionante escursione attraverso paesaggi mozzafiato
+                            e sentieri panoramici che si snodano tra le verdi colline vulcaniche ed i vigneti dei Colli Euganei attraverso uno dei sentieri più iconici lungo ben 42 km!
+                        </p>
+                    </div>
+
+
+                    <iframe
+                        className="col-12 col-lg-8 mx-0 youtube-video"
+                        title="youtube-video-player"
+                        src="https://www.youtube.com/embed/apD9tehJYLE?autoplay=1&start=175"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+
+                    </iframe>
+
+
+                </div>
+
                 <h1 className="homepage-titles my-4">Vieni a trovarci!</h1>
 
                 <div className="my-4 row align-items-center">

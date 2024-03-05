@@ -1,70 +1,50 @@
-# Getting Started with Create React App
+# ⛰️ Parco regionale dei Colli Euganei - Ricerca escursioni
+## 💻 Full Stack Capstone Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Link al BACK-END  https://github.com/3roSavo/BE_Progetto_Parco.git
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
+La seguente applicazione web traghetterà gli utenti, dopo previa registrazione e accesso, alla homepage del sito del parco regionale dei Colli Euganei. Da qui si potrà
+avere una dettagliata introduzione del del parco con molte informazioni a riguardo, tra le quali svariate immagini di introduzione al parco e indicazioni per raggiungerlo.
+La funzione principale sarà la ricerca di escursioni in una pagina dedicata e il salvataggio di escursioni tra i preferiti, con la possibilità di vedere anche chi ha messo mi piace e confrontare le escursioni preferite in comune tra i vari utenti. Naturalmente se l'utente è autorizzato come admin avrà accesso a tutta una serie di operazioni CRUD sia per quanto riguarda un qualsiasi utente (funzionalità ancora in fase alfa) sia per quanto riguarda un'escursione specifica. Le funzionalità di gestione icone utente e galleria escursioni è delegata ad un servizio di terze parti, cioè Cloudinary , che si occupa di gestire, aggiornare ed eliminare i vari file multimediali.
+L'aaplicazione è stata sviluppata usando React per il front-end e Spring Boot per il back end e postgreSQL per l'immagazzinamento dei dati.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📋 Funzionalità
+* User registration and login with JWT token
+* 360-degree virtual tour of the rooms of the Genoa Aquarium
+* Interactive buttons to obtain specific information on marine species
+* Information sheets are generated when the "info" button is clicked
+* Management of information sheets by the administrator (add, edit, delete)
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📷 Anteprima del progetto 
+<img src="https://media-assets.wired.it/photos/615f231327b5f17490c59a42/3:2/w_1620,h_1080,c_limit/wired_placeholder_dummy.png" height="200px" />
+<img src="https://media-assets.wired.it/photos/615f231327b5f17490c59a42/3:2/w_1620,h_1080,c_limit/wired_placeholder_dummy.png" height="200px" />
+<img src="https://media-assets.wired.it/photos/615f231327b5f17490c59a42/3:2/w_1620,h_1080,c_limit/wired_placeholder_dummy.png" height="200px" />
+<img src="https://media-assets.wired.it/photos/615f231327b5f17490c59a42/3:2/w_1620,h_1080,c_limit/wired_placeholder_dummy.png" height="200px" />
 
-### `npm run build`
+## 📦 Pacchetti installati 
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Assicurati di avere Node.js e npm installati sul tuo sistema.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Questo progetto è stato creato con la libreria JavaScript React
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* npx create-react-app nome-cartella
 
-### `npm run eject`
+* cd nome-cartella
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+* npm install bootstrap 
+* npm install react-bootstrap
+* npm install react-router-dom
+* npm install @reduxjs/toolkit
+* npm install react-redux
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Avviare app : npm start.
+Arrestare app : control + C
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 🖊️ Autore
+Eros Savogin
+#### Linkedin => [www.linkedin.com/in/eros-savogin-developer](https://www.linkedin.com/in/eros-savogin-developer/)
