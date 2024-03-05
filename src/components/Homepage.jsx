@@ -1,7 +1,4 @@
 import { Carousel } from "react-bootstrap"
-import foto5 from "../assets/Escursioni-800.jpg"
-import foto6 from "../assets/calto-contea_26.jpg"
-import foto7 from "../assets/calto-contea_31.jpg"
 import Footer from "./Footer"
 import NavBar from "./NavBar"
 import MapComponent from "./MapComponent"
@@ -162,13 +159,16 @@ const Homepage = () => {
                 <div className="row m-0 align-items-center ">
                     <Carousel fade className="col-12 col-lg-8  mx-0 p-0 h-100">
                         <Carousel.Item className="">
-                            <img src={foto5} className="rounded-5 w-100 img-carousel-homepage" alt="..." />
+                            <img src="https://res.cloudinary.com/diklzegyw/image/upload/v1709639267/Progetto_Parco/foto%20caroselli%20statici/calto-contea_26_ejiev1.jpg"
+                                className="rounded-5 w-100 img-carousel-homepage" alt="..." />
                         </Carousel.Item>
                         <Carousel.Item className="">
-                            <img src={foto6} className="rounded-5 w-100 img-carousel-homepage" alt="..." />
+                            <img src="https://res.cloudinary.com/diklzegyw/image/upload/v1709639267/Progetto_Parco/foto%20caroselli%20statici/calto-contea_26_ejiev1.jpg"
+                                className="rounded-5 w-100 img-carousel-homepage" alt="..." />
                         </Carousel.Item>
                         <Carousel.Item className="">
-                            <img src={foto7} className="rounded-5 w-100 img-carousel-homepage" alt="..." />
+                            <img src="https://res.cloudinary.com/diklzegyw/image/upload/v1709639267/Progetto_Parco/foto%20caroselli%20statici/calto-contea_26_ejiev1.jpg"
+                                className="rounded-5 w-100 img-carousel-homepage" alt="..." />
                         </Carousel.Item>
                     </Carousel>
 

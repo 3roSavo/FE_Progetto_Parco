@@ -1,10 +1,4 @@
 import logo from "../assets/IMG_2670.PNG"
-import foto1 from "../assets/colli-euganei-hd.jpg"
-import foto2 from "../assets/vini-dei-colli-euganei.jpg"
-import foto3 from "../assets/download.jpeg"
-import foto4 from "../assets/istockphoto-1078986424-612x612.jpg"
-import foto5 from "../assets/Escursioni-800.jpg"
-import foto6 from "../assets/euganei.jpg"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { Button, Carousel, Form, Modal, Spinner } from "react-bootstrap"
@@ -167,7 +161,7 @@ const LoginPage = () => {
             <img src={logo} alt="" width="170px" />
           </div>
 
-          <p className=" my-auto fs-3">Voglia di camminare? <br></br>
+          <p className="my-auto fs-3 text-center ">Voglia di camminare? <br></br>
             Sei nel posto giusto!</p>
 
           {loading && <div className="text-center"><Spinner animation="border" style={{ color: "rgb(62, 118, 206)" }} /></div>}
@@ -220,34 +214,82 @@ const LoginPage = () => {
 
       </div>
 
-      <Carousel fade className="d-none d-lg-block col-lg-8 px-0 login-carousel">
+      <Carousel fade
+        className="d-none d-lg-block col-lg-8 px-0 login-carousel"
+        indicators={false}
+        controls={false}
+        interval={3500}>
         <Carousel.Item>
-          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1708875502/Progetto_Parco/Galleria_Foto_Escursioni/colli-euganei-hd_ofcxd0.jpg"
+          <Carousel.Caption>
+            <h3 className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Pianoro del Mottolone</h3><br></br>
+            <p className="bg-black d-inline bg-opacity-50 px-3 rounded-4">il balcone sui colli Euganei</p>
+          </Carousel.Caption>
+          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709631892/Progetto_Parco/foto%20caroselli%20statici/colli-euganei-hd_gzwaqy.jpg"
             alt="first-img-carousel" />
-          <Carousel.Caption>
-            <h3>First slide label</h3>
-          </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
-          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1708875365/Progetto_Parco/Galleria_Foto_Escursioni/AdobeStock_386432993_rivahr.webp"
+          <Carousel.Caption>
+            <h3 className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Vigneti di Teolo</h3><br></br>
+            <p className="bg-black d-inline bg-opacity-50 px-3 rounded-4">immersi in un paesaggio mozzafiato</p>
+          </Carousel.Caption>
+          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709634213/Progetto_Parco/foto%20caroselli%20statici/122946998-529960ea-bf17-4265-8ea9-4982faa157a8_djmn4m.jpg"
             alt="second-img-carousel" />
-          <Carousel.Caption>
-            <h3>Second slide label</h3>
-          </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
-          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1708876512/Progetto_Parco/Galleria_Foto_Escursioni/download_xozq7q.jpg"
+          <Carousel.Caption>
+            <h3 className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Castello Carrarese</h3><br></br>
+            <p className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Un'imponente fortificazione per il controllo del territorio</p>
+          </Carousel.Caption>
+          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709634216/Progetto_Parco/foto%20caroselli%20statici/este-castello-hd_gozblk.jpg"
             alt="third-img-carousel" />
-          <Carousel.Caption>
-            <h3>Third slide label</h3>
-          </Carousel.Caption>
         </Carousel.Item>
         <Carousel.Item>
-          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1708876576/Progetto_Parco/Galleria_Foto_Escursioni/DSC_0070_jwu3su.jpg"
-            alt="fourth-img-carousel" />
           <Carousel.Caption>
-            <h3>Third slide label</h3>
+            <h3 className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Cinto Euganeo</h3><br></br>
+            <p className="bg-black d-inline bg-opacity-50 px-3 rounded-4">acquedotti romani e ruderi alle sue sommità</p>
           </Carousel.Caption>
+          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709631891/Progetto_Parco/foto%20caroselli%20statici/storia-dei-colli-euganei_ppxu43.jpg"
+            alt="fourth-img-carousel" />
+        </Carousel.Item>
+        <Carousel.Item>
+          <Carousel.Caption>
+            <h3 className="bg-black d-inline bg-opacity-75 px-3 rounded-4">Monselice, città fortificata</h3><br></br>
+            <p className="bg-black d-inline bg-opacity-75 px-3 rounded-4">atmosfera tipica di un borgo medievale</p>
+          </Carousel.Caption>
+          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709634216/Progetto_Parco/foto%20caroselli%20statici/monselice-hd_sgwg5d.jpg"
+            alt="8-img-carousel" />
+        </Carousel.Item>
+        <Carousel.Item>
+          <Carousel.Caption>
+            <h3 className="bg-black d-inline bg-opacity-75 px-3 rounded-4">Castello del Catajo</h3><br></br>
+            <p className="bg-black d-inline bg-opacity-75 px-3 rounded-4">brulicante di vita</p>
+          </Carousel.Caption>
+          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709645981/Progetto_Parco/foto%20caroselli%20statici/castello-del-catajo-hd_vrdzzx.jpg"
+            alt="5-img-carousel" />
+        </Carousel.Item>
+        <Carousel.Item>
+          <Carousel.Caption>
+            <h3 className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Cascata Schivanoia</h3><br></br>
+            <p className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Uno dei siti naturalistici più suggestivi del comprensorio euganeo</p>
+          </Carousel.Caption>
+          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709639267/Progetto_Parco/foto%20caroselli%20statici/calto-contea_26_ejiev1.jpg"
+            alt="6-img-carousel" />
+        </Carousel.Item>
+        <Carousel.Item>
+          <Carousel.Caption>
+            <h3 className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Monte Venda</h3><br></br>
+            <p className="bg-black d-inline bg-opacity-50 px-3 rounded-4">con i resti del monastero degli Olivetani</p>
+          </Carousel.Caption>
+          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709631882/Progetto_Parco/foto%20caroselli%20statici/2023-02-12-MONTE-VENDA-3_fbcq2h.jpg"
+            alt="7-img-carousel" />
+        </Carousel.Item>
+        <Carousel.Item>
+          <Carousel.Caption>
+            <h3 className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Villa Barbarigo</h3><br></br>
+            <p className="bg-black d-inline bg-opacity-50 px-3 rounded-4">splendida dimora signorile nel cuore dei colli</p>
+          </Carousel.Caption>
+          <img className="login-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709634220/Progetto_Parco/foto%20caroselli%20statici/villa-barbarigo-hd_nurylk.jpg"
+            alt="8-img-carousel" />
         </Carousel.Item>
       </Carousel>
 

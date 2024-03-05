@@ -5,9 +5,6 @@ import { useNavigate, useParams } from "react-router"
 import { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { Button, Form, Modal, Spinner } from "react-bootstrap"
-import foto1 from "../assets/colli-euganei-hd.jpg"
-import foto2 from "../assets/calto-contea_26.jpg"
-import foto3 from "../assets/Parco-dei-Colli-Euganei-Monte-Venda.jpg"
 
 const Profile = () => {
 
