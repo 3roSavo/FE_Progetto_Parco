@@ -8,9 +8,6 @@ const NavBar = () => {
   const dispach = useDispatch();
   const getUser = useSelector(state => state.currentUser)
 
-
-  //const [userInfo, setUserInfo] = useState({})  // succesivamente rimpiazzato dal global state
-  //const [isAdmin, setIsAdmin] = useState(false)  // ho già l'informazione dal currentUser
   const [isScrolled, setIsScrolled] = useState(0);
   const [urlActive, setUrlActive] = useState("");
 
@@ -35,8 +32,6 @@ const NavBar = () => {
       .then((data) => {
 
         console.log(data)
-
-        //setUserInfo(data) // successivamente rimpiazzato dal global state
 
         dispach({
           type: "CURRENT_USER",
@@ -149,20 +144,16 @@ const NavBar = () => {
                 <img className="user-icon-navbar" src={getUser.userIcon} alt="user icon" />
               </button>
               <ul className="dropdown-menu navbar-dropdown-container shadow">
-                <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" to={"/"}>Action</Link></li>
-                <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link" to={"/"}>Another action </Link></li>
+                <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link d-block text-center px-0" to={"/profile/me"}>Profilo <i className="bi bi-person-fill"></i></Link></li>
+                <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link d-block text-center px-0" to={"/search"}>Cerca <i className="bi bi-search-heart-fill"></i></Link></li>
                 <li id="nav-dropdown-li">
-                  <Link className="navbar-dropdown-li-link"
+                  <Link className="navbar-dropdown-li-link d-block text-center px-0"
                     onClick={() => {
                       localStorage.removeItem("token")
                       dispach({
                         type: "HIKE_LIST",
                         payload: null
                       })
-                      /*dispach({
-                        type: "USERS_LIST",
-                        payload: []
-                      })*/
                       dispach({
                         type: "SEARCH_OR_DEATAIL_VISIBLE",
                         payload: true

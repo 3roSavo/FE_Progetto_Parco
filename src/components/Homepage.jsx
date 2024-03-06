@@ -157,18 +157,80 @@ const Homepage = () => {
 
 
                 <div className="row m-0 align-items-center ">
-                    <Carousel fade className="col-12 col-lg-8  mx-0 p-0 h-100">
-                        <Carousel.Item className="">
-                            <img src="https://res.cloudinary.com/diklzegyw/image/upload/v1709639267/Progetto_Parco/foto%20caroselli%20statici/calto-contea_26_ejiev1.jpg"
-                                className="rounded-5 w-100 img-carousel-homepage" alt="..." />
+                    <Carousel fade
+                        className="col-12 col-lg-8  mx-0 p-0 homepage-carousel"
+                        interval={3500}>
+                        <Carousel.Item>
+                            <Carousel.Caption>
+                                <h3 className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Pianoro del Mottolone</h3><br></br>
+                                <p className="bg-black d-inline bg-opacity-50 px-3 rounded-4">il balcone sui colli Euganei</p>
+                            </Carousel.Caption>
+                            <img className="homepage-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709631892/Progetto_Parco/foto%20caroselli%20statici/colli-euganei-hd_gzwaqy.jpg"
+                                alt="first-img-carousel" />
                         </Carousel.Item>
-                        <Carousel.Item className="">
-                            <img src="https://res.cloudinary.com/diklzegyw/image/upload/v1709639267/Progetto_Parco/foto%20caroselli%20statici/calto-contea_26_ejiev1.jpg"
-                                className="rounded-5 w-100 img-carousel-homepage" alt="..." />
+                        <Carousel.Item>
+                            <Carousel.Caption>
+                                <h3 className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Vigneti di Teolo</h3><br></br>
+                                <p className="bg-black d-inline bg-opacity-50 px-3 rounded-4">immersi in un paesaggio mozzafiato</p>
+                            </Carousel.Caption>
+                            <img className="homepage-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709634213/Progetto_Parco/foto%20caroselli%20statici/122946998-529960ea-bf17-4265-8ea9-4982faa157a8_djmn4m.jpg"
+                                alt="second-img-carousel" />
                         </Carousel.Item>
-                        <Carousel.Item className="">
-                            <img src="https://res.cloudinary.com/diklzegyw/image/upload/v1709639267/Progetto_Parco/foto%20caroselli%20statici/calto-contea_26_ejiev1.jpg"
-                                className="rounded-5 w-100 img-carousel-homepage" alt="..." />
+                        <Carousel.Item>
+                            <Carousel.Caption>
+                                <h3 className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Castello Carrarese</h3><br></br>
+                                <p className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Un'imponente fortificazione per il controllo del territorio</p>
+                            </Carousel.Caption>
+                            <img className="homepage-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709634216/Progetto_Parco/foto%20caroselli%20statici/este-castello-hd_gozblk.jpg"
+                                alt="third-img-carousel" />
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <Carousel.Caption>
+                                <h3 className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Cinto Euganeo</h3><br></br>
+                                <p className="bg-black d-inline bg-opacity-50 px-3 rounded-4">acquedotti romani e ruderi alle sue sommità</p>
+                            </Carousel.Caption>
+                            <img className="homepage-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709631891/Progetto_Parco/foto%20caroselli%20statici/storia-dei-colli-euganei_ppxu43.jpg"
+                                alt="fourth-img-carousel" />
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <Carousel.Caption>
+                                <h3 className="bg-black d-inline bg-opacity-75 px-3 rounded-4">Monselice, città fortificata</h3><br></br>
+                                <p className="bg-black d-inline bg-opacity-75 px-3 rounded-4">atmosfera tipica di un borgo medievale</p>
+                            </Carousel.Caption>
+                            <img className="homepage-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709634216/Progetto_Parco/foto%20caroselli%20statici/monselice-hd_sgwg5d.jpg"
+                                alt="8-img-carousel" />
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <Carousel.Caption>
+                                <h3 className="bg-black d-inline bg-opacity-75 px-3 rounded-4">Castello del Catajo</h3><br></br>
+                                <p className="bg-black d-inline bg-opacity-75 px-3 rounded-4">brulicante di vita</p>
+                            </Carousel.Caption>
+                            <img className="homepage-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709645981/Progetto_Parco/foto%20caroselli%20statici/castello-del-catajo-hd_vrdzzx.jpg"
+                                alt="5-img-carousel" />
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <Carousel.Caption>
+                                <h3 className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Cascata Schivanoia</h3><br></br>
+                                <p className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Uno dei siti più suggestivi del comprensorio euganeo</p>
+                            </Carousel.Caption>
+                            <img className="homepage-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709639267/Progetto_Parco/foto%20caroselli%20statici/calto-contea_26_ejiev1.jpg"
+                                alt="6-img-carousel" />
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <Carousel.Caption>
+                                <h3 className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Monte Venda</h3><br></br>
+                                <p className="bg-black d-inline bg-opacity-50 px-3 rounded-4">con i resti del monastero degli Olivetani</p>
+                            </Carousel.Caption>
+                            <img className="homepage-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709631882/Progetto_Parco/foto%20caroselli%20statici/2023-02-12-MONTE-VENDA-3_fbcq2h.jpg"
+                                alt="7-img-carousel" />
+                        </Carousel.Item>
+                        <Carousel.Item>
+                            <Carousel.Caption>
+                                <h3 className="bg-black d-inline bg-opacity-50 px-3 rounded-4">Villa Barbarigo</h3><br></br>
+                                <p className="bg-black d-inline bg-opacity-50 px-3 rounded-4">splendida dimora signorile nel cuore dei colli</p>
+                            </Carousel.Caption>
+                            <img className="homepage-carousel-imgs" src="https://res.cloudinary.com/diklzegyw/image/upload/v1709634220/Progetto_Parco/foto%20caroselli%20statici/villa-barbarigo-hd_nurylk.jpg"
+                                alt="8-img-carousel" />
                         </Carousel.Item>
                     </Carousel>
 
@@ -201,6 +263,7 @@ const Homepage = () => {
                     <iframe
                         className="col-12 col-lg-8 mx-0 youtube-video"
                         title="youtube-video-player"
+                        muted
                         src="https://www.youtube.com/embed/apD9tehJYLE?autoplay=1&start=175"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
 

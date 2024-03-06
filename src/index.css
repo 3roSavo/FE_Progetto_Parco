@@ -47,6 +47,61 @@ code {
   max-height: 100vh;
 }
 
+.homepage-carousel-imgs {
+  width: 100%;
+  object-position: center;
+  object-fit: fill;
+  border-radius: 15px;
+}
+
+@media screen and (min-width: 0px) and (max-width: 400px) {
+  .homepage-carousel-imgs {
+    height: 300px;
+  }
+}
+
+@media screen and (min-width: 401px) and (max-width: 576px) {
+  .homepage-carousel-imgs {
+    height: 350px;
+  }
+}
+
+@media screen and (min-width: 577px) and (max-width: 767px) {
+  .homepage-carousel-imgs {
+    height: 350px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .homepage-carousel-imgs {
+    height: 400px;
+  }
+}
+
+@media screen and (min-width: 993px) and (max-width: 1200px) {
+  .homepage-carousel-imgs {
+    height: 400px;
+  }
+}
+
+@media screen and (min-width: 1201px) and (max-width: 1399px) {
+  .homepage-carousel-imgs {
+    height: 450px;
+  }
+}
+
+@media screen and (min-width: 1400px) and (max-width: 1599px) {
+  .homepage-carousel-imgs {
+    height: 530px;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .homepage-carousel-imgs {
+    height: 550px;
+  }
+}
+
 .login-carousel-imgs {
   width: 100%;
   object-position: center;
