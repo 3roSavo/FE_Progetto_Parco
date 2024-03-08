@@ -104,7 +104,13 @@ const NavBar = () => {
               </Link>
             </li>
             <li className="nav-item">
-              <Link onClick={() => window.scrollTo(0, 0)}
+              <Link onClick={() => {
+                window.scrollTo(0, 0)
+                dispach({
+                  type: "HIKE_LIST",
+                  payload: []
+                })
+              }}
                 to={"/search"}
                 className={urlActive.includes("http://localhost:3000/search") ? "nav-link fw-bold link-navbar section-active" : "nav-link fw-bold link-navbar"}
               >
@@ -145,7 +151,17 @@ const NavBar = () => {
               </button>
               <ul className="dropdown-menu navbar-dropdown-container shadow">
                 <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link d-block text-center px-0" to={"/profile/me"}>Profilo <i className="bi bi-person-fill"></i></Link></li>
-                <li id="nav-dropdown-li"><Link className="navbar-dropdown-li-link d-block text-center px-0" to={"/search"}>Cerca <i className="bi bi-search-heart-fill"></i></Link></li>
+                <li id="nav-dropdown-li">
+                  <Link className="navbar-dropdown-li-link d-block text-center px-0"
+                    to={"/search"}
+                    onClick={() => {
+                      window.scrollTo(0, 0)
+                      dispach({
+                        type: "HIKE_LIST",
+                        payload: []
+                      })
+                    }}>
+                    Cerca <i className="bi bi-search-heart-fill"></i></Link></li>
                 <li id="nav-dropdown-li">
                   <Link className="navbar-dropdown-li-link d-block text-center px-0"
                     onClick={() => {

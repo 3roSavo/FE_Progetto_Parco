@@ -418,10 +418,10 @@ const Profile = () => {
                                                                 type: "SEARCH_OR_DEATAIL_VISIBLE",
                                                                 payload: false
                                                             })
-                                                            /*dispach({
-                                                                type: "USERS_LIST",
-                                                                payload: []
-                                                            })*/
+                                                            dispach({
+                                                                type: "HIKE_LIST",
+                                                                payload: [hike]
+                                                            })
                                                             dispach({
                                                                 type: "PREVIOUS_PATH",
                                                                 payload: location.pathname
@@ -454,6 +454,16 @@ const Profile = () => {
                             <div className="text-center">
                                 <Link
                                     to={"/search/hikes"}
+                                    onClick={() => {
+                                        dispach({
+                                            type: "HIKE_LIST",
+                                            payload: []
+                                        })
+                                        dispach({
+                                            type: "SEARCH_OR_DEATAIL_VISIBLE",
+                                            payload: true
+                                        })
+                                    }}
                                     className="btn btn-secondary mt-3">
                                     Cerca escursioni
                                     <i className="bi bi-search-heart ms-2"></i>
@@ -539,13 +549,13 @@ const Profile = () => {
                                                                 type: "SEARCH_OR_DEATAIL_VISIBLE",
                                                                 payload: false
                                                             })
-                                                            /*dispach({
-                                                                type: "USERS_LIST",
-                                                                payload: []
-                                                            })*/
                                                             dispach({
                                                                 type: "PREVIOUS_PATH",
                                                                 payload: location.pathname
+                                                            })
+                                                            dispach({
+                                                                type: "HIKE_LIST",
+                                                                payload: [hike]
                                                             })
                                                             window.scrollTo(0, 0);
                                                         }}
