@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { Button, Carousel, Form, Modal, Spinner } from "react-bootstrap"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import MapTrack from "./MapTrack"
 
 const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
@@ -16,12 +17,11 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
         difficulty: getHike.difficulty
     })
     const [filesHike, setFilesHike] = useState([])
+    const [fileGpx, setFileGpx] = useState(null)
 
     const hikeList = useSelector(state => state.hikeList)
     const currentUser = useSelector(state => state.currentUser)
     const previousPath = useSelector(state => state.previousPath)
-
-    let hikeFound = hikeList.find(hike => hike.id === getHike.id)
 
     const [usersList, setUsersList] = useState([])
 
@@ -52,17 +52,24 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
         return array;
     }
 
-    const deleteHike = (hikeId) => {
+    const deleteHike = () => {
 
-        fetch("http://localhost:3001/hikes/" + hikeId, {
+        setLoading(true)
+
+        fetch("http://localhost:3001/hikes/" + getHike.id, {
             method: "DELETE",
             headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token")
-            }
+                "Authorization": "Bearer " + localStorage.getItem("token"),
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                hikesPictureList: getHike.urlImagesList
+            })
         })
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("Errore nell'eliminazione dell'escursione")
+                    return response.json()
+                        .then((errorData) => { throw new Error(errorData.message) })
                 }
             })
             .then(() => {
@@ -74,7 +81,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                 dispach({
                     type: "HIKE_LIST",
                     payload: hikeList.filter(hike => {
-                        return hike.id !== hikeId
+                        return hike.id !== getHike.id
                     })
                 })
 
@@ -90,39 +97,6 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                 setLoading(false)
                 throw err; // Rilancia l'errore per gestirlo nell'ambito chiamante, se necessario
             });
-    }
-
-    const deleteHikePictures = (hikeId) => {
-
-        setLoading(true)
-
-        fetch("http://localhost:3001/hikes/" + hikeId + "/deletePictures", {
-            method: "DELETE",
-            headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token"),
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                hikesPictureList: getHike.urlImagesList
-            })
-        })
-
-            .then((response) => {
-                if (!response.ok) {
-                    return response.json()
-                        .then((errorData) => {
-                            throw new Error(errorData.message)
-                        })
-                }
-            })
-            .then(() => {
-                deleteHike(hikeId)
-            })
-            .catch((err) => {
-                console.log(err)
-                alert(err)
-                setLoading(false)
-            })
     }
 
     // modifica escursione -------------------------------------------
@@ -159,7 +133,6 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                     }
                 })
                 .then((data) => {
-                    window.scrollTo(0, 0)
                     setTimeout(() => {
 
                         dispach({
@@ -184,7 +157,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
 
                         console.log(data)
 
-                        if (filesHike.length === 0 && pictureSelected.length === 0) {
+                        if (filesHike.length === 0 && pictureSelected.length === 0 && (fileGpx === null || fileGpx === undefined)) {
                             setLoading(false)
                             alert("Modifica dell'escursione avvenuta correttamente!")
                         }
@@ -202,14 +175,78 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
             addPictures()
             setFilesHike([])
 
-        } else {
+        } else if (pictureSelected.length !== 0) {
             removeSelectedPictures()
             setPictureSelected([])
+        } else {
+            addFileGpx()
+            setFileGpx(null)
         }
 
-
-
     }
+
+    const addFileGpx = () => {
+
+        setLoading(true)
+
+        const formData = new FormData();
+        formData.append('fileGPX', fileGpx);
+
+        fetch("http://localhost:3001/hikes/" + getHike.id + "/uploadFileGPX", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + localStorage.getItem("token")
+
+            },
+            body: formData
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json()
+                } else {
+                    return response.json()
+                        .then((errorData) => {
+                            throw new Error(errorData.message)
+                        })
+                }
+            })
+
+            .then((fileUrl) => {
+
+                console.log(fileUrl)
+
+                setTimeout(() => {
+
+
+                    dispach({
+                        type: "HIKE_LIST",
+                        payload: hikeList.map(hike => {
+                            if (hike.id === getHike.id) {
+                                return {
+                                    ...hike,
+                                    gpxUrlFile: fileUrl.gpxUrlFile
+                                }
+                            } else {
+                                return hike
+                            }
+                        })
+                    })
+
+                    if (pictureSelected.length === 0 && filesHike.length === 0)
+                        alert("Modifica dell'escursione avvenuta correttamente!")
+                    setLoading(false)
+                }, 1000)
+            })
+
+            .catch(err => {
+                alert(err)
+                console.error(err);
+                setLoading(false)
+                throw err;
+            });
+    }
+
+
 
     const addPictures = () => {
 
@@ -240,7 +277,6 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
             })
 
             .then((urlArray) => {
-                window.scrollTo(0, 0)
 
                 setTimeout(() => {
                     dispach({
@@ -259,7 +295,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                         })
                     })
 
-                    if (pictureSelected.length === 0) {
+                    if (pictureSelected.length === 0 && (fileGpx === null || fileGpx === undefined)) {
                         alert("Modifica dell'escursione avvenuta correttamente!")
                         setLoading(false)
                     } /*else {
@@ -267,7 +303,6 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                     }*/
 
                 }, 1000)
-
 
             })
 
@@ -305,8 +340,6 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
             })
             .then((urlArray) => {
 
-                window.scrollTo(0, 0)
-
                 setTimeout(() => {
 
                     dispach({
@@ -323,8 +356,10 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                         })
                     })
 
-                    alert("Modifica dell'escursione avvenuta correttamente!")
-                    setLoading(false)
+                    if (filesHike.length === 0 && (fileGpx === null || fileGpx === undefined)) {
+                        alert("Modifica dell'escursione avvenuta correttamente!")
+                        setLoading(false)
+                    }
                 }, 1000)
             })
             .catch((err) => {
@@ -354,6 +389,11 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
         if (pictureSelected.length !== 0 && filesHike.length === 0) {
             removeSelectedPictures()
             setPictureSelected([])
+        }
+
+        if (fileGpx != null && fileGpx !== undefined && filesHike.length === 0 && pictureSelected.length === 0) {
+            addFileGpx()
+            setFileGpx(null)
         }
 
         // in un ciclo non posso chiamare direttamente una fetch, perchè è asincrona, quindi
@@ -396,10 +436,6 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
         }
 
     }, [hikeList]);
-
-    /*useEffect(() => {
-
-    }, [hikeFound])*/
 
     //------------------------------------------------------------------------------------------------
 
@@ -552,6 +588,12 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                 )}
 
 
+                {getHike.gpxUrlFile &&
+                    <MapTrack file={getHike.gpxUrlFile} />
+                }
+
+
+
             </div>
 
 
@@ -571,6 +613,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                     })
                     setFilesHike([])
                     setPictureSelected([])
+                    setFileGpx(null)
                 }}>
                 <div className="modal-settings">
                     <Modal.Header>
@@ -587,6 +630,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                             })
                             setFilesHike([])
                             setPictureSelected([])
+                            setFileGpx(null)
                             handleClose()
                         }}>
                             <i className="bi bi-x-lg"></i>
@@ -815,6 +859,17 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                                 />
                             </Form.Group>
 
+                            <Form.Group className="mb-3" controlId="inputFileGpx">
+                                <Form.Label><strong>Aggiungi percorso </strong>(file GPX)</Form.Label>
+                                <Form.Control
+                                    className="bg-transparent"
+                                    type="file"
+                                    onChange={(e) => {
+                                        setFileGpx(e.target.files[0])
+                                    }}
+                                />
+                            </Form.Group>
+
                         </Form>
                     </Modal.Body>
                     <Modal.Footer className=" justify-content-between ">
@@ -840,6 +895,7 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                                 })
                                 setPictureSelected([])
                                 setFilesHike([])
+                                setFileGpx(null)
                             }}>
                                 Annulla
                             </Button>
@@ -857,12 +913,11 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                                         || getHike.difficulty !== hikeModify.difficulty
                                         || filesHike.length !== 0
                                         || pictureSelected.length !== 0
+                                        || (fileGpx != null && fileGpx !== undefined)
                                     ) {
+                                        window.scroll(0, 0)
                                         fetchModifyHike()
                                     }
-
-                                    //setFilesHike([])
-                                    //setPictureSelected([])
                                     handleClose()
                                 }}>
                                 Salva
@@ -896,7 +951,8 @@ const DettagliHike = ({ saveFavourite, deleteFavourite }) => {
                         <Button
                             variant="danger"
                             onClick={() => {
-                                deleteHikePictures(getHike.id)
+                                deleteHike()
+
                                 handleCloseDelete()
                             }}
                         >
